@@ -31,6 +31,10 @@ cli/brandos.mjs      The command line tool the agent runs
 brand/               brand.json schema and three example brands
 kits/react/          Glass UI React components (shadcn/ui on Base UI), Glass style
 kits/css/            The same components as plain CSS + exact HTML markup, for any framework
+kits/primevue/       Bridge for Vue + PrimeVue 4 apps: brand and glass on every PrimeVue component
+kits/react/src/styles/brandos-ui.css
+                     Shared layer for every kit: frost tiers, page header, segmented control,
+                     buttons, chips, brand ramp and progress
 kits/primevue/       Bridge for Vue + PrimeVue 4 apps: brand and Glass on every PrimeVue component
 preview/             Local preview site (prebuilt) showing every component in a brand
 ```
@@ -40,10 +44,17 @@ preview/             Local preview site (prebuilt) showing every component in a 
 `brand.json` holds only what the brand defines: one to three colours, fonts, corner style, logos, voice. `brandos theme` derives the rest:
 
 - tinted neutrals, text colours for every surface, borders, focus ring, charts, the glass backdrop and a full dark mode;
+- three frost tiers and an overlay surface, a six-step ramp of the brand colour for ordered things like levels, muted progress colours and a spacing scale;
 - automatic contrast fixes, so every theme meets WCAG 2.2 AA (4.5:1 for text, 3:1 for large text and control edges), in light and dark, including text on glass;
 - when a brand colour is too light to work as a button (bright yellow, pale blue), it uses the brand's darker colour for buttons and keeps the light one for accents, and flags this for you to confirm.
 
 Token names match shadcn/ui, so the theme also works with shadcn's Vue, Svelte and Angular ports and any shadcn-compatible block. `tokens.json` exports the same values in the W3C design tokens format for Figma and Style Dictionary.
+
+## Design rules
+
+BrandOS applies a few rules everywhere (full list in `skills/ui-migrate/SKILL.md`): glass is the surface and importance is shown by frost level; about 90% neutrals with brand colour only for the primary action, active navigation, focus and the user's own status; one spacing scale and page header; one neutral segmented control; hover only on things you can click; ordered things use one hue from pale to full.
+
+See `CHANGELOG.md` for what changed in each version.
 
 ## Requirements
 

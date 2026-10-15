@@ -24,6 +24,7 @@ Follow these phases in order. Each has a skill with the detailed steps in `skill
 - **Never edit `theme.css` by hand.** Change `brand.json` and run `brandos theme` again.
 - **Never ship a theme that fails contrast.** `brandos theme` refuses to finish cleanly if any pair misses WCAG 2.2 AA. Text is 4.5:1, large text and control edges 3:1. Do not work around a failure; fix `brand.json` or ask the person.
 - **Never invent brand values.** Colours, fonts and logos come from the client's material. If something is missing or unclear, ask. Write down where each value came from in `brand.json` `sources`.
+- **Use the shared layer.** Surfaces, page headers, tabs and filters, buttons, chips, ordered colour steps and progress come from `brandos-ui.css` and the theme variables. Restyle shared components once rather than page by page.
 - **Use the components, do not recreate them.** If a component exists in the kit, use it as is. Change look only through the theme. If something truly has no component, compose it from existing ones and the theme tokens.
 - **No hard-coded colours or fonts in app code.** Use theme tokens (`bg-primary`, `text-muted-foreground`, `border-border` in Tailwind; `var(--primary)` in plain CSS).
 - **One page at a time, and wait for approval.** Do not migrate the next page until the person approves the current one. `MIGRATION.md` is the record; keep it up to date.

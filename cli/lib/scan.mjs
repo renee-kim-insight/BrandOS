@@ -57,6 +57,10 @@ const COLOR_RULES = [
   { id: "tailwind palette", re: /\b(?:bg|text|border|ring|fill|stroke|from|to|via|outline|divide|placeholder)-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|black|white)(?:-\d{2,3})?\b/g },
   { id: "tailwind arbitrary colour", re: /\b(?:bg|text|border|ring|fill|stroke)-\[(?:#|rgb|hsl)[^\]]*\]/g },
   { id: "font-family", re: /font-family\s*:|fontFamily\s*:/g },
+  // Colour that comes from data or code, not CSS: the usual reason off-brand colours survive a restyle.
+  { id: "colour from data", re: /\b(?:color|colour|background(?:Color)?|borderColor|fill|stroke)\s*:\s*[\w$?.]+\.(?:color|colour|hex|accent|accentColor|colorHex)\b/g },
+  { id: "colour map in code", re: /\b\w*(?:Colors|Colours|ColorMap|ColourMap|Palette)\s*[=:]\s*[{[]/g },
+  { id: "status colour prop", re: /severity\s*=\s*["'](?:success|info|warn|warning|help|contrast)["']/g },
 ]
 const LIBS = [
   ["@mui/", "Material UI"], ["@material-ui/", "Material UI"], ["antd", "Ant Design"], ["react-bootstrap", "React Bootstrap"],

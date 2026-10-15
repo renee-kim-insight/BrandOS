@@ -1,0 +1,282 @@
+/*
+ * BrandOS UI layer. Shared by every kit (React, CSS, PrimeVue).
+ *
+ * Surfaces, page structure and controls that turn a themed app into a consistent one.
+ * Uses theme.css variables only, so it fits any brand. Load it after theme.css.
+ *
+ * Rules it encodes (see skills/ui-migrate/SKILL.md):
+ * - Glass is the surface. Importance is how frosted it is: strong, medium, light. No solid white.
+ * - Colour budget: neutrals by default, brand colour for the primary action, active nav, focus and the user's own status.
+ * - One spacing scale, one page header, one segmented control.
+ * - Hover only on things you can click.
+ */
+
+/* ---------- Backdrop: a soft wash behind the whole app, so glass has something to frost ---------- */
+.bos-backdrop {
+  min-height: 100dvh;
+  background:
+    radial-gradient(55% 45% at 8% 0%, color-mix(in oklch, var(--backdrop-1) 70%, transparent), transparent 70%),
+    radial-gradient(45% 40% at 95% 12%, color-mix(in oklch, var(--backdrop-2) 60%, transparent), transparent 70%),
+    radial-gradient(60% 50% at 70% 100%, color-mix(in oklch, var(--backdrop-3) 60%, transparent), transparent 70%),
+    var(--background);
+  background-attachment: fixed;
+}
+
+/* ---------- Frost tiers ---------- */
+.bos-frost-strong,
+.bos-frost,
+.bos-frost-light,
+.bos-overlay {
+  border: 1px solid var(--frost-border);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+  backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+}
+/* The one or two most important things on a page. */
+.bos-frost-strong {
+  background: var(--frost-strong);
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) * 1.35)) saturate(170%);
+  backdrop-filter: blur(calc(var(--glass-blur) * 1.35)) saturate(170%);
+  box-shadow: inset 0 1px 0 var(--glass-highlight), var(--glass-shadow);
+}
+/* Default for cards, panels and the app shell. */
+.bos-frost {
+  background: var(--frost-medium);
+  box-shadow: inset 0 1px 0 var(--glass-highlight), 0 1px 2px oklch(0 0 0 / 4%);
+}
+/* Supporting pieces inside cards: chips, rows, icon backgrounds, secondary buttons, tracks. */
+.bos-frost-light {
+  background: var(--frost-light);
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) * 0.6));
+  backdrop-filter: blur(calc(var(--glass-blur) * 0.6));
+}
+/* Menus, dropdowns, popovers and dialogs: nearly opaque so nothing behind shows through. */
+.bos-overlay {
+  background: var(--overlay);
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) * 1.35)) saturate(160%);
+  backdrop-filter: blur(calc(var(--glass-blur) * 1.35)) saturate(160%);
+  box-shadow: inset 0 1px 0 var(--glass-highlight), var(--glass-shadow);
+}
+.bos-card {
+  border-radius: calc(var(--radius) * 1.5);
+  padding: var(--space-5);
+}
+.bos-card-compact {
+  border-radius: var(--radius);
+  padding: var(--space-4);
+}
+
+/* ---------- Page structure ---------- */
+.bos-page {
+  padding-inline: var(--space-6);
+  padding-bottom: var(--space-8);
+}
+.bos-page-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-top: var(--space-7);
+  margin-bottom: 40px;
+}
+.bos-title {
+  margin: 0;
+  font-family: var(--font-display, var(--font-sans));
+  font-size: clamp(2.25rem, 3.5vw, 3rem);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--foreground);
+}
+/* Home or landing only. */
+.bos-title-hero {
+  font-size: clamp(2.75rem, 5vw, 4rem);
+}
+.bos-subtitle {
+  margin: var(--space-2) 0 0;
+  font-size: 1.125rem;
+  color: var(--muted-foreground);
+}
+.bos-section + .bos-section {
+  margin-top: var(--space-7);
+}
+.bos-section-title {
+  margin: 0 0 var(--space-4);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+/* ---------- One segmented control for tabs, filters and view switches. Selection is neutral. ---------- */
+.bos-segmented {
+  display: inline-flex;
+  gap: 2px;
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--frost-light);
+  border: 1px solid var(--frost-border);
+}
+.bos-segmented > * {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted-foreground);
+  font: inherit;
+  cursor: pointer;
+  transition: background-color 150ms, color 150ms;
+}
+.bos-segmented > :hover {
+  color: var(--foreground);
+}
+.bos-segmented > :is([aria-selected="true"], [aria-pressed="true"], [aria-current="page"], [data-active], .is-active) {
+  background: var(--frost-strong);
+  color: var(--foreground);
+  box-shadow: 0 1px 3px oklch(0 0 0 / 8%);
+}
+.bos-count {
+  padding: 0 var(--space-2);
+  border-radius: 999px;
+  background: var(--frost-light);
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+}
+
+/* ---------- Buttons ---------- */
+.bos-btn-glass {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-5);
+  min-height: 40px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklch, var(--foreground) 14%, transparent);
+  background: var(--frost-light);
+  color: var(--foreground);
+  font: inherit;
+  cursor: pointer;
+  transition: background-color 150ms, border-color 150ms, color 150ms, transform 150ms, box-shadow 150ms;
+}
+.bos-btn-glass:hover {
+  background: var(--frost-strong);
+  border-color: color-mix(in oklch, var(--foreground) 26%, transparent);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px oklch(0 0 0 / 8%);
+}
+.bos-btn-glass:active {
+  transform: none;
+  box-shadow: none;
+}
+.bos-btn-glass:disabled,
+.bos-btn-glass[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+:is(.bos-btn-glass, .bos-segmented > *, .bos-card-link):focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* ---------- Hover only on things you can click ---------- */
+/* A card that is a link or button as a whole. Static cards get no hover at all. */
+.bos-card-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 150ms, transform 150ms, box-shadow 150ms;
+}
+.bos-card-link:hover {
+  background: var(--frost-strong);
+  transform: translateY(-1px);
+  box-shadow: inset 0 1px 0 var(--glass-highlight), var(--glass-shadow);
+}
+
+/* ---------- Chips and status ---------- */
+.bos-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklch, var(--foreground) 12%, transparent);
+  background: var(--frost-light);
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+}
+/* A small dot that carries a ramp colour inside a neutral chip. */
+.bos-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--ramp-5);
+}
+.bos-status-done {
+  background: color-mix(in oklch, var(--primary) 12%, transparent);
+  color: var(--foreground);
+}
+
+/* ---------- Sequential ramp (levels, tiers, stages): pale to full brand colour ---------- */
+.bos-ramp-0 { background: var(--ramp-0); color: var(--ramp-0-foreground); }
+.bos-ramp-1 { background: var(--ramp-1); color: var(--ramp-1-foreground); }
+.bos-ramp-2 { background: var(--ramp-2); color: var(--ramp-2-foreground); }
+.bos-ramp-3 { background: var(--ramp-3); color: var(--ramp-3-foreground); }
+.bos-ramp-4 { background: var(--ramp-4); color: var(--ramp-4-foreground); }
+.bos-ramp-5 { background: var(--ramp-5); color: var(--ramp-5-foreground); }
+/* The palest steps get an edge so they don't vanish on glass. */
+:is(.bos-ramp-0, .bos-ramp-1, .bos-ramp-2) {
+  box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--ramp-5) 30%, transparent);
+}
+.bos-dot-0 { background: var(--ramp-0); box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--ramp-5) 40%, transparent); }
+.bos-dot-1 { background: var(--ramp-1); }
+.bos-dot-2 { background: var(--ramp-2); }
+.bos-dot-3 { background: var(--ramp-3); }
+.bos-dot-4 { background: var(--ramp-4); }
+.bos-dot-5 { background: var(--ramp-5); }
+.bos-ramp-gradient {
+  background: linear-gradient(90deg, var(--ramp-0), var(--ramp-1), var(--ramp-2), var(--ramp-3), var(--ramp-4), var(--ramp-5));
+}
+
+/* ---------- Progress: muted by default; brand colour only for the user's one main bar ---------- */
+.bos-progress {
+  position: relative;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--progress-track);
+  overflow: hidden;
+}
+.bos-progress > * {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--progress-fill);
+}
+.bos-progress-primary > * {
+  background: var(--primary);
+}
+
+/* ---------- Comfort ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .bos-btn-glass,
+  .bos-card-link {
+    transition: none;
+  }
+  .bos-btn-glass:hover,
+  .bos-card-link:hover {
+    transform: none;
+  }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .bos-frost-strong,
+  .bos-frost,
+  .bos-frost-light,
+  .bos-overlay {
+    background: var(--card);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}

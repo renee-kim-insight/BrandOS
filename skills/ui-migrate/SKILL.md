@@ -21,6 +21,45 @@ This writes `MIGRATION.md`: shared layout first, then every page, each with the 
 
 `MIGRATION.md` is the source of truth for progress. If it already has `[x]` or `[~]` items, you are resuming: continue from the first item that is not `[x]`.
 
+## 1b. Make it systemic first
+
+Before any single page, find the app's shared building blocks (card, panel, stat card, page header, section header, badge, pill, avatar, progress bar, button, chip, table, empty state) and list which pages use each. Restyle those once, with the shared layer, so every page inherits the change. Styling one page's own elements leaves every other page behind.
+
+Also point the app's own design tokens (its CSS variables for primary, text, borders, surfaces, radius, font) at the BrandOS theme variables in one file, imported after the app's CSS. That moves the whole app onto the brand in one step.
+
+### The shared layer (brandos-ui.css)
+
+Every kit installs `brandos-ui.css`. Use its classes and the theme variables instead of writing new styles:
+
+| Need | Use |
+|---|---|
+| Background behind the app | `bos-backdrop` on the root element |
+| Most important item on a page | `bos-frost-strong` |
+| Ordinary cards, panels, the app shell | `bos-frost` |
+| Chips, rows, icon backgrounds, secondary buttons inside cards | `bos-frost-light` |
+| Menus, dropdowns, popovers, dialogs | `bos-overlay` |
+| Card padding and radius | `bos-card`, `bos-card-compact` |
+| Page title block | `bos-page-header` with `bos-title` (`bos-title-hero` on the home page only) and `bos-subtitle` |
+| Sections | `bos-section`, `bos-section-title` |
+| Tabs, filters, view switches | `bos-segmented` (selected item: `aria-selected="true"`, `aria-pressed="true"` or `data-active`), counts in `bos-count` |
+| Secondary actions | `bos-btn-glass` |
+| A whole card that is a link | `bos-card-link` on a real `<a>` or `<button>` |
+| Tags and status | `bos-chip`, `bos-status-done` |
+| Ordered steps (levels, tiers, stages) | `--ramp-0` to `--ramp-5` with `--ramp-N-foreground`, classes `bos-ramp-N`, `bos-dot-N`, `bos-ramp-gradient` |
+| Progress | `bos-progress` (muted), `bos-progress-primary` for the user's one main bar |
+| Spacing | `--space-1` to `--space-9` (4, 8, 12, 16, 24, 32, 48, 64, 96 px) |
+
+### Colour sweep beyond CSS
+
+Off-brand colours usually survive in places a stylesheet search misses. Check all of these, and `brandos scan` flags most of them:
+
+- `<style>` blocks, inline `style` and `:style` bindings
+- colour maps and helpers in code (`levelColors`, `getStatusColor()`)
+- status props such as PrimeVue `severity="success"` or `"info"`
+- colours sent by the API or seed data (the frontend decides colour by meaning, for example by level number, whatever the data says; do not change backend data without asking)
+- SVGs and images with colours baked in (report these and propose a fix before changing them)
+- chart settings (use `--chart-1` to `--chart-5`)
+
 ## 2. For each item, in order
 
 ### a. Propose
@@ -77,18 +116,24 @@ Use these when a page part matches. They are the most common improvements, not a
 ## Design rules
 
 - One primary button per view. Everything else is secondary, outline, ghost or glass.
-- Brand colour marks action and selection only. Surfaces stay neutral.
-- Glass surfaces for things that float (menus, dialogs, toasts, nav over content) and cards over imagery or colour. Solid cards for ordinary content.
+- Colour budget: about 90% neutrals (the brand's greys and text colours), brand colour for the few things that need attention: the one primary button, the active nav item, the focus ring, and the user's own status (current level, main progress). Progress bars, secondary buttons, links, icons, tags and chips stay neutral. The backdrop and shell are neutral with only faint brand colour. Squint test: on any page the eye should land on one coloured thing first.
+- Glass is the surface. Importance is shown by how frosted it is, not by switching to solid white: more frost (more opaque, more blur, stronger highlight and shadow) means more important. Use three tiers: strong frost for the one or two most important items on a page, medium frost for ordinary cards and the app shell, light frost for supporting pieces inside cards (chips, icon backgrounds, secondary buttons). Floating menus and dialogs are the most opaque of all (85 to 90%) so text behind never shows through. Text must pass contrast on every tier.
+- Hover only on things you can click: buttons, links, nav and menu items, and cards that are links as a whole. Static cards and rows get no hover lift, shadow, colour change or pointer cursor. A card that is clickable as a whole must be a real link or button so it works with the keyboard.
+- One spacing scale (4, 8, 12, 16, 24, 32, 48, 64, 96 px) and one shared page header, so every page starts the same way: the same gap above the title, between title and subtitle, and before the first content. No icons in front of page titles, no empty dividers, no nested cards (a card inside a card inside a card).
+- One control per job: every tab bar, filter toggle and segmented choice uses the same segmented control, and its selected state is neutral (strong frost, --foreground text). Brand colour is for the main nav and the primary action only.
+- Progress bars are a muted neutral (a mid warm grey from the brand's neutrals) on a light track, not black and not brand colour, except the user's one main progress bar.
 - Visible labels on every field. Placeholders are examples, not labels.
 - Buttons say what happens ("Save changes", "Delete order"), never "Submit" or "OK".
 - Error messages say how to fix the problem.
+- Ordered things (levels, tiers, stages) use one hue from pale to full: the `--ramp-N` steps, never a rainbow. Always show the name or number next to the colour. In lists and tables, a neutral chip with a `bos-dot-N` is enough; the full ramp colour is for places where the order is the point (the user's own badge, a journey or stepper).
+- Status is not a traffic light: done and success use the brand colour at a light tint (`bos-status-done`), info is neutral, and red (`--destructive`) is only for real errors.
 - Do not add decoration the original did not have: no gradient text, no icon tiles, no numbered section labels.
 - Text contrast is handled by the theme. Do not put text on colours outside the theme tokens.
 
 ## Framework notes
 
 - **React:** import from the ui folder the installer used (`@/components/ui/button` or a relative path). Base UI uses `render={<a href="..." />}` where Radix uses `asChild`.
-- **Vue with PrimeVue (primevue kit):** PrimeVue components are already on brand through `BrandOSPreset`. Keep them and use their props and severities (`severity="secondary"`, `outlined`, `text`) rather than restyling. Restructure with PrimeVue's own pieces (Dialog, Drawer, Menu, Tabs, DataTable, Message, Tag, Skeleton). For floating panels and cards on imagery, add `class="brandos-glass"`; for a coloured page background, `class="brandos-backdrop"` on the layout root. Replace hard-coded colours in `<style>` blocks with `var(--primary)`, `var(--muted-foreground)`, `var(--border)` and the other theme variables. Use `brandos/kit/markup` only for a component PrimeVue lacks.
+- **Vue with PrimeVue (primevue kit):** PrimeVue components are already on brand through `BrandOSPreset`. Keep them and use their props and severities (`severity="secondary"`, `outlined`, `text`) rather than restyling. Restructure with PrimeVue's own pieces (Dialog, Drawer, Menu, Tabs, DataTable, Message, Tag, Skeleton). PrimeVue cards and panels are medium frost and overlays are `--overlay` automatically; use the `bos-*` classes from brandos-ui.css for everything the app builds itself, and `bos-backdrop` on the layout root. Severities are remapped: "success" renders in the brand colour and "info" is neutral, so prefer them over custom colours. Replace hard-coded colours in `<style>` blocks with `var(--primary)`, `var(--muted-foreground)`, `var(--border)` and the other theme variables. Use `brandos/kit/markup` only for a component PrimeVue lacks.
 - **Angular, Vue, Svelte, HTML:** copy the component's markup from `brandos/markup/<component>.html` into the template. Keep every class and `data-*` attribute, change only text and bindings. Interactive pieces (open state, keyboard, focus) come from the framework's headless library (Angular CDK or Spartan, Reka UI, Bits UI) or native elements (`<dialog>`, `<details>`, `<select>`). Toggle state with the same `data-*` attributes the markup uses, such as `data-open`, `data-checked` and `data-active`.
 
 ## When everything is approved

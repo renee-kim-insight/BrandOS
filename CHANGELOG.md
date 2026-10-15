@@ -1,0 +1,55 @@
+# Changelog
+
+BrandOS uses semantic versioning: patch (1.0.x) for fixes and rule changes, minor (1.x.0) for new features, major (x.0.0) for breaking changes.
+
+## 1.0.1
+
+Lessons from the first real migration, built into the system so every brand gets them.
+
+### Theme (`brandos theme`)
+
+- Frost tiers: `--frost-strong`, `--frost-medium`, `--frost-light`, `--frost-border` and `--overlay`, light and dark. Text is contrast-checked on every tier over the backdrop.
+- Brand ramp: `--ramp-0` to `--ramp-5` with `--ramp-N-foreground`, one hue from pale to the full brand colour (dim to bright in dark mode), for ordered things like levels or tiers. Every step is checked for 4.5:1 text.
+- Muted progress colours: `--progress-fill` and `--progress-track`, a mid neutral checked at 3:1 against its track.
+- Spacing scale: `--space-1` to `--space-9` (4 to 96 px).
+- Calmer backdrop: paler, lower-chroma colour fields, so glass reads as frosted rather than tinted.
+- Contrast checks grew from 74 to 140 per theme.
+
+### Shared UI layer (`brandos-ui.css`, installed by every kit)
+
+- Classes for the backdrop, frost tiers, cards, page header and titles, sections, one segmented control for tabs and filters, glass buttons with full states, whole-card links, chips, ramp colours and dots, and progress bars.
+- Reduced-motion and reduced-transparency fallbacks.
+
+### PrimeVue bridge
+
+- Cards and panels are medium frost; menus, dropdowns and dialogs use the near-opaque overlay so nothing shows through.
+- Progress bars are muted by default (`bos-progress-primary` for the one main bar).
+- Severities follow the colour budget: success uses the brand colour, info is neutral, danger uses the destructive colour.
+- Toggle and segmented selections are neutral.
+- The installer now flags an app's own preset that is defined but no longer applied.
+
+### Scan
+
+- Finds colours that come from data or code: colour fields read from objects, colour maps in code, and status props such as `severity="success"`.
+
+### Design rules (ui-migrate skill)
+
+- Make it systemic: restyle shared components and point the app's own tokens at the theme before working page by page.
+- Colour sweep beyond CSS: inline bindings, code maps, status props, API data, images and charts.
+- Glass is the surface; importance is shown by frost level, never by solid white.
+- Colour budget: about 90% neutrals; brand colour for the primary action, active navigation, focus ring and the user's own status.
+- One spacing scale and shared page header; no icons before page titles, no empty dividers, no nested cards.
+- One neutral segmented control for every tab bar and filter.
+- Hover only on things you can click.
+- Ordered things use one hue from pale to full, with the name always shown; status is not a traffic light.
+- Progress bars are a muted neutral.
+
+## 1.0.0
+
+First release.
+
+- `brandos extract` reads a PDF, PowerPoint, website or image, writes brand.json and generates the theme in one step, and finds licensed font files next to the source.
+- Contrast-checked theme generation (WCAG 2.2 AA, light and dark, including text on glass).
+- React kit (64 Glass UI components on shadcn/ui and Base UI), CSS kit with exact HTML markup for any framework, and a PrimeVue 4 bridge.
+- `install`, `scan` (page-by-page MIGRATION.md), `audit` and a local `preview`.
+- Agent skills for intake, apply, migrate and audit.

@@ -13,7 +13,7 @@ Goal: the app has the component kit and the client's theme installed, and the pe
 brandos theme brand.json --out brand-out
 ```
 
-This writes `brand-out/theme.css` (light and dark), `fonts.css`, `fonts.html`, `tokens.json` (W3C design tokens, for Figma or Style Dictionary) and `theme-report.md`.
+This writes `brand-out/theme.css` (light and dark, including frost tiers, a six-step brand ramp, muted progress colours and the spacing scale), `fonts.css`, `fonts.html`, `tokens.json` (W3C design tokens, for Figma or Style Dictionary) and `theme-report.md`.
 
 Read the printed notes:
 
@@ -50,6 +50,7 @@ What it does:
 
 - **React kit:** copies components to the app's ui folder (respecting an existing shadcn `components.json`), the Glass style and the theme to a `brandos/` styles folder, imports them into the main CSS, adds `class="style-glass"` to `<html>`, adds font links, and prints the dependency install command (or runs it with `--yes`). Use `--components button,card,dialog` to install only some.
 - **PrimeVue kit (Vue + PrimeVue 4):** copies the theme, fonts, `brandos-preset.ts` and `brandos-primevue.css` to `src/brandos/`, switches `app.use(PrimeVue, { theme: { preset } })` to `BrandOSPreset`, imports the CSS in the entry file, and lines dark mode up with PrimeVue's `darkModeSelector`. Every PrimeVue screen takes the brand immediately.
+- **Every kit** also installs `brandos-ui.css`, the shared layer of frost tiers, page header, segmented control, buttons, chips, ramp and progress classes.
 - **CSS kit:** copies `glass-ui.css`, the theme and `markup/` (exact HTML for every component) into `<app>/brandos/`, and tells you where to load the CSS.
 - **Never overwrites** a different existing file. It writes `<file>.brandos-new` next to it. Compare them with the person and merge deliberately.
 

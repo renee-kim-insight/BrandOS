@@ -76,14 +76,21 @@ export function generateTheme(brand) {
   chart.forEach((c, i) => (L[`chart-${i + 1}`] = c))
 
   const bd = [chromatic[0], chromatic[1], chromatic[2]].map((c, i) => c?.h ?? (baseHue + [0, 70, -60][i] + 360) % 360)
-  L["backdrop-1"] = mk(0.87, 0.075, bd[0])
-  L["backdrop-2"] = mk(0.89, 0.065, bd[1])
-  L["backdrop-3"] = mk(0.9, 0.055, bd[2])
+  // Soft wash: glass reads through gentle colour, so the backdrop stays pale and low in chroma.
+  L["backdrop-1"] = mk(0.9, 0.05, bd[0])
+  L["backdrop-2"] = mk(0.91, 0.045, bd[1])
+  L["backdrop-3"] = mk(0.92, 0.04, bd[2])
 
   L.glass = mk(1, 0, 0, 0.55)
   L["glass-strong"] = mk(1, 0, 0, 0.78)
   L["glass-border"] = mk(1, 0, 0, 0.72)
   L["glass-highlight"] = mk(1, 0, 0, 0.95)
+  // Frost tiers: importance is shown by how frosted a surface is, never by switching to solid white.
+  L["frost-strong"] = mk(1, 0, 0, 0.72)
+  L["frost-medium"] = mk(1, 0, 0, 0.48)
+  L["frost-light"] = mk(1, 0, 0, 0.3)
+  L["frost-border"] = mk(1, 0, 0, 0.6)
+  L.overlay = mk(1, 0, 0, 0.9)
 
   // Muted text and input borders are tuned against the worst surface.
   L["muted-foreground"] = N(0.5, 0.028)
@@ -129,17 +136,29 @@ export function generateTheme(brand) {
       const c = L[`chart-${i}`]
       D[`chart-${i}`] = { ...c, l: Math.max(c.l, 0.66) }
     }
-    D["backdrop-1"] = mk(0.36, 0.12, bd[0])
-    D["backdrop-2"] = mk(0.36, 0.1, bd[1])
-    D["backdrop-3"] = mk(0.37, 0.08, bd[2])
+    D["backdrop-1"] = mk(0.34, 0.09, bd[0])
+    D["backdrop-2"] = mk(0.34, 0.075, bd[1])
+    D["backdrop-3"] = mk(0.35, 0.06, bd[2])
     D.glass = N(0.24, 0.02)
     D.glass = { ...D.glass, alpha: 0.5 }
     D["glass-strong"] = { ...N(0.22, 0.02), alpha: 0.78 }
     D["glass-border"] = mk(1, 0, 0, 0.12)
     D["glass-highlight"] = mk(1, 0, 0, 0.16)
+    D["frost-strong"] = { ...N(0.24, 0.02), alpha: 0.7 }
+    D["frost-medium"] = { ...N(0.22, 0.02), alpha: 0.46 }
+    D["frost-light"] = mk(1, 0, 0, 0.07)
+    D["frost-border"] = mk(1, 0, 0, 0.12)
+    D.overlay = { ...N(0.21, 0.018), alpha: 0.92 }
     D["muted-foreground"] = N(0.72, 0.021)
     D.input = N(0.52, 0.02)
     fixSupporting(D, changes, "Dark", +0.01)
+  }
+
+  buildProgress(L, N, -0.01)
+  buildRamp(L, false)
+  if (D.background) {
+    buildProgress({ ...L, ...D, set: D }, N, +0.01)
+    buildRamp({ ...L, ...D, set: D }, true)
   }
 
   for (const M of [L, D]) {
@@ -158,6 +177,58 @@ export function generateTheme(brand) {
   if (D.background) modes.dark = { ...L, ...D }
   const result = audit(modes)
   return { modes, changes, audit: result, radius: radiusOf(brand), fonts: fontStacks(brand) }
+}
+
+/**
+ * Progress bars default to a muted neutral, not black and not brand colour (brand colour is kept for the
+ * user's one main progress bar). The fill must still read against its track at 3:1.
+ */
+function buildProgress(M, N, step) {
+  const out = M.set ?? M
+  const dark = step > 0
+  const track = dark ? N(0.3, 0.015) : N(0.925, 0.008)
+  const start = dark ? N(0.6, 0.02) : N(0.62, 0.02)
+  let fill = nudge(start, (c) => contrast(c, track) >= RULES.ui + 0.05 && contrast(c, oklch(M.background)) >= RULES.ui + 0.05, { step }) ?? start
+  // Some bars print their value inside the fill: give it a text colour that reaches 4.5:1.
+  const inks = [WHITE, oklch(M.foreground), oklch(M.background)]
+  const best = (c) => inks.reduce((a, b) => (contrast(b, c) > contrast(a, c) ? b : a))
+  if (contrast(best(fill), fill) < RULES.text + 0.05) {
+    // Light text needs a darker fill, dark text a lighter one; take whichever direction works.
+    const ok = (c) => contrast(best(c), c) >= RULES.text + 0.05 && contrast(c, track) >= RULES.ui + 0.05
+    fill = nudge(fill, ok, { step: -0.01 }) ?? nudge(fill, ok, { step: 0.01 }) ?? fill
+  }
+  out["progress-track"] = track
+  out["progress-fill"] = fill
+  out["progress-fill-foreground"] = best(fill)
+}
+
+/**
+ * A six-step sequential ramp of the primary hue, for ordered things like levels, tiers or stages:
+ * step 0 is the palest, step 5 the full brand colour. In dark mode it runs dim to bright.
+ * Each step gets the text colour (foreground or white) that reaches 4.5:1, nudging lightness if neither does.
+ */
+function buildRamp(M, dark) {
+  const out = M.set ?? M
+  const p = oklch(M.primary)
+  const fg = oklch(M.foreground)
+  const dim = dark ? oklch(M.background) : null
+  const L5 = dark ? Math.max(p.l, 0.72) : p.l
+  const ls = dark ? [0.3, 0.38, 0.46, 0.55, 0.64, L5] : [0.955, 0.9, 0.83, 0.74, 0.65, p.l]
+  const cs = [0.12, 0.27, 0.45, 0.65, 0.85, 1].map((k) => p.c * k)
+  for (let i = 0; i < 6; i++) {
+    let col = i === 5 && !dark ? p : mk(ls[i], cs[i], p.h)
+    const best = (c) => (contrast(WHITE, c) >= contrast(fg, c) ? WHITE : fg)
+    let txt = best(col)
+    if (contrast(txt, col) < RULES.text + 0.05) {
+      // Move away from the text colour until it passes.
+      const towardDark = txt === WHITE
+      const fixed = nudge(col, (c) => contrast(txt, c) >= RULES.text + 0.05, { step: towardDark ? -0.01 : 0.01 })
+      if (fixed) col = fixed
+    }
+    out[`ramp-${i}`] = col
+    out[`ramp-${i}-foreground`] = best(col)
+    void dim
+  }
 }
 
 // Darken (light mode) or lighten (dark mode) muted text and input borders until every surface passes.
@@ -205,7 +276,11 @@ const ORDER = [
   "sidebar", "sidebar-foreground", "sidebar-primary", "sidebar-primary-foreground",
   "sidebar-accent", "sidebar-accent-foreground", "sidebar-border", "sidebar-ring",
   "glass", "glass-strong", "glass-border", "glass-highlight",
+  "frost-strong", "frost-medium", "frost-light", "frost-border", "overlay",
   "backdrop-1", "backdrop-2", "backdrop-3",
+  "progress-fill", "progress-fill-foreground", "progress-track",
+  "ramp-0", "ramp-0-foreground", "ramp-1", "ramp-1-foreground", "ramp-2", "ramp-2-foreground",
+  "ramp-3", "ramp-3-foreground", "ramp-4", "ramp-4-foreground", "ramp-5", "ramp-5-foreground",
 ]
 
 export function themeCss(brand, theme, { scope } = {}) {
@@ -226,6 +301,8 @@ export function themeCss(brand, theme, { scope } = {}) {
   for (const k of ORDER) if (modes.light[k]) out.push(line(k, css(modes.light[k])))
   out.push(`  --glass-shadow: 0 8px 32px oklch(0.3 0.06 300 / 10%), 0 1px 2px oklch(0.3 0.06 300 / 6%);`)
   out.push(`  --glass-blur: 24px;`)
+  out.push(`  /* Spacing scale: use only these steps for gaps, padding and margins. */`)
+  ;[4, 8, 12, 16, 24, 32, 48, 64, 96].forEach((px, i) => out.push(line(`space-${i + 1}`, `${px}px`)))
   out.push(`}`)
   if (modes.dark) {
     out.push(``)

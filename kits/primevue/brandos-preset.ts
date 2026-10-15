@@ -117,14 +117,23 @@ export const BrandOSPreset = definePreset(Aura, {
       lg: "calc(var(--radius) * 0.8)",
       xl: "var(--radius)",
     },
-    // "Danger" severities use the red ramp: point it at the brand's destructive colour.
+    // Severities follow the colour budget: "danger" is the brand's destructive colour, "success" is the
+    // brand colour, and "info" is neutral. Nothing renders stock green, blue or sky.
     red: ramp("var(--destructive)"),
+    green: ramp("var(--primary)"),
+    emerald: ramp("var(--primary)"),
+    blue: ramp("var(--muted-foreground)"),
+    sky: ramp("var(--muted-foreground)"),
   },
   semantic: {
     primary: ramp("var(--primary)"),
     focusRing: { width: "2px", style: "solid", color: "var(--ring)", offset: "2px", shadow: "none" },
     formField: { focusRing: { width: "0", style: "none", color: "transparent", offset: "0", shadow: "0 0 0 3px color-mix(in oklch, var(--ring) 35%, transparent)" } },
     colorScheme: { light: scheme(false), dark: scheme(true) },
+  },
+  components: {
+    // Progress is muted by default. Give the user's one main progress bar class="bos-progress-primary".
+    progressbar: { root: { background: "var(--progress-track)" }, value: { background: "var(--progress-fill)" }, label: { color: "var(--progress-fill-foreground)" } },
   },
 })
 

@@ -4,13 +4,14 @@
  *   @import "tailwindcss";
  *   @import "./brandos/brandos.css";
  *
- * Order matters: fonts, then the generated brand theme, then the Glass style.
+ * Order matters: fonts, then the generated brand theme, the shared UI layer, then the Glass style.
  * Never edit theme.css by hand. Change brand.json and run `brandos theme`.
  */
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "./fonts.css";
 @import "./theme.css";
+@import "./brandos-ui.css";
 @import "./style-glass.css" layer(components);
 
 

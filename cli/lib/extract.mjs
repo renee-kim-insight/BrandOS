@@ -402,7 +402,7 @@ function buildDraft(ev, input) {
 
 const hueGap = (a, b) => { const d = Math.abs(oklch(a).h - oklch(b).h); return Math.min(d, 360 - d) }
 
-// "Insight Brand Design System.pptx" -> "Insight"; "https://www.northwind.com" -> "Northwind"
+// "Acme Brand Guidelines.pptx" -> "Acme"; "https://www.northwind.com" -> "Northwind"
 function guessName(input) {
   if (/^https?:/.test(input)) {
     const host = new URL(input).hostname.replace(/^www\./, "").split(".")[0]

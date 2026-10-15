@@ -16,7 +16,17 @@ body {
   color: var(--foreground);
 }
 
-/* Things that float get frosted glass: menus, dropdowns, popovers, dialogs, drawers. */
+/* Cards and panels are medium frost by default (see brandos-ui.css for strong and light tiers). */
+.p-card,
+.p-panel {
+  background: var(--frost-medium);
+  border: 1px solid var(--frost-border);
+  box-shadow: inset 0 1px 0 var(--glass-highlight), 0 1px 2px oklch(0 0 0 / 4%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+  backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+}
+
+/* Things that float are the most opaque glass, so text behind never shows through. */
 .p-menu-overlay,
 .p-tieredmenu-overlay,
 .p-contextmenu,
@@ -31,11 +41,11 @@ body {
 .p-datepicker-panel:not(.p-datepicker-panel-inline),
 .p-dialog,
 .p-drawer {
-  background: var(--glass-strong);
-  border-color: var(--glass-border);
+  background: var(--overlay);
+  border-color: var(--frost-border);
   box-shadow: var(--glass-shadow), inset 0 1px 0 var(--glass-highlight);
-  backdrop-filter: blur(var(--glass-blur)) saturate(1.6);
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.6);
+  backdrop-filter: blur(calc(var(--glass-blur) * 1.35)) saturate(160%);
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) * 1.35)) saturate(160%);
 }
 .p-dialog-header,
 .p-dialog-content,
@@ -49,6 +59,22 @@ body {
 .p-drawer-mask {
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
+}
+
+/* The user's one main progress bar may use the brand colour. */
+.bos-progress-primary .p-progressbar-value,
+.p-progressbar.bos-progress-primary .p-progressbar-value {
+  background: var(--primary);
+}
+.bos-progress-primary .p-progressbar-label {
+  color: var(--primary-foreground);
+}
+
+/* Selection in toggles and segmented buttons is neutral, not brand colour. */
+.p-togglebutton.p-togglebutton-checked .p-togglebutton-content,
+.p-selectbutton .p-togglebutton-checked .p-togglebutton-content {
+  background: var(--frost-strong);
+  color: var(--foreground);
 }
 
 /* Tooltips read as small glass chips. */
@@ -76,20 +102,20 @@ body {
   border-radius: 999px;
 }
 
-/* Opt-in glass card and the coloured backdrop that makes glass visible. */
+/* 1.0.0 class names, kept as aliases. Prefer bos-frost-* and bos-backdrop from brandos-ui.css. */
 .p-card.brandos-glass,
 .brandos-glass {
-  background: var(--glass);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow), inset 0 1px 0 var(--glass-highlight);
-  backdrop-filter: blur(var(--glass-blur)) saturate(1.6);
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.6);
+  background: var(--frost-medium);
+  border: 1px solid var(--frost-border);
+  box-shadow: inset 0 1px 0 var(--glass-highlight), var(--glass-shadow);
+  backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(160%);
 }
 .brandos-backdrop {
   background:
-    radial-gradient(60% 50% at 10% 0%, var(--backdrop-1), transparent 70%),
-    radial-gradient(50% 50% at 90% 10%, var(--backdrop-2), transparent 70%),
-    radial-gradient(60% 60% at 50% 100%, var(--backdrop-3), transparent 70%),
+    radial-gradient(55% 45% at 8% 0%, color-mix(in oklch, var(--backdrop-1) 70%, transparent), transparent 70%),
+    radial-gradient(45% 40% at 95% 12%, color-mix(in oklch, var(--backdrop-2) 60%, transparent), transparent 70%),
+    radial-gradient(60% 50% at 70% 100%, color-mix(in oklch, var(--backdrop-3) 60%, transparent), transparent 70%),
     var(--background);
   background-attachment: fixed;
 }
@@ -100,6 +126,8 @@ body {
   .p-select-overlay,
   .p-dialog,
   .p-drawer,
+  .p-card,
+  .p-panel,
   .brandos-glass {
     background: var(--popover);
     backdrop-filter: none;

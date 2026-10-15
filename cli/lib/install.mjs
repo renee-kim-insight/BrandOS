@@ -97,7 +97,7 @@ export async function install(a, PKG) {
     else put(utilsDest, fs.readFileSync(path.join(kitSrc, "lib/utils.ts"), "utf8"))
 
     // Styles: entry + Glass style + brand files
-    for (const f of ["brandos.css", "style-glass.css"]) put(path.join(stylesDir, f), fs.readFileSync(path.join(kitSrc, "styles", f), "utf8"))
+    for (const f of ["brandos.css", "brandos-ui.css", "style-glass.css"]) put(path.join(stylesDir, f), fs.readFileSync(path.join(kitSrc, "styles", f), "utf8"))
     for (const f of brandFiles) put(path.join(stylesDir, f), fs.readFileSync(path.join(brandDir, f)))
 
     // Wire the stylesheet into the app's CSS entry
@@ -140,6 +140,7 @@ export async function install(a, PKG) {
     if (ext === "js") preset = stripTypes(preset)
     put(path.join(dest, `brandos-preset.${ext}`), preset)
     put(path.join(dest, "brandos-primevue.css"), fs.readFileSync(path.join(pv, "brandos-primevue.css")))
+    put(path.join(dest, "brandos-ui.css"), fs.readFileSync(path.join(PKG, "kits/react/src/styles/brandos-ui.css")))
     // The CSS kit comes along for page migration later; it is not loaded until a page uses it.
     const kitCss = path.join(PKG, "kits/css")
     put(path.join(dest, "kit", "glass-ui.css"), fs.readFileSync(path.join(kitCss, "glass-ui.css")))
@@ -147,7 +148,7 @@ export async function install(a, PKG) {
     if (fs.existsSync(markupDir)) for (const f of fs.readdirSync(markupDir)) put(path.join(dest, "kit", "markup", f), fs.readFileSync(path.join(markupDir, f)))
 
     const rel = "./" + path.relative(path.dirname(main ?? path.join(app, d.srcDir, "main.ts")), dest).replace(/\\/g, "/")
-    const imports = [`import "${rel}/fonts.css"`, `import "${rel}/theme.css"`, `import "${rel}/brandos-primevue.css"`, `import { BrandOSPreset } from "${rel}/brandos-preset"`]
+    const imports = [`import "${rel}/fonts.css"`, `import "${rel}/theme.css"`, `import "${rel}/brandos-ui.css"`, `import "${rel}/brandos-primevue.css"`, `import { BrandOSPreset } from "${rel}/brandos-preset"`]
     const pm = code.match(/preset\s*:\s*([A-Za-z_$][\w$]*)/)
     if (main && pm && !code.includes("BrandOSPreset")) {
       const old = pm[1]
@@ -156,16 +157,17 @@ export async function install(a, PKG) {
       const imp = new RegExp(`^import\\s+${old}\\s+from\\s+['"][^'"]+['"];?\\s*\\n`, "m")
       const uses = code.split(new RegExp(`\\b${old}\\b`)).length - 1
       if (uses === 1 && imp.test(code)) code = code.replace(imp, "")
+      else if (uses === 1) log.todo.push(`${d.mainEntry}: the app's own preset "${old}" is defined here but no longer applied. Its custom tokens (colours, greys, focus rings) are now replaced by BrandOS. Delete it, or move anything still needed into definePreset(BrandOSPreset, {...}).`)
       else if (uses > 1) log.todo.push(`${d.mainEntry}: the previous preset "${old}" is no longer applied. If it held custom tokens, move them into a definePreset(BrandOSPreset, {...}) call.`)
       const lastImport = [...code.matchAll(/^import[^\n]*\n/gm)].pop()
       const at = lastImport ? lastImport.index + lastImport[0].length : 0
       code = code.slice(0, at) + imports.join("\n") + "\n" + code.slice(at)
       if (!dry) fs.writeFileSync(main, code)
-      log.edited.push(`${d.mainEntry}: PrimeVue now uses BrandOSPreset; imported fonts.css, theme.css and brandos-primevue.css`)
+      log.edited.push(`${d.mainEntry}: PrimeVue now uses BrandOSPreset; imported fonts.css, theme.css, brandos-ui.css and brandos-primevue.css`)
     } else if (code.includes("BrandOSPreset")) log.same.push(`${d.mainEntry} (already wired)`)
     else log.todo.push(`In ${d.mainEntry ?? "your entry file"}, add:\n    ${imports.join("\n    ")}\n  and set app.use(PrimeVue, { theme: { preset: BrandOSPreset } }).`)
     log.todo.push(darkSel ? `Dark mode follows PrimeVue's darkModeSelector (${darkSel}); theme.css was lined up with it.` : `PrimeVue dark mode is off, so the light theme is used.`)
-    log.todo.push(`Optional: add class="brandos-backdrop" to the app's root element for the coloured backdrop that makes glass visible, and "brandos-glass" to a Card that sits on it.`)
+    log.todo.push(`Add class="bos-backdrop" to the app's root element so glass has a soft brand wash behind it. Shared classes for frost tiers, page headers, segmented controls, buttons, chips, ramps and progress are in brandos-ui.css (see skills/ui-migrate).`)
     wireRoot(app, d, brandDir, dry, log)
     writeManifest(app, { kit, brandDir, files: log.copied }, dry)
   } else {
@@ -174,12 +176,13 @@ export async function install(a, PKG) {
     const kitCss = path.join(PKG, "kits/css")
     if (!fs.existsSync(path.join(kitCss, "glass-ui.css"))) throw new Error("kits/css/glass-ui.css is missing from the package.")
     put(path.join(dest, "glass-ui.css"), fs.readFileSync(path.join(kitCss, "glass-ui.css")))
+    put(path.join(dest, "brandos-ui.css"), fs.readFileSync(path.join(PKG, "kits/react/src/styles/brandos-ui.css")))
     for (const f of brandFiles) put(path.join(dest, f), fs.readFileSync(path.join(brandDir, f)))
     const markupDir = path.join(kitCss, "markup")
     if (fs.existsSync(markupDir)) for (const f of fs.readdirSync(markupDir)) put(path.join(dest, "markup", f), fs.readFileSync(path.join(markupDir, f)))
-    log.todo.push(`Load in this order on every page: ${["fonts.css", "theme.css", "glass-ui.css"].map((f) => path.relative(app, path.join(dest, f))).join(", ")}`)
+    log.todo.push(`Load in this order on every page: ${["fonts.css", "theme.css", "brandos-ui.css", "glass-ui.css"].map((f) => path.relative(app, path.join(dest, f))).join(", ")}`)
     log.todo.push(`Copy component markup from ${path.relative(app, path.join(dest, "markup"))}/. Keep the classes and data attributes exactly; only change text and wiring.`)
-    if (d.framework === "angular") log.todo.push(`Angular: add the three CSS files to "styles" in angular.json.`)
+    if (d.framework === "angular") log.todo.push(`Angular: add the four CSS files to "styles" in angular.json, in that order.`)
     wireRoot(app, d, brandDir, dry, log)
     writeManifest(app, { kit, brandDir, files: log.copied }, dry)
   }

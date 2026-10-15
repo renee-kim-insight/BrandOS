@@ -17,7 +17,9 @@ function surfaces(t) {
     out[`page on ${g}`] = col
     out[`glass on ${g}`] = over(t.glass, col)
     out[`glass-strong on ${g}`] = over(t["glass-strong"], col)
+    for (const tier of ["frost-strong", "frost-medium", "frost-light"]) if (t[tier]) out[`${tier} on ${g}`] = over(t[tier], col)
   }
+  if (t.overlay) out.overlay = over(t.overlay, bg)
   out.card = over(t.card, bg)
   out.popover = over(t.popover, bg)
   out.muted = over(t.muted, bg)
@@ -44,6 +46,9 @@ export function audit(modes) {
     add(mode, "input border on background", over(t.input, bg), bg, RULES.ui)
     add(mode, "input border on card", over(t.input, over(t.card, bg)), over(t.card, bg), RULES.ui)
     add(mode, "focus ring on background", t.ring, bg, RULES.ui)
+    if (t["progress-fill"]) add(mode, "progress fill on track", t["progress-fill"], t["progress-track"], RULES.ui)
+    if (t["progress-fill-foreground"]) add(mode, "progress-fill-foreground on progress-fill", t["progress-fill-foreground"], t["progress-fill"], RULES.text)
+    for (let i = 0; i < 6; i++) if (t[`ramp-${i}`]) add(mode, `ramp-${i}-foreground on ramp-${i}`, t[`ramp-${i}-foreground`], over(t[`ramp-${i}`], bg), RULES.text)
   }
   return { pass: checks.every((c) => c.pass), checks }
 }
