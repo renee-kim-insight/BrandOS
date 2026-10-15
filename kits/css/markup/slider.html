@@ -1,0 +1,47 @@
+<!--
+  Slider (BrandOS CSS kit)
+  Pick a value or range by dragging.
+  Generated from the React component, so classes and data attributes match exactly. Keep them; change only text and wiring.
+  Interactive behaviour (open/close, keyboard, focus) is not included. Add it with your framework's headless library (Angular: Spartan or CDK; Vue: Reka UI; Svelte: Bits UI) or with the native element, keeping these classes and data attributes.
+-->
+<div class="flex w-full max-w-sm flex-col gap-10">
+<div role="group" data-slot="field" data-orientation="vertical" class="cn-field group/field flex w-full cn-field-orientation-vertical flex-col *:w-full [&amp;&gt;.sr-only]:w-auto">
+<div class="flex justify-between">
+<label data-slot="field-label" class="cn-label items-center select-none group-data-[disabled=true]:pointer-events-none peer-disabled:cursor-not-allowed cn-field-label group/field-label peer/field-label flex w-fit has-[&gt;[data-slot=field]]:w-full has-[&gt;[data-slot=field]]:flex-col">Creativity</label>
+<span class="text-sm font-medium tabular-nums">0.4</span>
+</div>
+<div data-orientation="horizontal" id="base-ui-_R_9_" role="group" data-slot="slider" aria-label="Creativity" class="data-horizontal:w-full data-vertical:h-full">
+<div data-orientation="horizontal" data-base-ui-slider-control="" class="cn-slider relative flex w-full touch-none items-center select-none data-disabled:opacity-50 data-vertical:h-full data-vertical:w-auto data-vertical:flex-col">
+<div data-orientation="horizontal" style="position:relative" data-slot="slider-track" class="cn-slider-track relative grow overflow-hidden select-none">
+<div data-orientation="horizontal" data-base-ui-slider-indicator="" style="visibility:hidden;position:relative;height:inherit;--start-position:0%;inset-inline-start:0;width:var(--start-position)" data-slot="slider-range" class="cn-slider-range select-none data-horizontal:h-full data-vertical:w-full">
+</div>
+</div>
+<div data-orientation="horizontal" data-index="0" id="base-ui-_R_6p_" style="position:absolute;inset-inline-start:var(--position);top:50%;translate:-50% -50%;--position:0%;visibility:hidden" data-slot="slider-thumb" class="cn-slider-thumb block shrink-0 select-none disabled:pointer-events-none disabled:opacity-50">
+<input aria-orientation="horizontal" aria-valuenow="0.4" id="base-ui-_R_6pH2_" max="1" min="0" step="0.1" style="clip-path:inset(50%);overflow:hidden;white-space:nowrap;border:0;padding:0;width:100%;height:100%;margin:0;position:fixed;top:0;left:0" type="range" value="0.4"/>
+<script>!function(){const t=document.currentScript?.parentElement;if(!t)return;const e=t.closest("[data-base-ui-slider-control]");if(!e)return;const r=e.querySelector("[data-base-ui-slider-indicator]"),i=e.getBoundingClientRect(),n="vertical"===e.getAttribute("data-orientation")?"height":"width",o=e.querySelectorAll('input[type="range"]'),l=o.length>1,s=o.length-1;let a=null,u=null;for(let t=0;t<o.length;t+=1){const e=o[t],y=parseFloat(e.getAttribute("value")??"");if(Number.isNaN(y))return;const c=e.parentElement;if(!c)return;const p=parseFloat(e.getAttribute("max")??"100"),g=parseFloat(e.getAttribute("min")??"0"),b=c?.getBoundingClientRect(),d=i[n]-b[n],m=100*(y-g)/(p-g),v=(b[n]/2+d*m/100)/i[n]*100;c.style.setProperty("--position",`${v}%`),Number.isFinite(v)&&(c.style.removeProperty("visibility"),r&&(0===t?(a=v,r.style.setProperty("--start-position",`${v}%`),l||r.style.removeProperty("visibility")):t===s&&(u=v-(a??0),r.style.setProperty("--end-position",`${v}%`),r.style.setProperty("--relative-size",`${u}%`),r.style.removeProperty("visibility"))))}}();</script>
+</div>
+</div>
+</div>
+<p data-slot="field-description" class="cn-field-description leading-normal font-normal group-has-data-horizontal/field:text-balance last:mt-0 nth-last-2:-mt-1 [&amp;&gt;a]:underline [&amp;&gt;a]:underline-offset-4 [&amp;&gt;a:hover]:text-primary">Lower is more predictable. Higher tries more ideas.</p>
+</div>
+<div role="group" data-slot="field" data-orientation="vertical" class="cn-field group/field flex w-full cn-field-orientation-vertical flex-col *:w-full [&amp;&gt;.sr-only]:w-auto">
+<div class="flex justify-between">
+<label data-slot="field-label" class="cn-label items-center select-none group-data-[disabled=true]:pointer-events-none peer-disabled:cursor-not-allowed cn-field-label group/field-label peer/field-label flex w-fit has-[&gt;[data-slot=field]]:w-full has-[&gt;[data-slot=field]]:flex-col">Page range</label>
+<span class="text-sm font-medium tabular-nums">20 to 80</span>
+</div>
+<div data-orientation="horizontal" id="base-ui-_R_a_" role="group" data-slot="slider" aria-label="Page range" class="data-horizontal:w-full data-vertical:h-full">
+<div data-orientation="horizontal" data-base-ui-slider-control="" class="cn-slider relative flex w-full touch-none items-center select-none data-disabled:opacity-50 data-vertical:h-full data-vertical:w-auto data-vertical:flex-col">
+<div data-orientation="horizontal" style="position:relative" data-slot="slider-track" class="cn-slider-track relative grow overflow-hidden select-none">
+<div data-orientation="horizontal" data-base-ui-slider-indicator="" style="visibility:hidden;position:relative;height:inherit;--start-position:0%;--relative-size:0%;inset-inline-start:var(--start-position);width:var(--relative-size)" data-slot="slider-range" class="cn-slider-range select-none data-horizontal:h-full data-vertical:w-full">
+</div>
+</div>
+<div data-orientation="horizontal" data-index="-1" id="base-ui-_R_6q_" style="position:absolute;inset-inline-start:var(--position);top:50%;translate:-50% -50%;z-index:2;--position:0%;visibility:hidden" data-slot="slider-thumb" class="cn-slider-thumb block shrink-0 select-none disabled:pointer-events-none disabled:opacity-50">
+<input aria-orientation="horizontal" id="base-ui-_R_6qH1_" max="100" min="0" step="1" style="clip-path:inset(50%);overflow:hidden;white-space:nowrap;border:0;padding:0;width:100%;height:100%;margin:0;position:fixed;top:0;left:0" type="range" value=""/>
+</div>
+<div data-orientation="horizontal" data-index="-1" id="base-ui-_R_aq_" style="position:absolute;inset-inline-start:var(--position);top:50%;translate:-50% -50%;z-index:2;--position:0%;visibility:hidden" data-slot="slider-thumb" class="cn-slider-thumb block shrink-0 select-none disabled:pointer-events-none disabled:opacity-50">
+<input aria-orientation="horizontal" id="base-ui-_R_aqH1_" max="100" min="0" step="1" style="clip-path:inset(50%);overflow:hidden;white-space:nowrap;border:0;padding:0;width:100%;height:100%;margin:0;position:fixed;top:0;left:0" type="range" value=""/>
+</div>
+</div>
+</div>
+</div>
+</div>

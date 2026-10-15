@@ -1,0 +1,14 @@
+{
+  "$schema": "../brand.schema.json",
+  "name": "Glass UI Generic",
+  "slug": "generic",
+  "version": "1.0.0",
+  "sources": [{ "type": "manual", "note": "Default unbranded theme" }],
+  "colors": {
+    "primary": "#17131C",
+    "secondary": "#E0569B",
+    "accents": ["#4B47C4", "#14A3A3", "#E8A33D", "#8A5CF6"]
+  },
+  "fonts": { "sans": { "family": "Geist", "source": "google" }, "mono": { "family": "Geist Mono", "source": "google" } },
+  "radius": "rounded"
+}

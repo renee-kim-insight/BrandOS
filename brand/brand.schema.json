@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://brandos.dev/brand.schema.json",
+  "title": "BrandOS brand file",
+  "description": "One client's brand. The only file that changes between clients. Everything else (theme.css, tokens.json, fonts.css) is generated from it by `brandos theme`.",
+  "type": "object",
+  "required": ["name", "colors", "fonts"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "name": { "type": "string", "description": "Brand or client name, e.g. \"Northwind\"." },
+    "slug": { "type": "string", "pattern": "^[a-z0-9-]+$", "description": "Used for file names and the optional data-brand scope." },
+    "version": { "type": "string", "description": "Bump when the brand changes, e.g. 1.0.0." },
+    "sources": {
+      "type": "array",
+      "description": "Where each value came from, so a person can check it.",
+      "items": {
+        "type": "object",
+        "required": ["type"],
+        "properties": {
+          "type": { "enum": ["pdf", "pptx", "url", "image", "figma", "manual"] },
+          "ref": { "type": "string", "description": "File path or URL." },
+          "note": { "type": "string" }
+        }
+      }
+    },
+    "colors": {
+      "type": "object",
+      "required": ["primary"],
+      "additionalProperties": false,
+      "properties": {
+        "primary": { "$ref": "#/$defs/color", "description": "The main action colour: primary buttons, selection, focus." },
+        "secondary": { "$ref": "#/$defs/color", "description": "Second brand colour. Used for charts and the glass backdrop, not for buttons." },
+        "accents": { "type": "array", "items": { "$ref": "#/$defs/color" }, "maxItems": 6, "description": "Extra brand colours for charts and illustrations." },
+        "neutral": { "$ref": "#/$defs/color", "description": "Optional brand grey. If missing, neutrals are tinted toward the primary." },
+        "background": { "$ref": "#/$defs/color", "description": "Optional page colour if the brand specifies one (e.g. an off-white)." },
+        "text": { "$ref": "#/$defs/color", "description": "Optional body text colour if the brand specifies one." },
+        "danger": { "$ref": "#/$defs/color" },
+        "success": { "$ref": "#/$defs/color" },
+        "warning": { "$ref": "#/$defs/color" }
+      }
+    },
+    "fonts": {
+      "type": "object",
+      "required": ["sans"],
+      "additionalProperties": false,
+      "properties": {
+        "sans": { "$ref": "#/$defs/font", "description": "UI and body text." },
+        "display": { "$ref": "#/$defs/font", "description": "Optional headline face." },
+        "mono": { "$ref": "#/$defs/font", "description": "Optional code face." }
+      }
+    },
+    "radius": {
+      "description": "Corner style. sharp = 0.25rem, soft = 0.75rem, rounded = 1rem (Glass default), pill = 1.25rem, or a number in rem.",
+      "oneOf": [{ "enum": ["sharp", "soft", "rounded", "pill"] }, { "type": "number", "minimum": 0, "maximum": 2 }]
+    },
+    "darkMode": { "type": "boolean", "default": true, "description": "Generate a dark theme too." },
+    "logo": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "primary": { "type": "string", "description": "Path to the main logo, SVG preferred." },
+        "mark": { "type": "string", "description": "Square symbol for favicons and small spaces." },
+        "onDark": { "type": "string", "description": "Version for dark backgrounds." },
+        "minHeightPx": { "type": "number" },
+        "clearSpace": { "type": "string" }
+      }
+    },
+    "voice": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "summary": { "type": "string", "description": "One sentence on how the brand sounds." },
+        "do": { "type": "array", "items": { "type": "string" } },
+        "dont": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "notes": { "type": "array", "items": { "type": "string" }, "description": "Anything else from the guide an agent should respect." }
+  },
+  "$defs": {
+    "color": {
+      "type": "string",
+      "description": "Any CSS colour: #hex, rgb(), hsl(), oklch(). Convert CMYK and Pantone to hex at intake and note the original in sources."
+    },
+    "font": {
+      "type": "object",
+      "required": ["family"],
+      "additionalProperties": false,
+      "properties": {
+        "family": { "type": "string" },
+        "source": { "enum": ["google", "self-hosted", "system"], "description": "google = loaded from Google Fonts. self-hosted = client supplies licensed web font files. system = already on the device." },
+        "files": { "type": "array", "items": { "type": "string" }, "description": "Paths to .woff2 files when self-hosted." },
+        "weights": { "type": "array", "items": { "type": "number" } },
+        "fallback": { "type": "string", "description": "Closest free font to use when the real one is unavailable." }
+      }
+    }
+  }
+}

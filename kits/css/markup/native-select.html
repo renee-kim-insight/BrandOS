@@ -1,0 +1,25 @@
+<!--
+  Native Select (BrandOS CSS kit)
+  The browser's own select, styled to match. Best on mobile.
+  Generated from the React component, so classes and data attributes match exactly. Keep them; change only text and wiring.
+  Static component: this markup is complete.
+-->
+<div role="group" data-slot="field" data-orientation="vertical" class="cn-field group/field flex cn-field-orientation-vertical flex-col *:w-full [&amp;&gt;.sr-only]:w-auto w-full max-w-xs">
+<label data-slot="field-label" class="cn-label items-center select-none group-data-[disabled=true]:pointer-events-none peer-disabled:cursor-not-allowed cn-field-label group/field-label peer/field-label flex w-fit has-[&gt;[data-slot=field]]:w-full has-[&gt;[data-slot=field]]:flex-col" for="ns-region">Data region</label>
+<div class="cn-native-select-wrapper group/native-select relative w-fit has-[select:disabled]:opacity-50" data-slot="native-select-wrapper" data-size="default">
+<select data-slot="native-select" data-size="default" class="cn-native-select outline-none disabled:pointer-events-none disabled:cursor-not-allowed" id="ns-region">
+<optgroup data-slot="native-select-optgroup" class="bg-[Canvas] text-[CanvasText]" label="Americas">
+<option data-slot="native-select-option" class="bg-[Canvas] text-[CanvasText]" value="ca" selected="">Canada</option>
+<option data-slot="native-select-option" class="bg-[Canvas] text-[CanvasText]" value="us">United States</option>
+</optgroup>
+<optgroup data-slot="native-select-optgroup" class="bg-[Canvas] text-[CanvasText]" label="Europe">
+<option data-slot="native-select-option" class="bg-[Canvas] text-[CanvasText]" value="uk">United Kingdom</option>
+<option data-slot="native-select-option" class="bg-[Canvas] text-[CanvasText]" value="eu">European Union</option>
+</optgroup>
+</select>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down cn-native-select-icon pointer-events-none absolute select-none" aria-hidden="true" data-slot="native-select-icon">
+<path d="m6 9 6 6 6-6">
+</path>
+</svg>
+</div>
+</div>

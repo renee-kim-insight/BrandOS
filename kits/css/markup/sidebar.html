@@ -1,0 +1,89 @@
+<!--
+  Sidebar (BrandOS CSS kit)
+  App navigation that collapses to icons and becomes a sheet on mobile.
+  Generated from the React component, so classes and data attributes match exactly. Keep them; change only text and wiring.
+  Static component: this markup is complete.
+-->
+<div data-slot="sidebar-wrapper" style="--sidebar-width:16rem;--sidebar-width-icon:3rem" class="group/sidebar-wrapper flex has-data-[variant=inset]:bg-sidebar min-h-0 w-full max-w-2xl overflow-hidden rounded-3xl border">
+<div data-slot="sidebar" class="flex w-(--sidebar-width) flex-col bg-sidebar text-sidebar-foreground h-[420px]">
+<div data-slot="sidebar-header" data-sidebar="header" class="cn-sidebar-header flex flex-col px-4 pt-4 text-sm font-semibold">Workspace</div>
+<div data-slot="sidebar-content" data-sidebar="content" class="cn-sidebar-content flex min-h-0 flex-1 flex-col overflow-auto group-data-[collapsible=icon]:overflow-hidden">
+<div data-slot="sidebar-group" data-sidebar="group" class="cn-sidebar-group relative flex w-full min-w-0 flex-col">
+<div data-slot="sidebar-group-label" data-sidebar="group-label" class="cn-sidebar-group-label flex shrink-0 items-center outline-hidden [&amp;&gt;svg]:shrink-0">Navigate</div>
+<div data-slot="sidebar-group-content" data-sidebar="group-content" class="cn-sidebar-group-content w-full">
+<ul data-slot="sidebar-menu" data-sidebar="menu" class="cn-sidebar-menu flex w-full min-w-0 flex-col">
+<li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+<a href="#" data-slot="sidebar-menu-button" data-sidebar="menu-button" data-size="default" data-active="" class="cn-sidebar-menu-button peer/menu-button group/menu-button flex w-full items-center overflow-hidden outline-hidden disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 [&amp;&gt;span:last-child]:truncate cn-sidebar-menu-button-variant-default cn-sidebar-menu-button-size-default">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house lucide-home" aria-hidden="true">
+<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8">
+</path>
+<path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z">
+</path>
+</svg>
+<span>Home</span>
+</a>
+</li>
+<li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+<a href="#" data-slot="sidebar-menu-button" data-sidebar="menu-button" data-size="default" class="cn-sidebar-menu-button peer/menu-button group/menu-button flex w-full items-center overflow-hidden outline-hidden disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 [&amp;&gt;span:last-child]:truncate cn-sidebar-menu-button-variant-default cn-sidebar-menu-button-size-default">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bot" aria-hidden="true">
+<path d="M12 8V4H8">
+</path>
+<rect width="16" height="12" x="4" y="8" rx="2">
+</rect>
+<path d="M2 14h2">
+</path>
+<path d="M20 14h2">
+</path>
+<path d="M15 13v2">
+</path>
+<path d="M9 13v2">
+</path>
+</svg>
+<span>Agents</span>
+</a>
+<div data-slot="sidebar-menu-badge" data-sidebar="menu-badge" class="cn-sidebar-menu-badge flex items-center justify-center tabular-nums select-none group-data-[collapsible=icon]:hidden">12</div>
+</li>
+<li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+<a href="#" data-slot="sidebar-menu-button" data-sidebar="menu-button" data-size="default" class="cn-sidebar-menu-button peer/menu-button group/menu-button flex w-full items-center overflow-hidden outline-hidden disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 [&amp;&gt;span:last-child]:truncate cn-sidebar-menu-button-variant-default cn-sidebar-menu-button-size-default">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-library" aria-hidden="true">
+<path d="m16 6 4 14">
+</path>
+<path d="M12 6v14">
+</path>
+<path d="M8 8v12">
+</path>
+<path d="M4 4v16">
+</path>
+</svg>
+<span>Library</span>
+</a>
+</li>
+<li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+<a href="#" data-slot="sidebar-menu-button" data-sidebar="menu-button" data-size="default" class="cn-sidebar-menu-button peer/menu-button group/menu-button flex w-full items-center overflow-hidden outline-hidden disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 [&amp;&gt;span:last-child]:truncate cn-sidebar-menu-button-variant-default cn-sidebar-menu-button-size-default">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings" aria-hidden="true">
+<path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915">
+</path>
+<circle cx="12" cy="12" r="3">
+</circle>
+</svg>
+<span>Settings</span>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div data-slot="sidebar-footer" data-sidebar="footer" class="cn-sidebar-footer flex flex-col">
+<div class="flex items-center gap-2.5 p-2">
+<span data-slot="avatar" data-size="sm" class="cn-avatar group/avatar relative flex shrink-0 select-none after:absolute after:inset-0 after:border after:border-border after:mix-blend-darken dark:after:mix-blend-lighten">
+<span data-slot="avatar-fallback" class="cn-avatar-fallback flex size-full items-center justify-center text-sm group-data-[size=sm]/avatar:text-xs">RK</span>
+</span>
+<span class="text-sm font-medium">Renee Kim</span>
+</div>
+</div>
+</div>
+<main class="bg-background/40 flex flex-1 flex-col gap-2 p-8">
+<h3 class="text-xl font-semibold tracking-tight">Home</h3>
+<p class="text-muted-foreground text-sm">Your recent runs and pinned agents show here.</p>
+</main>
+</div>

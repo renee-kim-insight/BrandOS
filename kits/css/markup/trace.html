@@ -1,0 +1,61 @@
+<!--
+  Trace (BrandOS CSS kit)
+  Shows what an agent did: steps, tool calls and reasoning, collapsible.
+  Generated from the React component, so classes and data attributes match exactly. Keep them; change only text and wiring.
+  Static component: this markup is complete.
+-->
+<div class="glass w-full max-w-md rounded-3xl border p-5">
+<div data-slot="trace" class="cn-trace flex w-full min-w-0 flex-col *:has-[&gt;[data-slot=trace-line]]:flex *:has-[&gt;[data-slot=trace-line]]:w-fit *:has-[&gt;[data-slot=trace-line]]:max-w-full *:has-[&gt;[data-slot=trace-line]]:min-w-0 *:has-[&gt;[data-slot=trace-line]]:text-left *:has-[&gt;[data-slot=trace-line]]:outline-none">
+<span data-slot="trace-line" class="cn-trace-line flex w-fit max-w-full min-w-0 items-center text-muted-foreground transition-colors in-[a,button]:cursor-pointer in-[a:hover,button:hover]:text-foreground data-[status=error]:text-destructive data-[status=error]:in-[a:hover,button:hover]:text-destructive data-[status=pending]:opacity-60 data-[status=running]:*:data-[slot=trace-title]:shimmer">
+<span data-slot="trace-icon" aria-hidden="true" class="cn-trace-icon flex shrink-0 items-center justify-center [&amp;_svg]:pointer-events-none">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-search" aria-hidden="true">
+<path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z">
+</path>
+<path d="M14 2v5a1 1 0 0 0 1 1h5">
+</path>
+<circle cx="11.5" cy="14.5" r="2.5">
+</circle>
+<path d="M13.3 16.3 15 18">
+</path>
+</svg>
+</span>
+<span data-slot="trace-title" class="cn-trace-title min-w-0 truncate motion-reduce:shimmer-none">Read 4 discovery documents</span>
+</span>
+<div data-closed="" data-slot="trace-collapsible" class="cn-trace-collapsible flex w-full min-w-0 flex-col">
+<button type="button" tabindex="0" aria-expanded="false" data-slot="trace-collapsible-trigger" class="cn-trace-collapsible-trigger group/trace-collapsible-trigger flex w-fit max-w-full min-w-0 cursor-pointer items-center text-left text-muted-foreground transition-colors outline-none hover:text-foreground has-[[data-status=error]]:text-destructive">
+<span data-slot="trace-line" class="cn-trace-line flex w-fit max-w-full min-w-0 items-center text-muted-foreground transition-colors in-[a,button]:cursor-pointer in-[a:hover,button:hover]:text-foreground data-[status=error]:text-destructive data-[status=error]:in-[a:hover,button:hover]:text-destructive data-[status=pending]:opacity-60 data-[status=running]:*:data-[slot=trace-title]:shimmer">
+<span data-slot="trace-icon" aria-hidden="true" class="cn-trace-icon flex shrink-0 items-center justify-center [&amp;_svg]:pointer-events-none">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-terminal lucide-terminal-square" aria-hidden="true">
+<path d="m7 11 2-2-2-2">
+</path>
+<path d="M11 13h4">
+</path>
+<rect width="18" height="18" x="3" y="3" rx="2" ry="2">
+</rect>
+</svg>
+</span>
+<span data-slot="trace-title" class="cn-trace-title min-w-0 truncate motion-reduce:shimmer-none">Queried the rate card</span>
+</span>
+<span data-slot="trace-icon" aria-hidden="true" class="cn-trace-icon flex shrink-0 items-center justify-center [&amp;_svg]:pointer-events-none transition-transform group-aria-expanded/trace-collapsible-trigger:rotate-90">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right" aria-hidden="true">
+<path d="m9 18 6-6-6-6">
+</path>
+</svg>
+</span>
+</button>
+</div>
+<span data-slot="trace-line" data-status="running" class="cn-trace-line flex w-fit max-w-full min-w-0 items-center text-muted-foreground transition-colors in-[a,button]:cursor-pointer in-[a:hover,button:hover]:text-foreground data-[status=error]:text-destructive data-[status=error]:in-[a:hover,button:hover]:text-destructive data-[status=pending]:opacity-60 data-[status=running]:*:data-[slot=trace-title]:shimmer">
+<span data-slot="trace-icon" aria-hidden="true" class="cn-trace-icon flex shrink-0 items-center justify-center [&amp;_svg]:pointer-events-none">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-globe" aria-hidden="true">
+<circle cx="12" cy="12" r="10">
+</circle>
+<path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20">
+</path>
+<path d="M2 12h20">
+</path>
+</svg>
+</span>
+<span data-slot="trace-title" class="cn-trace-title min-w-0 truncate motion-reduce:shimmer-none">Checking the client&#x27;s latest annual report</span>
+</span>
+</div>
+</div>

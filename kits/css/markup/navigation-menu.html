@@ -1,0 +1,23 @@
+<!--
+  Navigation Menu (BrandOS CSS kit)
+  Top-level site navigation with rich dropdown panels.
+  Generated from the React component, so classes and data attributes match exactly. Keep them; change only text and wiring.
+  Interactive behaviour (open/close, keyboard, focus) is not included. Add it with your framework's headless library (Angular: Spartan or CDK; Vue: Reka UI; Svelte: Bits UI) or with the native element, keeping these classes and data attributes.
+-->
+<nav data-slot="navigation-menu" class="cn-navigation-menu group/navigation-menu relative flex max-w-max flex-1 items-center justify-center">
+<ul data-slot="navigation-menu-list" class="cn-navigation-menu-list group flex flex-1 list-none items-center justify-center">
+<li data-slot="navigation-menu-item" class="cn-navigation-menu-item relative">
+<button type="button" aria-disabled="false" tabindex="0" aria-expanded="false" data-base-ui-navigation-menu-trigger="" data-slot="navigation-menu-trigger" class="cn-navigation-menu-trigger group/navigation-menu-trigger inline-flex h-9 w-max items-center justify-center outline-none disabled:pointer-events-none group">Agents <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down cn-navigation-menu-trigger-icon" aria-hidden="true">
+<path d="m6 9 6 6 6-6">
+</path>
+</svg>
+</button>
+</li>
+<li data-slot="navigation-menu-item" class="cn-navigation-menu-item relative">
+<a data-slot="navigation-menu-link" href="#" class="cn-navigation-menu-link cn-navigation-menu-trigger group/navigation-menu-trigger inline-flex h-9 w-max items-center justify-center outline-none disabled:pointer-events-none">Pricing</a>
+</li>
+<li data-slot="navigation-menu-item" class="cn-navigation-menu-item relative">
+<a data-slot="navigation-menu-link" href="#" class="cn-navigation-menu-link cn-navigation-menu-trigger group/navigation-menu-trigger inline-flex h-9 w-max items-center justify-center outline-none disabled:pointer-events-none">Docs</a>
+</li>
+</ul>
+</nav>

@@ -1,0 +1,21 @@
+<!--
+  Input (BrandOS CSS kit)
+  A single-line text field.
+  Generated from the React component, so classes and data attributes match exactly. Keep them; change only text and wiring.
+  Interactive behaviour (open/close, keyboard, focus) is not included. Add it with your framework's headless library (Angular: Spartan or CDK; Vue: Reka UI; Svelte: Bits UI) or with the native element, keeping these classes and data attributes.
+-->
+<div class="flex w-full max-w-sm flex-col gap-6">
+<div role="group" data-slot="field" data-orientation="vertical" class="cn-field group/field flex w-full cn-field-orientation-vertical flex-col *:w-full [&amp;&gt;.sr-only]:w-auto">
+<label data-slot="field-label" class="cn-label items-center select-none group-data-[disabled=true]:pointer-events-none peer-disabled:cursor-not-allowed cn-field-label group/field-label peer/field-label flex w-fit has-[&gt;[data-slot=field]]:w-full has-[&gt;[data-slot=field]]:flex-col" for="in-email">Work email</label>
+<input id="in-email" type="email" data-slot="input" placeholder="name@company.com" class="cn-input w-full min-w-0 outline-none file:inline-flex file:border-0 file:bg-transparent file:text-foreground placeholder:text-muted-foreground disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"/>
+<p data-slot="field-description" class="cn-field-description leading-normal font-normal group-has-data-horizontal/field:text-balance last:mt-0 nth-last-2:-mt-1 [&amp;&gt;a]:underline [&amp;&gt;a]:underline-offset-4 [&amp;&gt;a:hover]:text-primary">We send run summaries here.</p>
+</div>
+<div role="group" data-slot="field" data-orientation="vertical" class="cn-field group/field flex w-full cn-field-orientation-vertical flex-col *:w-full [&amp;&gt;.sr-only]:w-auto" data-disabled="true">
+<label data-slot="field-label" class="cn-label items-center select-none group-data-[disabled=true]:pointer-events-none peer-disabled:cursor-not-allowed cn-field-label group/field-label peer/field-label flex w-fit has-[&gt;[data-slot=field]]:w-full has-[&gt;[data-slot=field]]:flex-col" for="in-region">Data region</label>
+<input data-disabled="" id="in-region" disabled="" data-slot="input" class="cn-input w-full min-w-0 outline-none file:inline-flex file:border-0 file:bg-transparent file:text-foreground placeholder:text-muted-foreground disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50" value="Canada (Toronto)"/>
+</div>
+<div role="group" data-slot="field" data-orientation="vertical" class="cn-field group/field flex w-full cn-field-orientation-vertical flex-col *:w-full [&amp;&gt;.sr-only]:w-auto">
+<label data-slot="field-label" class="cn-label items-center select-none group-data-[disabled=true]:pointer-events-none peer-disabled:cursor-not-allowed cn-field-label group/field-label peer/field-label flex w-fit has-[&gt;[data-slot=field]]:w-full has-[&gt;[data-slot=field]]:flex-col" for="in-file">Upload notes</label>
+<input id="in-file" type="file" data-slot="input" class="cn-input w-full min-w-0 outline-none file:inline-flex file:border-0 file:bg-transparent file:text-foreground placeholder:text-muted-foreground disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"/>
+</div>
+</div>

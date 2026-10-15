@@ -1,0 +1,31 @@
+<!--
+  Toggle (BrandOS CSS kit)
+  A two-state button, like bold in a text editor.
+  Generated from the React component, so classes and data attributes match exactly. Keep them; change only text and wiring.
+  Interactive behaviour (open/close, keyboard, focus) is not included. Add it with your framework's headless library (Angular: Spartan or CDK; Vue: Reka UI; Svelte: Bits UI) or with the native element, keeping these classes and data attributes.
+-->
+<div class="flex items-center gap-2">
+<button type="button" tabindex="0" aria-pressed="false" data-slot="toggle" aria-label="Bold" class="cn-toggle group/toggle inline-flex items-center justify-center whitespace-nowrap outline-none hover:bg-muted focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 cn-toggle-variant-default cn-toggle-size-default">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bold" aria-hidden="true">
+<path d="M6 12h9a4 4 0 0 1 0 8H7a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h7a4 4 0 0 1 0 8">
+</path>
+</svg>
+</button>
+<button type="button" tabindex="0" aria-pressed="false" data-slot="toggle" aria-label="Italic" class="cn-toggle group/toggle inline-flex items-center justify-center whitespace-nowrap outline-none hover:bg-muted focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 cn-toggle-variant-outline cn-toggle-size-default">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-italic" aria-hidden="true">
+<line x1="19" x2="10" y1="4" y2="4">
+</line>
+<line x1="14" x2="5" y1="20" y2="20">
+</line>
+<line x1="15" x2="9" y1="4" y2="20">
+</line>
+</svg>
+</button>
+<button type="button" data-pressed="" tabindex="0" aria-pressed="true" data-slot="toggle" class="cn-toggle group/toggle inline-flex items-center justify-center whitespace-nowrap outline-none hover:bg-muted focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 cn-toggle-variant-outline cn-toggle-size-default">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pin" aria-hidden="true">
+<path d="M12 17v5">
+</path>
+<path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z">
+</path>
+</svg>Pinned</button>
+</div>

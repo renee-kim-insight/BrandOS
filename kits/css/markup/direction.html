@@ -1,0 +1,31 @@
+<!--
+  Direction (BrandOS CSS kit)
+  Sets left-to-right or right-to-left for everything inside it.
+  Generated from the React component, so classes and data attributes match exactly. Keep them; change only text and wiring.
+  Interactive behaviour (open/close, keyboard, focus) is not included. Add it with your framework's headless library (Angular: Spartan or CDK; Vue: Reka UI; Svelte: Bits UI) or with the native element, keeping these classes and data attributes.
+-->
+<div dir="rtl" lang="ar" class="w-full max-w-sm">
+<div data-slot="card" data-size="default" data-variant="glass" class="cn-card group/card flex flex-col">
+<div data-slot="card-header" class="cn-card-header group/card-header @container/card-header grid auto-rows-min items-start has-data-[slot=card-action]:grid-cols-[1fr_auto] has-data-[slot=card-description]:grid-rows-[auto_auto]">
+<div data-slot="card-title" class="cn-card-title cn-font-heading">الميزانية الشهرية</div>
+<div data-slot="card-description" class="cn-card-description">تتوقف التشغيلات عند الوصول إلى الحد.</div>
+</div>
+<div data-slot="card-content" class="cn-card-content">
+<div data-orientation="horizontal" id="base-ui-_R_2_" role="group" data-slot="slider" aria-label="الميزانية" class="data-horizontal:w-full data-vertical:h-full">
+<div data-orientation="horizontal" data-base-ui-slider-control="" class="cn-slider relative flex w-full touch-none items-center select-none data-disabled:opacity-50 data-vertical:h-full data-vertical:w-auto data-vertical:flex-col">
+<div data-orientation="horizontal" style="position:relative" data-slot="slider-track" class="cn-slider-track relative grow overflow-hidden select-none">
+<div data-orientation="horizontal" data-base-ui-slider-indicator="" style="visibility:hidden;position:relative;height:inherit;--start-position:0%;inset-inline-start:0;width:var(--start-position)" data-slot="slider-range" class="cn-slider-range select-none data-horizontal:h-full data-vertical:w-full">
+</div>
+</div>
+<div data-orientation="horizontal" data-index="0" id="base-ui-_R_1m_" style="position:absolute;inset-inline-start:var(--position);top:50%;translate:50% -50%;--position:0%;visibility:hidden" data-slot="slider-thumb" class="cn-slider-thumb block shrink-0 select-none disabled:pointer-events-none disabled:opacity-50">
+<input aria-orientation="horizontal" aria-valuenow="60" id="base-ui-_R_1mH2_" max="100" min="0" step="1" style="clip-path:inset(50%);overflow:hidden;white-space:nowrap;border:0;padding:0;width:100%;height:100%;margin:0;position:fixed;top:0;left:0" type="range" value="60"/>
+<script>!function(){const t=document.currentScript?.parentElement;if(!t)return;const e=t.closest("[data-base-ui-slider-control]");if(!e)return;const r=e.querySelector("[data-base-ui-slider-indicator]"),i=e.getBoundingClientRect(),n="vertical"===e.getAttribute("data-orientation")?"height":"width",o=e.querySelectorAll('input[type="range"]'),l=o.length>1,s=o.length-1;let a=null,u=null;for(let t=0;t<o.length;t+=1){const e=o[t],y=parseFloat(e.getAttribute("value")??"");if(Number.isNaN(y))return;const c=e.parentElement;if(!c)return;const p=parseFloat(e.getAttribute("max")??"100"),g=parseFloat(e.getAttribute("min")??"0"),b=c?.getBoundingClientRect(),d=i[n]-b[n],m=100*(y-g)/(p-g),v=(b[n]/2+d*m/100)/i[n]*100;c.style.setProperty("--position",`${v}%`),Number.isFinite(v)&&(c.style.removeProperty("visibility"),r&&(0===t?(a=v,r.style.setProperty("--start-position",`${v}%`),l||r.style.removeProperty("visibility")):t===s&&(u=v-(a??0),r.style.setProperty("--end-position",`${v}%`),r.style.setProperty("--relative-size",`${u}%`),r.style.removeProperty("visibility"))))}}();</script>
+</div>
+</div>
+</div>
+</div>
+<div data-slot="card-footer" class="cn-card-footer flex items-center justify-end">
+<button type="button" tabindex="0" data-slot="button" class="cn-button group/button inline-flex shrink-0 items-center justify-center whitespace-nowrap transition-all outline-none select-none disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 cn-button-variant-default cn-button-size-default">حفظ</button>
+</div>
+</div>
+</div>

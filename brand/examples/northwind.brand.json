@@ -1,0 +1,14 @@
+{
+  "$schema": "../brand.schema.json",
+  "name": "Northwind",
+  "slug": "northwind",
+  "version": "1.0.0",
+  "sources": [{ "type": "manual", "note": "Fictional demo client" }],
+  "colors": {
+    "primary": "#0F766E",
+    "secondary": "#F97316",
+    "accents": ["#0EA5E9", "#84CC16", "#64748B"]
+  },
+  "fonts": { "sans": { "family": "Manrope", "source": "google" } },
+  "radius": "soft"
+}

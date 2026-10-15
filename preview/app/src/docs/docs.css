@@ -1,0 +1,47 @@
+@reference "../styles/globals.css";
+
+/* Docs-site only styles. Not part of the library. */
+
+/* sugar-high code colours, tuned to the neutral theme */
+:root {
+  --sh-class: oklch(0.48 0.189 278);
+  --sh-identifier: var(--foreground);
+  --sh-sign: oklch(0.55 0.02 304);
+  --sh-property: oklch(0.45 0.12 250);
+  --sh-entity: oklch(0.5 0.15 300);
+  --sh-jsxliterals: var(--foreground);
+  --sh-string: oklch(0.52 0.12 160);
+  --sh-keyword: oklch(0.55 0.2 352);
+  --sh-comment: oklch(0.62 0.02 304);
+}
+.dark {
+  --sh-class: oklch(0.78 0.12 280);
+  --sh-sign: oklch(0.7 0.02 304);
+  --sh-property: oklch(0.78 0.1 240);
+  --sh-entity: oklch(0.8 0.12 310);
+  --sh-string: oklch(0.8 0.12 160);
+  --sh-keyword: oklch(0.78 0.16 352);
+  --sh-comment: oklch(0.6 0.02 304);
+}
+
+.docs-prose p {
+  @apply text-muted-foreground leading-7;
+}
+.docs-prose p + p {
+  @apply mt-4;
+}
+.docs-prose code:not(pre code) {
+  @apply bg-muted text-foreground rounded-md px-1.5 py-0.5 font-mono text-[0.85em];
+}
+.docs-prose a {
+  @apply text-foreground underline decoration-foreground/30 underline-offset-4 hover:decoration-foreground;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

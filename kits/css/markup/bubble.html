@@ -1,0 +1,25 @@
+<!--
+  Bubble (BrandOS CSS kit)
+  A chat message surface for people and assistants, with grouped and reaction states.
+  Generated from the React component, so classes and data attributes match exactly. Keep them; change only text and wiring.
+  Static component: this markup is complete.
+-->
+<div class="flex w-full max-w-md flex-col gap-6">
+<div data-slot="bubble" data-variant="default" data-align="end" class="cn-bubble group/bubble relative flex w-fit min-w-0 flex-col cn-bubble-variant-default">
+<div data-slot="bubble-content" class="cn-bubble-content w-fit max-w-full min-w-0 overflow-hidden wrap-break-word [button]:text-left [button,a]:transition-colors">Can you summarise the client call in five bullets?</div>
+</div>
+<div data-slot="bubble-group" class="cn-bubble-group flex min-w-0 flex-col">
+<div data-slot="bubble" data-variant="secondary" data-align="start" class="cn-bubble group/bubble relative flex w-fit min-w-0 flex-col cn-bubble-variant-secondary">
+<div data-slot="bubble-content" class="cn-bubble-content w-fit max-w-full min-w-0 overflow-hidden wrap-break-word [button]:text-left [button,a]:transition-colors">Here is the summary. Their main worry is migration time, not price.</div>
+</div>
+<div data-slot="bubble" data-variant="secondary" data-align="start" class="cn-bubble group/bubble relative flex w-fit min-w-0 flex-col cn-bubble-variant-secondary">
+<div data-slot="bubble-content" class="cn-bubble-content w-fit max-w-full min-w-0 overflow-hidden wrap-break-word [button]:text-left [button,a]:transition-colors">Want me to draft a follow-up email that addresses it?</div>
+</div>
+</div>
+<div data-slot="bubble" data-variant="tinted" data-align="end" class="cn-bubble group/bubble relative flex w-fit min-w-0 flex-col cn-bubble-variant-tinted">
+<div data-slot="bubble-content" class="cn-bubble-content w-fit max-w-full min-w-0 overflow-hidden wrap-break-word [button]:text-left [button,a]:transition-colors">Yes, keep it under 120 words.</div>
+</div>
+<div data-slot="bubble" data-variant="destructive" data-align="start" class="cn-bubble group/bubble relative flex w-fit min-w-0 flex-col cn-bubble-variant-destructive">
+<div data-slot="bubble-content" class="cn-bubble-content w-fit max-w-full min-w-0 overflow-hidden wrap-break-word [button]:text-left [button,a]:transition-colors">The CRM connection expired. Reconnect it in Settings to continue.</div>
+</div>
+</div>
