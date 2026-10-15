@@ -280,3 +280,95 @@
     backdrop-filter: none;
   }
 }
+
+/* ---------- App shell and navigation: nothing may overlap, at any width or item count ---------- */
+/*
+ * Layout: brand | nav | actions. The brand and actions keep their natural size; the nav gets what is
+ * left and never pushes into them. Mark nav items with data-priority="low" for the ones that move into
+ * the "More" menu (bos-nav-more) when space runs out. Below 768px the nav collapses into a menu button.
+ */
+.bos-shell {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-5);
+  padding: var(--space-3) var(--space-5);
+  border-radius: 999px;
+}
+.bos-shell > * {
+  min-width: 0;
+}
+.bos-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  white-space: nowrap;
+}
+.bos-nav {
+  container-type: inline-size;
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+}
+.bos-nav-list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.bos-nav-list a,
+.bos-nav-list button {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-2) var(--space-4);
+  border-radius: 999px;
+  white-space: nowrap;
+  color: var(--foreground);
+  text-decoration: none;
+}
+.bos-nav-list a:hover,
+.bos-nav-list button:hover {
+  background: var(--frost-light);
+}
+.bos-nav-list [aria-current="page"] {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+.bos-nav-more {
+  display: none;
+}
+.bos-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  white-space: nowrap;
+}
+/* Low-priority items move into "More" when the nav area gets tight. */
+@container (max-width: 760px) {
+  .bos-nav-list [data-priority="low"] {
+    display: none;
+  }
+  .bos-nav-more {
+    display: inline-flex;
+  }
+}
+/* Small screens: the nav becomes a menu button; only brand, menu and user stay in the bar. */
+.bos-nav-toggle {
+  display: none;
+}
+@media (max-width: 767px) {
+  .bos-shell {
+    grid-template-columns: auto 1fr auto;
+    border-radius: calc(var(--radius) * 1.5);
+  }
+  .bos-nav {
+    display: none;
+  }
+  .bos-nav-toggle {
+    display: inline-flex;
+    justify-self: end;
+  }
+}

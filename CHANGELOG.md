@@ -2,6 +2,11 @@
 
 BrandOS uses semantic versioning: patch (1.0.x) for fixes and rule changes, minor (1.x.0) for new features, major (x.0.0) for breaking changes.
 
+## 1.0.2
+
+- App bar that cannot overlap: `bos-shell` (brand | nav | actions grid), `bos-nav` with `data-priority="low"` items moving into a "More" menu when space is tight, and a menu button below 768px.
+- Design rules: plan the nav for the role with the most items (about 6 to 7 top-level items, the rest in "More"); theme switcher and admin tools go in the user menu; check layouts at 1440, 1280, 1024, 768 and 390px for every role.
+
 ## 1.0.1
 
 Lessons from the first real migration, built into the system so every brand gets them.

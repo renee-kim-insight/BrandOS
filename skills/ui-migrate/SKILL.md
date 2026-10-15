@@ -39,6 +39,7 @@ Every kit installs `brandos-ui.css`. Use its classes and the theme variables ins
 | Chips, rows, icon backgrounds, secondary buttons inside cards | `bos-frost-light` |
 | Menus, dropdowns, popovers, dialogs | `bos-overlay` |
 | Card padding and radius | `bos-card`, `bos-card-compact` |
+| App bar (brand, nav, actions) | `bos-shell` with `bos-brand`, `bos-nav` > `bos-nav-list`, `bos-actions`; `data-priority="low"` on items that may move into `bos-nav-more`; `bos-nav-toggle` for small screens |
 | Page title block | `bos-page-header` with `bos-title` (`bos-title-hero` on the home page only) and `bos-subtitle` |
 | Sections | `bos-section`, `bos-section-title` |
 | Tabs, filters, view switches | `bos-segmented` (selected item: `aria-selected="true"`, `aria-pressed="true"` or `data-active`), counts in `bos-count` |
@@ -122,6 +123,8 @@ Use these when a page part matches. They are the most common improvements, not a
 - One spacing scale (4, 8, 12, 16, 24, 32, 48, 64, 96 px) and one shared page header, so every page starts the same way: the same gap above the title, between title and subtitle, and before the first content. No icons in front of page titles, no empty dividers, no nested cards (a card inside a card inside a card).
 - One control per job: every tab bar, filter toggle and segmented choice uses the same segmented control, and its selected state is neutral (strong frost, --foreground text). Brand colour is for the main nav and the primary action only.
 - Progress bars are a muted neutral (a mid warm grey from the brand's neutrals) on a light track, not black and not brand colour, except the user's one main progress bar.
+- The app bar must never overlap or wrap, at any width and for every role. Brand and actions keep their size, the nav takes what is left. Plan for the longest nav (usually an admin's): at most about 6 to 7 top-level items; mark the rest `data-priority="low"` so they move into a "More" menu, and put account-level things (theme switcher, settings, admin tools) in the user menu rather than the bar. Below 768px the nav collapses into a menu button.
+- Check every layout at 1440, 1280, 1024, 768 and 390px wide, logged in as the role with the most items, in light and dark. Nothing may overlap, clip or scroll sideways.
 - Visible labels on every field. Placeholders are examples, not labels.
 - Buttons say what happens ("Save changes", "Delete order"), never "Submit" or "OK".
 - Error messages say how to fix the problem.
