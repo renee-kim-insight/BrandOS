@@ -134,3 +134,34 @@ body {
     -webkit-backdrop-filter: none;
   }
 }
+
+/* Motion: PrimeVue overlays and dialogs open with the same quick pop as the rest of BrandOS. */
+.p-connected-overlay-enter-from,
+.p-dialog-enter-from {
+  opacity: 0;
+  transform: translateY(-4px) scale(0.98);
+}
+.p-connected-overlay-enter-active,
+.p-dialog-enter-active {
+  transition: opacity var(--motion-base, 200ms) var(--ease-out, ease-out), transform var(--motion-base, 200ms) var(--ease-out, ease-out) !important;
+}
+.p-connected-overlay-leave-to,
+.p-dialog-leave-to {
+  opacity: 0;
+}
+.p-connected-overlay-leave-active,
+.p-dialog-leave-active {
+  transition: opacity var(--motion-fast, 120ms) ease-in !important;
+}
+.p-progressbar-value {
+  transition: width 600ms var(--ease-out, ease-out);
+}
+@media (prefers-reduced-motion: reduce) {
+  .p-connected-overlay-enter-active,
+  .p-connected-overlay-leave-active,
+  .p-dialog-enter-active,
+  .p-dialog-leave-active,
+  .p-progressbar-value {
+    transition: none !important;
+  }
+}

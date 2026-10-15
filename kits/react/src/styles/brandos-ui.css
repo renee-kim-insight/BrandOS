@@ -372,3 +372,100 @@
     justify-self: end;
   }
 }
+
+/* ---------- Motion: small, quick and purposeful ---------- */
+/*
+ * Only opacity and transform are animated (smooth on every device). Entrances play once, when content
+ * first appears, never on every re-render. Everything is switched off under prefers-reduced-motion.
+ */
+:root {
+  --motion-fast: 120ms;
+  --motion-base: 200ms;
+  --motion-slow: 320ms;
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes bos-fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes bos-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes bos-pop {
+  from { opacity: 0; transform: translateY(-4px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes bos-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes bos-shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+
+/* Content appearing: cards, sections, page headers. */
+.bos-enter {
+  animation: bos-fade-up var(--motion-slow) var(--ease-out) both;
+}
+/* Lists and grids: children arrive one after another (first 8 only, so long lists stay quick). */
+.bos-stagger > * {
+  animation: bos-fade-up var(--motion-slow) var(--ease-out) both;
+}
+.bos-stagger > :nth-child(2) { animation-delay: 40ms; }
+.bos-stagger > :nth-child(3) { animation-delay: 80ms; }
+.bos-stagger > :nth-child(4) { animation-delay: 120ms; }
+.bos-stagger > :nth-child(5) { animation-delay: 160ms; }
+.bos-stagger > :nth-child(6) { animation-delay: 200ms; }
+.bos-stagger > :nth-child(7) { animation-delay: 240ms; }
+.bos-stagger > :nth-child(n + 8) { animation-delay: 280ms; }
+
+/* Menus, dropdowns, popovers. */
+.bos-overlay {
+  animation: bos-pop var(--motion-base) var(--ease-out) both;
+  transform-origin: top center;
+}
+
+/* Page changes (Vue <Transition name="bos-page" mode="out-in">, or add .bos-page-in on route change). */
+.bos-page-enter-active { transition: opacity var(--motion-base) var(--ease-out), transform var(--motion-base) var(--ease-out); }
+.bos-page-leave-active { transition: opacity var(--motion-fast) var(--ease-in-out); }
+.bos-page-enter-from { opacity: 0; transform: translateY(6px); }
+.bos-page-leave-to { opacity: 0; }
+.bos-page-in { animation: bos-fade var(--motion-base) var(--ease-out) both; }
+
+/* Progress fills grow in from the left the first time they appear. */
+.bos-progress > * {
+  transform-origin: left center;
+  animation: bos-grow 600ms var(--ease-out) both;
+}
+
+/* Pressed feedback on anything clickable. */
+:is(.bos-btn-glass, .bos-segmented > *, .bos-card-link, .bos-nav-list a, .bos-nav-list button):active {
+  transform: scale(0.98);
+  transition-duration: var(--motion-fast);
+}
+.bos-segmented > *,
+.bos-nav-list a,
+.bos-nav-list button {
+  transition: background-color var(--motion-base) var(--ease-out), color var(--motion-base) var(--ease-out), transform var(--motion-fast) var(--ease-out);
+}
+
+/* Loading placeholders: a gentle shimmer instead of a spinner for content. */
+.bos-skeleton {
+  border-radius: var(--radius);
+  background: linear-gradient(90deg, var(--frost-light) 25%, var(--frost-medium) 50%, var(--frost-light) 75%);
+  background-size: 200% 100%;
+  animation: bos-shimmer 1.6s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bos-enter,
+  .bos-stagger > *,
+  .bos-overlay,
+  .bos-page-in,
+  .bos-progress > *,
+  .bos-skeleton {
+    animation: none;
+  }
+  .bos-page-enter-active,
+  .bos-page-leave-active {
+    transition: none;
+  }
+  :is(.bos-btn-glass, .bos-segmented > *, .bos-card-link, .bos-nav-list a, .bos-nav-list button):active {
+    transform: none;
+  }
+}

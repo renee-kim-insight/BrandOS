@@ -2,6 +2,14 @@
 
 BrandOS uses semantic versioning: patch (1.0.x) for fixes and rule changes, minor (1.x.0) for new features, major (x.0.0) for breaking changes.
 
+## 1.0.3
+
+- Motion tokens: `--motion-fast` (120ms), `--motion-base` (200ms), `--motion-slow` (320ms), `--ease-out`, `--ease-in-out`.
+- Motion classes in brandos-ui.css: `bos-enter`, `bos-stagger`, page transitions (`bos-page-*`), `bos-skeleton`; overlays pop in, progress bars grow in, clickable things press in slightly.
+- PrimeVue overlays, dialogs and progress bars use the same motion.
+- Everything respects prefers-reduced-motion.
+- Design rule: motion is small, quick and purposeful; entrances play once.
+
 ## 1.0.2
 
 - App bar that cannot overlap: `bos-shell` (brand | nav | actions grid), `bos-nav` with `data-priority="low"` items moving into a "More" menu when space is tight, and a menu button below 768px.
