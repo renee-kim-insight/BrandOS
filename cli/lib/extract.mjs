@@ -69,6 +69,7 @@ function summarise(d) {
   if (c.accents?.length) console.log(`  Accents:    ${c.accents.join(", ")}`)
   if (c.neutral) console.log(`  Neutral:    ${c.neutral}`)
   if (c.danger) console.log(`  Danger:     ${c.danger}`)
+  if (c.background) console.log(`  Background: ${c.background}`)
   console.log(`  Font:       ${f.family} (${f.source}${f.files?.length ? `, ${f.files.length} files found` : f.source === "self-hosted" ? `, no font files found, using ${f.fallback} until added` : ""})`)
   if (d.fonts.display) console.log(`  Headings:   ${d.fonts.display.family}`)
 }
@@ -76,7 +77,7 @@ function summarise(d) {
 /* ---------------- evidence ---------------- */
 
 function newEvidence(input) {
-  return { input, colors: new Map(), fonts: new Map(), declared: [], assets: [], notes: [], text: "" }
+  return { input, colors: new Map(), fonts: new Map(), declared: [], assets: [], notes: [], text: "", roles: {}, fontRoles: {} }
 }
 
 function addColor(ev, value, source, weight = 1) {
@@ -116,11 +117,42 @@ function scanText(ev, text, source) {
   }
   for (const m of text.matchAll(/\b(PMS|Pantone)\s*([0-9]{3,4}\s*[A-Z]{0,2}|[A-Za-z]+\s*[A-Z]?)\b/g))
     ev.declared.push(`Pantone mentioned: "${m[0].trim()}" (convert using the guide's own hex or RGB if listed)`)
-  for (const m of text.matchAll(/(?:typeface|font family|font|primary font|secondary font|headline font|body font)s?\s*[:\-–]\s*([A-Z][A-Za-z0-9 ]{2,40})/gi))
-  {
-    ev.declared.push(`Font named in text: "${m[1].trim()}"`)
-    addFont(ev, m[1].trim().split(/[.,;]/)[0].split(" ").slice(0, 3).join(" ").replace(/\s+(Use|use|for|and)$/, ""), "named in text", 15)
+  for (const m of text.matchAll(/(typeface|font family|font|primary font|secondary font|headline font|heading font|display font|body font|text font)s?\s*[:\-–]\s*([A-Z][A-Za-z0-9 ]{2,40})/gi)) {
+    const family = cleanFontName(m[2])
+    if (!family) continue
+    ev.declared.push(`Font named in text: "${family}" (${m[1].toLowerCase()})`)
+    addFont(ev, family, "named in text", 15)
+    const role = /headline|heading|display/i.test(m[1]) ? "display" : /body|text|primary font/i.test(m[1]) ? "sans" : null
+    if (role && !ev.fontRoles[role]) ev.fontRoles[role] = family
   }
+  // Colour roles the guide states in words, e.g. "Primary colour: Fjord #0E5A6B" or "Fjord · Primary  HEX #0E5A6B".
+  for (const m of text.matchAll(/#([0-9a-f]{6})\b/gi)) {
+    const before = text.slice(Math.max(0, m.index - 60), m.index).toLowerCase()
+    // Only the words since the previous colour code count, so one swatch's label never leaks into the next.
+    const own = before.split(/#[0-9a-f]{3,6}\b|\brgb\b/).pop()
+    const role = /\bsecondary\b/.test(own) ? "secondary" : /\bprimary\b/.test(own) ? "primary"
+      : /\b(error|errors|alert|alerts|danger|destructive)\b/.test(own) ? "danger" : /\baccents?\b/.test(own) ? "accent"
+      : /\b(neutral|text colou?r|body text)\b/.test(own) ? "neutral" : /\bbackgrounds?\b/.test(own) ? "background" : null
+    // "Signal #C2412D is reserved for errors": the role can also come right after the code.
+    const after = text.slice(m.index + 7, m.index + 70).toLowerCase().split(/#[0-9a-f]{3,6}\b/)[0]
+    const roleAfter = !role && /\b(error|errors|alert|alerts|danger|destructive)\b/.test(after) ? "danger" : null
+    if (!role && !roleAfter) continue
+    const hexv = hex(`#${m[1]}`)
+    const list = (ev.roles[role ?? roleAfter] ??= [])
+    if (!list.includes(hexv)) list.push(hexv)
+  }
+}
+
+// "Space Grotesk Space Grotesk SemiBold for headings" -> "Space Grotesk"
+function cleanFontName(raw) {
+  const words = raw.trim().split(/[.,;\n]/)[0].split(/\s+/)
+  const out = []
+  for (const w of words) {
+    if (out.length && (w === out[0] || /^(use|used|for|and|in|on|is|are|with|regular|medium|bold|semibold|light|italic|black|book|thin)$/i.test(w))) break
+    out.push(w)
+    if (out.length === 3) break
+  }
+  return out.join(" ")
 }
 
 /* ---------------- PowerPoint ---------------- */
@@ -359,7 +391,10 @@ function buildDraft(ev, input) {
       return Math.abs(sa - sb) / Math.max(sa, sb) < 0.15 ? a.first - b.first : sb - sa
     })
   const fonts = [...ev.fonts.values()].sort((a, b) => b.count - a.count)
-  const primary = brandish[0]?.hex ?? colors[0]?.hex ?? "#17131C"
+  const stated = (r) => ev.roles[r]?.[0]
+  // What the guide calls primary wins over what appears most, even if it is dark or muted.
+  const primary = stated("primary") ?? brandish[0]?.hex ?? colors[0]?.hex ?? "#17131C"
+  const fontOf = (family) => fonts.find((f) => f.family.toLowerCase() === family?.toLowerCase())
   const draft = {
     $schema: "../brandos/brand/brand.schema.json",
     name: guessName(input),
@@ -367,7 +402,7 @@ function buildDraft(ev, input) {
     version: "1.0.0",
     sources: [{ type: /^https?:/.test(ev.input) ? "url" : path.extname(ev.input).slice(1).replace("potx", "pptx"), ref: ev.input, note: "Extracted automatically. Confirm before use." }],
     colors: { primary },
-    fonts: { sans: fontEntry(fonts[0] ?? { family: "Geist", sources: new Set(["Google Fonts link"]) }) },
+    fonts: { sans: fontEntry(fontOf(ev.fontRoles.sans) ?? fonts.find((f) => f.family !== ev.fontRoles.display) ?? fonts[0] ?? { family: "Geist", sources: new Set(["Google Fonts link"]) }) },
     radius: "rounded",
   }
   draft.slug = draft.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "brand"
@@ -376,25 +411,31 @@ function buildDraft(ev, input) {
   const picked = [primary]
   const isShadeOfPicked = (h) => picked.some((p) => hueGap(p, h) < 22 && Math.abs(oklch(p).l - oklch(h).l) < 0.2)
   const isRed = (h) => { const o = oklch(h); return o.c >= 0.15 && o.h >= 5 && o.h <= 40 }
-  const rest = brandish.filter((c) => c.hex !== primary && notStockOnly(c))
-  const sec = rest.find((c) => !isShadeOfPicked(c.hex) && !isRed(c.hex))
-  if (sec) { draft.colors.secondary = sec.hex; picked.push(sec.hex) }
-  const accents = []
-  for (const c of rest) {
-    if (accents.length >= 3 || c === sec || isRed(c.hex) || isShadeOfPicked(c.hex)) continue
-    accents.push(c.hex)
-    picked.push(c.hex)
-  }
+  const statedHexes = new Set(Object.values(ev.roles).flat())
+  const rest = brandish.filter((c) => c.hex !== primary && notStockOnly(c) && !(statedHexes.has(c.hex) && !(ev.roles.secondary ?? []).concat(ev.roles.accent ?? []).includes(c.hex)))
+  const sec = stated("secondary") ?? rest.find((c) => !isShadeOfPicked(c.hex) && !isRed(c.hex))?.hex
+  if (sec) { draft.colors.secondary = sec; picked.push(sec) }
+  const accents = [...(ev.roles.accent ?? [])].filter((h) => h !== primary && h !== sec).slice(0, 4)
+  accents.forEach((h) => picked.push(h))
+  if (!ev.roles.accent)
+    for (const c of rest) {
+      if (accents.length >= 3 || c.hex === sec || isRed(c.hex) || isShadeOfPicked(c.hex)) continue
+      accents.push(c.hex)
+      picked.push(c.hex)
+    }
   if (accents.length) draft.colors.accents = accents
-  // Danger: the brand's own red, if it has one and it isn't the primary.
-  const red = brandish.find((c) => c.hex !== primary && isRed(c.hex) && hueGap(primary, c.hex) > 12)
-  if (red) draft.colors.danger = red.hex
+  // Danger: what the guide reserves for errors, else the brand's own red if it isn't the primary.
+  const red = stated("danger") ?? brandish.find((c) => c.hex !== primary && isRed(c.hex) && hueGap(primary, c.hex) > 12)?.hex
+  if (red) draft.colors.danger = red
   // Neutral: the brand's own dark grey (warm or cool), used to tint every grey in the UI.
-  const grey = colors.find((c) => { const o = oklch(c.hex); return o.c < 0.05 && o.l > 0.2 && o.l < 0.6 && notStockOnly(c) })
-  if (grey) draft.colors.neutral = grey.hex
+  const grey = stated("neutral") ?? colors.find((c) => { const o = oklch(c.hex); return o.c < 0.05 && o.l > 0.2 && o.l < 0.6 && notStockOnly(c) })?.hex
+  if (grey) draft.colors.neutral = grey
+  const bgStated = (ev.roles.background ?? []).find((h) => oklch(h).l > 0.9)
+  if (bgStated) draft.colors.background = bgStated
   // Only suggest a display face when the source clearly names a second font for headings.
-  const second = fonts[1]
-  if (second && [...second.sources].some((s) => /named in text|headings(?! \(stock\))/.test(s)) && !/^(Arial|Helvetica|Calibri|Times)/i.test(second.family))
+  const statedDisplay = fontOf(ev.fontRoles.display)
+  const second = statedDisplay ?? fonts.find((f) => f.family !== draft.fonts.sans.family)
+  if (second && second.family !== draft.fonts.sans.family && (statedDisplay || [...second.sources].some((s) => /named in text|headings(?! \(stock\))/.test(s))) && !/^(Arial|Helvetica|Calibri|Times)/i.test(second.family))
     draft.fonts.display = fontEntry(second)
   for (const f of Object.values(draft.fonts)) if (f.source === "self-hosted") f.files = findFontFiles(f.family, input)
   return draft

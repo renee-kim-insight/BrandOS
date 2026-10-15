@@ -2,6 +2,13 @@
 
 BrandOS uses semantic versioning: patch (1.0.x) for fixes and rule changes, minor (1.x.0) for new features, major (x.0.0) for breaking changes.
 
+## 1.0.4
+
+- Extract reads what the guide says, not just what appears most: colours labelled primary, secondary, accent, neutral, background or error (before or after the colour code) are used for those roles, even when the primary is dark or muted.
+- Font roles from the guide: "Headline font" becomes the display font and "Body font" the UI font.
+- Font names are cleaned up ("Space Grotesk Space Grotesk SemiBold" becomes "Space Grotesk").
+- The extract summary shows the background colour when the guide sets one.
+
 ## 1.0.3
 
 - Motion tokens: `--motion-fast` (120ms), `--motion-base` (200ms), `--motion-slow` (320ms), `--ease-out`, `--ease-in-out`.
