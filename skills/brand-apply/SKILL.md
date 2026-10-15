@@ -52,7 +52,8 @@ What it does:
 - **PrimeVue kit (Vue + PrimeVue 4):** copies the theme, fonts, `brandos-preset.ts` and `brandos-primevue.css` to `src/brandos/`, switches `app.use(PrimeVue, { theme: { preset } })` to `BrandOSPreset`, imports the CSS in the entry file, and lines dark mode up with PrimeVue's `darkModeSelector`. Every PrimeVue screen takes the brand immediately.
 - **Every kit** also installs `brandos-ui.css`, the shared layer of frost tiers, page header, segmented control, buttons, chips, ramp and progress classes.
 - **CSS kit:** copies `glass-ui.css`, the theme and `markup/` (exact HTML for every component) into `<app>/brandos/`, and tells you where to load the CSS.
-- **Never overwrites** a different existing file. It writes `<file>.brandos-new` next to it. Compare them with the person and merge deliberately.
+- **Refreshes its own files on every run:** the theme, fonts, tokens, shared styles, presets and markup are BrandOS-owned and never edited by hand, so install always updates them and re-applies the app's dark-mode selector. To update BrandOS or the brand later, re-run `brandos theme` and `brandos install`; do not copy files across by hand.
+- **Never overwrites** a different existing file that the app owns (components, utils). It writes `<file>.brandos-new` next to it. Compare them with the person and merge deliberately.
 
 Then do whatever the "Still to do" list says, run the app, and check that it still builds and runs. Nothing should look different yet except fonts and colours on existing kit components; the page migration comes next.
 

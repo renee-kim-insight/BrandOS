@@ -2,6 +2,12 @@
 
 BrandOS uses semantic versioning: patch (1.0.x) for fixes and rule changes, minor (1.x.0) for new features, major (x.0.0) for breaking changes.
 
+## 1.0.5
+
+- Install now always refreshes the files BrandOS owns (theme, fonts, tokens, shared styles, presets, markup) and re-applies app-specific settings such as the dark-mode selector. Fixes dark mode breaking when a newer theme.css was copied into an app by hand.
+- Install output lists "Updated BrandOS files" separately from conflicts.
+- Rule (AGENTS.md, brand-apply): update by re-running `brandos theme` and `brandos install`, never by copying files.
+
 ## 1.0.4
 
 - Extract reads what the guide says, not just what appears most: colours labelled primary, secondary, accent, neutral, background or error (before or after the colour code) are used for those roles, even when the primary is dark or muted.
