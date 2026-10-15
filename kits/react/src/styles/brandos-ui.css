@@ -553,3 +553,60 @@
     transform: none;
   }
 }
+
+/* ---------- Native selects: room for the arrow, and the same height as inputs beside them ---------- */
+/*
+ * Browsers draw the select arrow flush against the right edge. Replace it with our own chevron,
+ * inset from the edge, and reserve space so long values never run under it.
+ * Applies to bos-select, and to every single-choice native select inside the app backdrop.
+ */
+:is(.bos-select, :where(.bos-backdrop) select:not([multiple]):not([size])) {
+  appearance: none;
+  -webkit-appearance: none;
+  min-height: 44px;
+  padding: 0 calc(var(--space-4) + 20px) 0 var(--space-4);
+  border-radius: var(--radius);
+  border: 1px solid var(--input);
+  background-color: var(--frost-strong);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--space-4) center;
+  background-size: 16px;
+  color: var(--foreground);
+  font: inherit;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  transition: border-color var(--motion-fast, 120ms) ease-out;
+}
+:is(.bos-select, :where(.bos-backdrop) select:not([multiple]):not([size])):hover {
+  border-color: color-mix(in oklch, var(--input) 60%, var(--foreground));
+}
+:is(.bos-select, :where(.bos-backdrop) select:not([multiple]):not([size])):focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* A row of search and filter controls: one height, aligned, wrapping cleanly. */
+.bos-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+.bos-filters > * {
+  min-height: 44px;
+}
+.bos-filters > :first-child {
+  flex: 1 1 280px;
+}
+
+/* ---------- Sticky app bar: content scrolling up never shows above or behind the bar's top gap ---------- */
+.bos-shell-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  padding-top: var(--space-5);
+  padding-bottom: var(--space-3);
+  /* Fades content out as it passes under the bar, instead of showing it in the gap above. */
+  background: linear-gradient(to bottom, var(--background) 0%, var(--background) 45%, transparent 100%);
+}

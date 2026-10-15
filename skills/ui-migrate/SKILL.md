@@ -49,6 +49,8 @@ Every kit installs `brandos-ui.css`. Use its classes and the theme variables ins
 | Ordered steps (levels, tiers, stages) | `--ramp-0` to `--ramp-5` with `--ramp-N-foreground`, classes `bos-ramp-N`, `bos-dot-N`, `bos-ramp-gradient` |
 | Progress | `bos-progress` (muted), `bos-progress-primary` for the user's one main bar |
 | Motion | `bos-enter` (one block appearing), `bos-stagger` (list or grid, children arrive in turn), `bos-page-*` (route changes), `bos-skeleton` (loading); overlays and progress animate automatically |
+| Search and filter rows | `bos-filters` (one height, aligned); native selects get an inset chevron and right padding automatically, or add `bos-select` |
+| Sticky app bar | wrap `bos-shell` in `bos-shell-wrap` so content never shows in the gap above it |
 | Spacing | `--space-1` to `--space-9` (4, 8, 12, 16, 24, 32, 48, 64, 96 px) |
 
 ### Colour sweep beyond CSS
@@ -127,6 +129,7 @@ Use these when a page part matches. They are the most common improvements, not a
 - The app bar must never overlap or wrap, at any width and for every role. Brand and actions keep their size, the nav takes what is left. Plan for the longest nav (usually an admin's): at most about 6 to 7 top-level items; mark the rest `data-priority="low"` so they move into a "More" menu, and put account-level things (theme switcher, settings, admin tools) in the user menu rather than the bar. Below 768px the nav collapses into a menu button.
 - Check every layout at 1440, 1280, 1024, 768 and 390px wide, logged in as the role with the most items, in light and dark. Nothing may overlap, clip or scroll sideways.
 - Motion is small and quick: 120 to 320ms, ease-out, only opacity and transform, no bounce or spin. Use it to show where something came from (menus pop from their trigger, content fades up once when it first appears, pages cross-fade, progress grows in), never as decoration. Entrances play once, not on every re-render or poll. Everything turns off under prefers-reduced-motion.
+- Controls have breathing room on both sides: dropdown arrows sit inset from the edge, with padding so text never runs under them; inputs, selects and buttons in the same row share one height.
 - Visible labels on every field. Placeholders are examples, not labels.
 - Buttons say what happens ("Save changes", "Delete order"), never "Submit" or "OK".
 - Error messages say how to fix the problem.

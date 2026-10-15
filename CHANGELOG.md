@@ -2,6 +2,13 @@
 
 BrandOS uses semantic versioning: patch (1.0.x) for fixes and rule changes, minor (1.x.0) for new features, major (x.0.0) for breaking changes.
 
+## 1.0.7
+
+- Native selects: the arrow is replaced by an inset chevron with right padding, so values never touch the edge or run under the arrow. Applies to `bos-select` and every single-choice select inside `bos-backdrop`, with hover and focus states.
+- `bos-filters`: a search and filter row where every control shares one height and wraps cleanly.
+- `bos-shell-wrap`: a sticky wrapper for the app bar that fades content out as it scrolls under, so nothing shows in the gap above the bar.
+- Design rule: controls have breathing room on both sides, and controls in one row share one height.
+
 ## 1.0.6
 
 - Auras: `bos-backdrop` now adds two very soft, blurred pools of light (a warm one from the primary, top left, and a cooler one from the backdrop colours, bottom right) that drift slowly. Optional third aura with `<div class="bos-aura">` for long pages. Strength is one token, `--aura-strength` (0.35 light, 0.28 dark), and blur is `--aura-blur`.
