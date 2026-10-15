@@ -32,10 +32,13 @@ const ramp = (v: string) => ({
 })
 
 // Greys from the brand's own tinted neutrals. Light: 0 is the card, 950 the text. Dark: inverted, as Aura expects.
-const steps = [0, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950] as const
-const pct: Record<number, number> = { 0: 0, 50: 3, 100: 6, 200: 12, 300: 22, 400: 40, 500: 52, 600: 62, 700: 72, 800: 82, 900: 90, 950: 96 }
+// [step, % of text colour mixed in]. Pairs keep this safe under strict index checks (noUncheckedIndexedAccess).
+const steps: ReadonlyArray<readonly [number, number]> = [
+  [0, 0], [50, 3], [100, 6], [200, 12], [300, 22], [400, 40],
+  [500, 52], [600, 62], [700, 72], [800, 82], [900, 90], [950, 96],
+]
 const surface = (dark: boolean) =>
-  Object.fromEntries(steps.map((s) => [s, dark ? mix("var(--foreground)", 100 - pct[s], "var(--background)") : mix("var(--foreground)", pct[s], "var(--card)")]))
+  Object.fromEntries(steps.map(([step, pct]) => [step, dark ? mix("var(--foreground)", 100 - pct, "var(--background)") : mix("var(--foreground)", pct, "var(--card)")]))
 
 const scheme = (dark: boolean) => ({
   surface: surface(dark),

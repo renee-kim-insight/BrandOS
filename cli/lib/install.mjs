@@ -251,8 +251,10 @@ function stripTypes(ts) {
   return ts
     .replace(/ as const/g, "")
     .replace(/: Record<[^>]+>/g, "")
+    .replace(/: ReadonlyArray<readonly \[number, number\]>/g, "")
     .replace(/\((\w+): string, (\w+): number, (\w+): string\)/g, "($1, $2, $3)")
     .replace(/\((\w+): (string|boolean)\)/g, "($1)")
+    .replace(/\(\[(\w+), (\w+)\]\)/g, "([$1, $2])")
 }
 
 /** Root class for the Glass style, and Google Font links. */

@@ -2,6 +2,12 @@
 
 BrandOS uses semantic versioning: patch (1.0.x) for fixes and rule changes, minor (1.x.0) for new features, major (x.0.0) for breaking changes.
 
+## 1.0.8
+
+- PrimeVue preset passes strict TypeScript, including `noUncheckedIndexedAccess`. Fixes two type-check errors in apps with strict settings.
+- Migration skill: record the app's type-check, lint and test results before starting, re-run them after every item, and fix anything the migration newly breaks.
+- Migration skill: guard browser APIs (localStorage, matchMedia, ResizeObserver) so tests and server rendering keep working.
+
 ## 1.0.7
 
 - Native selects: the arrow is replaced by an inset chevron with right padding, so values never touch the edge or run under the arrow. Applies to `bos-select` and every single-choice select inside `bos-backdrop`, with hover and focus states.

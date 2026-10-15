@@ -11,6 +11,10 @@ Goal: every page uses the kit components and theme tokens, behaves exactly as be
 
 Before touching code, read the main routes and components and tell the person in two or three sentences what you think the app is for and who uses it. Ask them to confirm or correct. Restructuring decisions depend on this.
 
+## 0b. Record the baseline
+
+Before changing anything, run the app's own checks and note the results: type-check, lint and tests (for example `npm run typecheck`, `npm run lint`, `npm test`). After each item, run them again. Anything that newly fails is caused by the migration and must be fixed before the item is shown; anything that already failed is reported, not hidden.
+
 ## 1. Make the plan
 
 ```
@@ -79,6 +83,7 @@ For small swaps, proceed. For restructures that change layout or how something i
 - Replace hand-built elements with kit components. Use the variants and props that exist; do not restyle components with extra classes beyond layout (spacing, width, grid placement).
 - Replace hard-coded colours and fonts with theme tokens.
 - Keep every handler, data binding, route, form field name, test id and accessibility attribute. If a test breaks, the migration is wrong.
+- New browser APIs must not break tests or server rendering. Guard `localStorage`, `sessionStorage`, `matchMedia`, `ResizeObserver` and similar: check they exist and wrap storage in try/catch, falling back to a default. Test environments (jsdom, SSR) often lack them.
 - Delete CSS that only styled the old elements, once nothing else uses it.
 - Apply the design rules below.
 
