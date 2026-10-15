@@ -75,7 +75,9 @@ export function generateTheme(brand) {
   for (let i = 0; i < 5; i++) if (!chart[i]) chart[i] = mk(0.62, 0.15, (baseHue + filler[fi++ % 5]) % 360)
   chart.forEach((c, i) => (L[`chart-${i + 1}`] = c))
 
-  const bd = [chromatic[0], chromatic[1], chromatic[2]].map((c, i) => c?.h ?? (baseHue + [0, 70, -60][i] + 360) % 360)
+  // Backdrop and aura colours come only from the brand. With fewer than three brand colours, stay close
+  // to the primary hue instead of inventing new ones, so the background never adds off-brand colour.
+  const bd = [chromatic[0], chromatic[1], chromatic[2]].map((c, i) => c?.h ?? (baseHue + [0, 18, -18][i] + 360) % 360)
   // Soft wash: glass reads through gentle colour, so the backdrop stays pale and low in chroma.
   L["backdrop-1"] = mk(0.9, 0.05, bd[0])
   L["backdrop-2"] = mk(0.91, 0.045, bd[1])

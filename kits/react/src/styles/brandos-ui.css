@@ -13,6 +13,8 @@
 
 /* ---------- Backdrop: a soft wash behind the whole app, so glass has something to frost ---------- */
 .bos-backdrop {
+  position: relative;
+  isolation: isolate;
   min-height: 100dvh;
   background:
     radial-gradient(55% 45% at 8% 0%, color-mix(in oklch, var(--backdrop-1) 70%, transparent), transparent 70%),
@@ -20,6 +22,88 @@
     radial-gradient(60% 50% at 70% 100%, color-mix(in oklch, var(--backdrop-3) 60%, transparent), transparent 70%),
     var(--background);
   background-attachment: fixed;
+}
+
+/*
+ * Auras: a few very soft, blurred pools of light behind everything. They give the glass something
+ * to catch without competing with content. Kept faint on purpose (--aura-strength), fixed to the
+ * viewport, and drifting so slowly it reads as light, not motion. Text contrast is checked against
+ * the backdrop at more than this strength, so auras never put text at risk.
+ */
+:root {
+  --aura-strength: 0.35;
+  --aura-blur: 80px;
+}
+.dark {
+  --aura-strength: 0.28;
+}
+.bos-backdrop::before,
+.bos-backdrop::after {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: 999px;
+  filter: blur(var(--aura-blur));
+  opacity: var(--aura-strength);
+  will-change: transform;
+}
+/* Upper left: a pool of the primary, the warmest light on the page. */
+.bos-backdrop::before {
+  top: -12vh;
+  left: -8vw;
+  width: 46vw;
+  height: 46vw;
+  background: radial-gradient(circle at 50% 50%, color-mix(in oklch, var(--primary) 55%, var(--backdrop-1)), transparent 68%);
+  animation: bos-aura-a 38s ease-in-out infinite alternate;
+}
+/* Lower right: a cooler pool from the secondary backdrop colours. */
+.bos-backdrop::after {
+  right: -10vw;
+  bottom: -18vh;
+  width: 52vw;
+  height: 52vw;
+  background:
+    radial-gradient(circle at 40% 40%, var(--backdrop-2), transparent 62%),
+    radial-gradient(circle at 70% 70%, var(--backdrop-3), transparent 60%);
+  animation: bos-aura-b 46s ease-in-out infinite alternate;
+}
+/* Optional third aura, for long pages: add <div class="bos-aura" aria-hidden="true"></div> inside the backdrop. */
+.bos-aura {
+  position: fixed;
+  z-index: -1;
+  top: 38vh;
+  left: 40vw;
+  width: 34vw;
+  height: 34vw;
+  border-radius: 999px;
+  pointer-events: none;
+  background: radial-gradient(circle, var(--backdrop-1), transparent 65%);
+  filter: blur(var(--aura-blur));
+  opacity: calc(var(--aura-strength) * 0.7);
+  animation: bos-aura-a 52s ease-in-out infinite alternate-reverse;
+}
+@keyframes bos-aura-a {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(4vw, 3vh, 0) scale(1.08); }
+}
+@keyframes bos-aura-b {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(-5vw, -4vh, 0) scale(1.06); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bos-backdrop::before,
+  .bos-backdrop::after,
+  .bos-aura {
+    animation: none;
+  }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .bos-backdrop::before,
+  .bos-backdrop::after,
+  .bos-aura {
+    display: none;
+  }
 }
 
 /* ---------- Frost tiers ---------- */

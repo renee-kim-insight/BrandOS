@@ -2,6 +2,12 @@
 
 BrandOS uses semantic versioning: patch (1.0.x) for fixes and rule changes, minor (1.x.0) for new features, major (x.0.0) for breaking changes.
 
+## 1.0.6
+
+- Auras: `bos-backdrop` now adds two very soft, blurred pools of light (a warm one from the primary, top left, and a cooler one from the backdrop colours, bottom right) that drift slowly. Optional third aura with `<div class="bos-aura">` for long pages. Strength is one token, `--aura-strength` (0.35 light, 0.28 dark), and blur is `--aura-blur`.
+- Auras stop moving under prefers-reduced-motion and disappear under prefers-reduced-transparency.
+- Backdrop and aura colours now come only from the brand: with fewer than three brand colours they stay close to the primary hue instead of inventing new hues.
+
 ## 1.0.5
 
 - Install now always refreshes the files BrandOS owns (theme, fonts, tokens, shared styles, presets, markup) and re-applies app-specific settings such as the dark-mode selector. Fixes dark mode breaking when a newer theme.css was copied into an app by hand.

@@ -33,7 +33,7 @@ Every kit installs `brandos-ui.css`. Use its classes and the theme variables ins
 
 | Need | Use |
 |---|---|
-| Background behind the app | `bos-backdrop` on the root element |
+| Background behind the app | `bos-backdrop` on the root element (includes faint auras; tune with `--aura-strength`, add `bos-aura` for a third on long pages) |
 | Most important item on a page | `bos-frost-strong` |
 | Ordinary cards, panels, the app shell | `bos-frost` |
 | Chips, rows, icon backgrounds, secondary buttons inside cards | `bos-frost-light` |

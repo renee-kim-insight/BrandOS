@@ -112,6 +112,7 @@ body {
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(160%);
 }
 .brandos-backdrop {
+  /* Prefer bos-backdrop (brandos-ui.css), which adds the soft auras. */
   background:
     radial-gradient(55% 45% at 8% 0%, color-mix(in oklch, var(--backdrop-1) 70%, transparent), transparent 70%),
     radial-gradient(45% 40% at 95% 12%, color-mix(in oklch, var(--backdrop-2) 60%, transparent), transparent 70%),
