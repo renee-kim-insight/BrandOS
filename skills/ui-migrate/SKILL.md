@@ -37,24 +37,32 @@ Every kit installs `brandos-ui.css`. Use its classes and the theme variables ins
 
 | Need | Use |
 |---|---|
-| Background behind the app | `bos-backdrop` on the root element (includes faint auras; tune with `--aura-strength`, add `bos-aura` for a third on long pages) |
-| Most important item on a page | `bos-frost-strong` |
-| Ordinary cards, panels, the app shell | `bos-frost` |
-| Chips, rows, icon backgrounds, secondary buttons inside cards | `bos-frost-light` |
+| Background behind the app | `bos-backdrop` on the root element: one glow of brand colour fixed at the top edge, so glass always has colour to frost (`data-aura="soft"` for pools in three corners; `bos-aura` adds a second glow lower down on long pages) |
+| The one featured thing in a section (the next step, the user's level, a key form) | `bos-surface` (solid, soft shadow; `bos-surface-lg` for the hero card) |
+| Secondary items, the app bar, floating controls | glass: `bos-glass`, rows in `bos-rows` > `bos-row` (solid on hover when clickable) |
+| Repeating cards in a grid | `bos-tile` in `bos-grid-3` or `bos-grid-2` (solid on hover when it is a link) |
+| Panels and ordinary cards in dense app screens | `bos-frost` (`bos-frost-strong`, `bos-frost-light` for the other tiers) |
 | Menus, dropdowns, popovers, dialogs | `bos-overlay` |
 | Card padding and radius | `bos-card`, `bos-card-compact` |
 | App bar (brand, nav, actions) | `bos-shell` with `bos-brand`, `bos-nav` > `bos-nav-list`, `bos-actions`; `data-priority="low"` on items that may move into `bos-nav-more`; `bos-nav-toggle` for small screens |
-| Page title block | `bos-page-header` with `bos-title` (`bos-title-hero` on the home page only) and `bos-subtitle` |
+| Page title block (app screens) | `bos-page-header` with `bos-title` and `bos-subtitle` |
+| Home and landing pages | `bos-hero` > `bos-hero-grid` (text left, a `bos-surface` card right), `bos-display` heading, `bos-lead`, `bos-btns`; then `bos-stats` (numbers in `bos-stat`, label in `small`) |
+| Type scale | `bos-display`, `bos-h1`, `bos-h2`, `bos-stat` use the brand's heading font; `bos-h3`, `bos-lead`, `bos-label`, `bos-caption`, `bos-kicker` use the body font |
+| Section with a featured item and a list | `bos-block` > `bos-sec-head` (title plus `bos-text-link`), then `bos-feature-grid` with a `bos-surface bos-feature` and a `bos-rows` list |
+| The closing call to action | `bos-band` (the brand gradient, once per page) with a `bos-btn-glass` on it |
+| Badges, avatars, icon frames | charms: `bos-charm` plus a shape (`bos-charm-petal`, `-leaf`, `-arch`, `-bloom`, `-pebble`, `-tab`), a fill (gradient by default, `-primary`, `-soft`, `-secondary`) and a size (`-sm`, `-md`, `-lg`); `bos-avatar` for initials |
+| The user's own status | `bos-pill` |
+| Ranked lists, leaderboards | `bos-table-wrap` > `bos-table`, `bos-rank` (`bos-rank-top` for first), `bos-row-self` on the user's row |
 | Sections | `bos-section`, `bos-section-title` |
 | Tabs, filters, view switches | `bos-segmented` (selected item: `aria-selected="true"`, `aria-pressed="true"` or `data-active`), counts in `bos-count` |
-| Secondary actions | `bos-btn-glass` |
+| Buttons | `bos-btn-primary` (one per view), `bos-btn-glass` for every secondary action (glass at rest, solid on hover); sizes `bos-btn-sm`, `bos-btn-lg`. Component-library secondary and glass buttons follow the same rule automatically |
 | A whole card that is a link | `bos-card-link` on a real `<a>` or `<button>` |
 | Tags and status | `bos-chip`, `bos-status-done` |
 | Ordered steps (levels, tiers, stages) | `--ramp-0` to `--ramp-5` with `--ramp-N-foreground`, classes `bos-ramp-N`, `bos-dot-N`, `bos-ramp-gradient` |
 | Progress | `bos-progress` (muted), `bos-progress-primary` for the user's one main bar |
 | Motion | `bos-enter` (one block appearing), `bos-stagger` (list or grid, children arrive in turn), `bos-page-*` (route changes), `bos-skeleton` (loading); overlays and progress animate automatically |
 | Search and filter rows | `bos-filters` (one height, aligned); native selects get an inset chevron and right padding automatically, or add `bos-select` |
-| Sticky app bar | wrap `bos-shell` in `bos-shell-wrap` so content never shows in the gap above it |
+| Sticky app bar | `bos-shell bos-glass` inside `bos-shell-wrap`; content scrolls under the bar and blurs through it (`data-fade` on the wrap hides content in the gap above instead) |
 | Spacing | `--space-1` to `--space-9` (4, 8, 12, 16, 24, 32, 48, 64, 96 px) |
 
 ### Colour sweep beyond CSS
@@ -135,7 +143,10 @@ Use these when a page part matches. They are the most common improvements, not a
 
 - One primary button per view. Everything else is secondary, outline, ghost or glass.
 - Colour budget: about 90% neutrals (the brand's greys and text colours), brand colour for the few things that need attention: the one primary button, the active nav item, the focus ring, and the user's own status (current level, main progress). Progress bars, secondary buttons, links, icons, tags and chips stay neutral. The backdrop and shell are neutral with only faint brand colour. Squint test: on any page the eye should land on one coloured thing first.
-- Glass is the surface. Importance is shown by how frosted it is, not by switching to solid white: more frost (more opaque, more blur, stronger highlight and shadow) means more important. Use three tiers: strong frost for the one or two most important items on a page, medium frost for ordinary cards and the app shell, light frost for supporting pieces inside cards (chips, icon backgrounds, secondary buttons). Floating menus and dialogs are the most opaque of all (85 to 90%) so text behind never shows through. Text must pass contrast on every tier.
+- Solid for what matters, glass for the rest. In each section, the single most important thing (the next step, the user's level, a key form) is a solid `bos-surface` with a soft shadow. Secondary items next to it (lists of rows, the nav, floating controls, secondary buttons) are glass and turn solid when hovered if they are clickable. Repeating cards in a grid are outlined `bos-tile`s. Dense app screens with many panels can use the frost tiers instead. Floating menus and dialogs are the most opaque surfaces so text behind never shows through. Text must pass contrast on every surface.
+- Page order: glass app bar, hero (display heading, lead, one primary and one glass button, a solid card on the right), stat strip, then sections, each with a featured surface and secondary glass items, and the brand band last. App screens without a hero start with `bos-page-header`.
+- Type: the brand's heading font is for big type only: display, h1, h2 and stat numbers. Everything else (h3, lists, tiles, tables, forms, menus) uses the body font. When the brand has no heading font, headings use the body font at a heavier weight.
+- Brand colour in small doses beyond the colour budget: one `bos-band` per page for the closing call to action, and charms for badges, avatars and icon frames. No other gradients.
 - Hover only on things you can click: buttons, links, nav and menu items, and cards that are links as a whole. Static cards and rows get no hover lift, shadow, colour change or pointer cursor. A card that is clickable as a whole must be a real link or button so it works with the keyboard.
 - One spacing scale (4, 8, 12, 16, 24, 32, 48, 64, 96 px) and one shared page header, so every page starts the same way: the same gap above the title, between title and subtitle, and before the first content. No icons in front of page titles, no empty dividers, no nested cards (a card inside a card inside a card).
 - One control per job: every tab bar, filter toggle and segmented choice uses the same segmented control, and its selected state is neutral (strong frost, --foreground text). Brand colour is for the main nav and the primary action only.
@@ -149,7 +160,7 @@ Use these when a page part matches. They are the most common improvements, not a
 - Error messages say how to fix the problem.
 - Ordered things (levels, tiers, stages) use one hue from pale to full: the `--ramp-N` steps, never a rainbow. Always show the name or number next to the colour. In lists and tables, a neutral chip with a `bos-dot-N` is enough; the full ramp colour is for places where the order is the point (the user's own badge, a journey or stepper).
 - Status is not a traffic light: done and success use the brand colour at a light tint (`bos-status-done`), info is neutral, and red (`--destructive`) is only for real errors.
-- Do not add decoration the original did not have: no gradient text, no icon tiles, no numbered section labels.
+- Do not add decoration the original did not have: no gradient text, no icon tiles in front of headings, no numbered section labels. Charms are for things that already had a badge, avatar or icon.
 - Text contrast is handled by the theme. Do not put text on colours outside the theme tokens.
 
 ## Framework notes

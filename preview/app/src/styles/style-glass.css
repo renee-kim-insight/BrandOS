@@ -1883,7 +1883,6 @@
   .cn-checkbox,
   .cn-radio-group-item,
   .cn-badge-variant-outline,
-  .cn-bubble-variant-outline,
   .cn-code-block-variant-default,
   .cn-combobox-chips,
   .cn-command-input-group,
@@ -1948,9 +1947,13 @@
   .cn-sidebar-inner {
     @apply glass bg-glass;
   }
+  /* Glass goes on the bubble itself, not the row that holds it. */
   .cn-bubble-variant-secondary,
   .cn-bubble-variant-muted {
-    @apply glass-thin bg-glass;
+    @apply *:data-[slot=bubble-content]:glass-thin *:data-[slot=bubble-content]:bg-glass;
+  }
+  .cn-bubble-variant-outline {
+    @apply *:data-[slot=bubble-content]:bg-background/70;
   }
   .cn-dialog-overlay,
   .cn-alert-dialog-overlay,

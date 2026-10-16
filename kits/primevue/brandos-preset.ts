@@ -9,7 +9,7 @@
 import { definePreset } from "@primeuix/themes"
 import Aura from "@primeuix/themes/aura"
 
-const mix = (a: string, pct: number, b: string) => `color-mix(in oklch, ${a} ${pct}%, ${b})`
+const mix = (a: string, pct: number, b: string) => `color-mix(in oklab, ${a} ${pct}%, ${b})`
 
 // Tints and shades of a theme colour, for components that ask for primary.50 ... primary.950.
 // 400 and 500 are the colour itself: Aura uses 500 in light mode and 400 in dark, and theme.css

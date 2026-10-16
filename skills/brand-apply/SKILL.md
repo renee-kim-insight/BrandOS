@@ -13,7 +13,7 @@ Goal: the app has the component kit and the client's theme installed, and the pe
 brandos theme brand.json --out brand-out
 ```
 
-This writes `brand-out/theme.css` (light and dark, including frost tiers, a six-step brand ramp, muted progress colours and the spacing scale), `fonts.css`, `fonts.html`, `tokens.json` (W3C design tokens, for Figma or Style Dictionary) and `theme-report.md`.
+This writes `brand-out/theme.css` (light and dark, including frost tiers, a six-step brand ramp, the brand band gradient, tinted shadows, muted progress colours, the spacing scale and the heading and body font stacks), `fonts.css`, `fonts.html`, `tokens.json` (W3C design tokens, for Figma or Style Dictionary) and `theme-report.md`.
 
 Read the printed notes:
 

@@ -2,6 +2,20 @@
 
 BrandOS uses semantic versioning: patch (1.0.x) for fixes and rule changes, minor (1.x.0) for new features, major (x.0.0) for breaking changes.
 
+## 1.2.0
+
+Editorial layout, heading fonts and a visual guide.
+
+- Heading and body fonts: `brandos extract` reads the family name stored inside font files, so a heading face whose files are in `brand-source/` (for example a licensed slab) becomes `fonts.display` even when the guide doesn't name it. Serif and slab faces get serif fallbacks and a matching free stand-in until the files are added. Italic files named "It" are detected.
+- New layout layer in `brandos-ui.css`: `bos-display`, `bos-h1`, `bos-h2`, `bos-h3`, `bos-lead`, `bos-stat`, `bos-kicker`; `bos-hero`, `bos-stats`, `bos-block`, `bos-sec-head`, `bos-feature-grid`; `bos-surface` (solid, for the one featured thing per section), `bos-glass`, `bos-rows` and `bos-row` (glass, solid on hover), `bos-tile`; charms (`bos-charm` in six shapes, four fills, three sizes) and `bos-avatar`; `bos-pill`; `bos-band` (the brand gradient with a glass button); `bos-table` with `bos-rank` and `bos-row-self`.
+- Secondary buttons are glass and turn solid on hover, in every kit: `bos-btn-glass`, the React and CSS kits' secondary and glass variants, and PrimeVue secondary and outlined buttons. New `bos-btn-primary`, `bos-btn-sm`, `bos-btn-lg`.
+- Backdrop: one glow of brand colour fixed at the top edge (it no longer drifts), so glass always has colour behind it. The old three-corner pools are `data-aura="soft"`.
+- Sticky app bar: the wrap no longer fades the page out, so the glass bar shows content blurring under it (`data-fade` restores the fade). `bos-shell bos-glass` is the most frosted glass.
+- Theme: new `--band-1` to `--band-4`, `--band-foreground` and `--gradient-brand` (contrast-checked for white text, 150 checks per theme), `--shadow-sm`, `--shadow-md`, `--shadow-lg` tinted with the brand's neutral, and `--display-weight`.
+- Fix: tints mixed with white or the text colour now use OKLab, so a pale tint keeps its hue. Before, pale tints of green, teal and blue brands drifted towards pink (PrimeVue `primary.50` to `300`, and several `color-mix` tints).
+- Fix: chat bubbles in the glass style put the glass on the bubble, not on a rectangle behind it. Native selects from the kit no longer show two arrows. Grids no longer widen the page when a child has wide content.
+- New visual guide: `node scripts/build-guide.mjs` builds a page with every component (live), the layout patterns, tokens, diagrams and rules, in any set of brands.
+
 ## 1.1.0
 
 Palette lock: apps may only use brand colours (plus black, white and greys) and brand fonts, and BrandOS checks it.

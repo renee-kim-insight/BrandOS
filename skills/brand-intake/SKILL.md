@@ -29,11 +29,13 @@ This does the whole first pass automatically:
 
 - reads colours, fonts, text and images from the source;
 - picks the brand name, primary, secondary, accents, neutral and danger colours, skipping shades of colours already chosen;
-- finds licensed font files for the brand's typeface in `brand-source/` and lists them;
+- finds licensed font files in `brand-source/` by the family name stored inside each file. The body font is the one the guide names for text; a heading font is the one the guide names for headlines, or else any other family whose files are in `brand-source/` (serif and slab faces first). Until files are added, a free stand-in of the same style is used (Bitter for slab, Source Serif 4 for serif, Geist for sans);
 - writes `brand.json` (never replacing an existing one unless `--force`), plus `brand-extract/extract-report.md`, `brand-text.txt` and `assets/`;
 - generates the theme in `brand-out/` and runs every contrast check.
 
 With several sources, run it on the best one (guide PDF, then template deck, then website), and run the others with `--no-theme --brand brand-extract/<name>.json` to compare.
+
+To add or change a heading font later, drop its files into `brand-source/fonts/` and run `brandos extract --force`, or set `fonts.display` in `brand.json` and run `brandos theme`. A brand with only one font is fine: headings then use the body font.
 
 Then **read** `extract-report.md` and `brand-text.txt` yourself. The extractor finds candidates; you understand the guide. Look for:
 

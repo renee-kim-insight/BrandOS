@@ -48,6 +48,7 @@ export function audit(modes) {
     add(mode, "focus ring on background", t.ring, bg, RULES.ui)
     if (t["progress-fill"]) add(mode, "progress fill on track", t["progress-fill"], t["progress-track"], RULES.ui)
     if (t["progress-fill-foreground"]) add(mode, "progress-fill-foreground on progress-fill", t["progress-fill-foreground"], t["progress-fill"], RULES.text)
+    for (let i = 1; i <= 4; i++) if (t[`band-${i}`]) add(mode, `band-foreground on band-${i}`, t["band-foreground"], t[`band-${i}`], RULES.text)
     for (let i = 0; i < 6; i++) if (t[`ramp-${i}`]) add(mode, `ramp-${i}-foreground on ramp-${i}`, t[`ramp-${i}-foreground`], over(t[`ramp-${i}`], bg), RULES.text)
   }
   return { pass: checks.every((c) => c.pass), checks }

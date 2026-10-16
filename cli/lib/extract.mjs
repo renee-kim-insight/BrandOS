@@ -10,7 +10,7 @@ import { unzipSync, strFromU8 } from "fflate"
 import { hex, isNeutral, oklch } from "./color.mjs"
 
 const PKG_DIR = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..", "..")
-const FONT_EXT = /\.(woff2|woff|otf|ttf)$/i
+import { FONT_EXT, familyOf, fontFamiliesIn, classify, standIn } from "./fontfiles.mjs"
 
 export async function runExtract(a) {
   const input = a._[0]
@@ -71,7 +71,9 @@ function summarise(d) {
   if (c.danger) console.log(`  Danger:     ${c.danger}`)
   if (c.background) console.log(`  Background: ${c.background}`)
   console.log(`  Font:       ${f.family} (${f.source}${f.files?.length ? `, ${f.files.length} files found` : f.source === "self-hosted" ? `, no font files found, using ${f.fallback} until added` : ""})`)
-  if (d.fonts.display) console.log(`  Headings:   ${d.fonts.display.family}`)
+  const h = d.fonts.display
+  if (h) console.log(`  Headings:   ${h.family}${h.source === "self-hosted" ? (h.files?.length ? ` (${h.files.length} files found)` : ` (no font files found, using ${h.fallback} until added)`) : ""}`)
+  else console.log(`  Headings:   same as body. Drop a heading font's files into brand-source/ and run extract --force to add one.`)
 }
 
 /* ---------------- evidence ---------------- */
@@ -374,7 +376,7 @@ function fontEntry(f) {
   if (google) return { family: f.family, source: "google" }
   if (SYSTEM.test(f.family)) return { family: f.family, source: "system" }
   // Licensed or unknown face: the client must supply web font files. Fall back to a close free face until then.
-  return { family: f.family, source: "self-hosted", files: [], fallback: "Geist" }
+  return { family: f.family, source: "self-hosted", files: [], fallback: standIn(f.family) }
 }
 
 function buildDraft(ev, input) {
@@ -437,6 +439,17 @@ function buildDraft(ev, input) {
   const second = statedDisplay ?? fonts.find((f) => f.family !== draft.fonts.sans.family)
   if (second && second.family !== draft.fonts.sans.family && (statedDisplay || [...second.sources].some((s) => /named in text|headings(?! \(stock\))/.test(s))) && !/^(Arial|Helvetica|Calibri|Times)/i.test(second.family))
     draft.fonts.display = fontEntry(second)
+  // Heading font from the files the client dropped in: a second family with files, not named in the guide
+  // (licensed display faces often are not). Serif and slab faces win; mono faces never head a page.
+  if (!draft.fonts.display && !/^https?:/.test(input)) {
+    const supplied = fontFamiliesIn(fontRoots(input))
+      .filter((f) => f.family.toLowerCase() !== draft.fonts.sans.family.toLowerCase() && classify(f.family) !== "mono")
+      .sort((a, b) => (classify(a.family) === "sans") - (classify(b.family) === "sans") || b.files.length - a.files.length)
+    if (supplied[0]) {
+      draft.fonts.display = { family: supplied[0].family, source: "self-hosted", files: [], fallback: standIn(supplied[0].family) }
+      ev.notes.push(`Heading font: found ${supplied[0].family} files in the brand folder and used it for display text and headings. Remove fonts.display from brand.json if it is not a heading face.`)
+    }
+  }
   for (const f of Object.values(draft.fonts)) if (f.source === "self-hosted") f.files = findFontFiles(f.family, input)
   return draft
 }
@@ -457,17 +470,19 @@ function guessName(input) {
   return n === n.toLowerCase() ? n.replace(/\b\w/g, (c) => c.toUpperCase()) : n
 }
 
+const fontRoots = (input) => [...new Set([path.dirname(input), "brand-source", "brand-source/fonts", "fonts"])].filter((d) => fs.existsSync(d))
+
 // Licensed fonts: look for the files next to the source (brand-source/, brand-source/fonts/ and so on).
 function findFontFiles(family, input) {
   if (/^https?:/.test(input)) return []
   const key = family.toLowerCase().replace(/[^a-z0-9]/g, "")
-  const roots = [...new Set([path.dirname(input), "brand-source", "fonts"])].filter((d) => fs.existsSync(d))
+  const roots = fontRoots(input)
   const found = []
   const walk = (dir, depth) => {
     for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
       const p = path.join(dir, e.name)
       if (e.isDirectory() && depth < 3 && e.name !== "node_modules") walk(p, depth + 1)
-      else if (FONT_EXT.test(e.name) && e.name.toLowerCase().replace(/[^a-z0-9]/g, "").startsWith(key)) found.push(p)
+      else if (FONT_EXT.test(e.name) && (e.name.toLowerCase().replace(/[^a-z0-9]/g, "").startsWith(key) || familyOf(p).toLowerCase().replace(/[^a-z0-9]/g, "") === key)) found.push(p)
     }
   }
   roots.forEach((r) => walk(r, 0))

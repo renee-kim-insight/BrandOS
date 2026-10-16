@@ -1,3 +1,4 @@
+import { classify } from "./fontfiles.mjs"
 import path from "node:path"
 // brand.json -> full shadcn-compatible token set (light + dark), with contrast fixes.
 import { contrast, css, hex, isNeutral, mk, nudge, oklch, over } from "./color.mjs"
@@ -86,6 +87,19 @@ export function generateTheme(brand) {
   L["backdrop-1"] = mk(0.9, 0.05, bd[0])
   L["backdrop-2"] = mk(0.91, 0.045, bd[1])
   L["backdrop-3"] = mk(0.92, 0.04, bd[2])
+
+  // Brand band: the one full-colour gradient (closing calls to action, feature bands, charm fills).
+  // Built from brand colours only, each stop darkened just enough that white text reads at 4.5:1.
+  const bandSrc = [
+    chromatic[1] ?? { ...P, l: P.l - 0.14 },
+    { ...P, l: P.l - 0.06 },
+    P,
+    chromatic[2] ?? chromatic[1] ?? { ...P, l: P.l + 0.04 },
+  ]
+  bandSrc.forEach((c, i) => {
+    L[`band-${i + 1}`] = nudge(c, (x) => contrast(WHITE, x) >= RULES.text + 0.05) ?? mk(0.4, c.c, c.h)
+  })
+  L["band-foreground"] = WHITE
 
   L.glass = mk(1, 0, 0, 0.55)
   L["glass-strong"] = mk(1, 0, 0, 0.78)
@@ -266,9 +280,10 @@ function stack(f, generic) {
 
 function fontStacks(brand) {
   const sans = ["ui-sans-serif", "system-ui", "sans-serif"]
+  const generic = (f) => ({ slab: ["Rockwell", "Georgia", "serif"], serif: ["Georgia", "ui-serif", "serif"], mono: ["ui-monospace", "monospace"] })[f ? classify(f.family) : "sans"] ?? sans
   return {
-    sans: stack(brand.fonts.sans, sans),
-    display: stack(brand.fonts.display, sans),
+    sans: stack(brand.fonts.sans, generic(brand.fonts.sans)),
+    display: stack(brand.fonts.display, generic(brand.fonts.display)),
     mono: stack(brand.fonts.mono ?? { family: "Geist Mono" }, ["ui-monospace", "SFMono-Regular", "monospace"]),
   }
 }
@@ -285,6 +300,7 @@ const ORDER = [
   "glass", "glass-strong", "glass-border", "glass-highlight",
   "frost-strong", "frost-medium", "frost-light", "frost-border", "overlay",
   "backdrop-1", "backdrop-2", "backdrop-3",
+  "band-1", "band-2", "band-3", "band-4", "band-foreground",
   "progress-fill", "progress-fill-foreground", "progress-track",
   "ramp-0", "ramp-0-foreground", "ramp-1", "ramp-1-foreground", "ramp-2", "ramp-2-foreground",
   "ramp-3", "ramp-3-foreground", "ramp-4", "ramp-4-foreground", "ramp-5", "ramp-5-foreground",
@@ -304,10 +320,17 @@ export function themeCss(brand, theme, { scope } = {}) {
   out.push(line("radius", `${radius}rem`))
   if (fonts.sans) out.push(line("font-sans", fonts.sans))
   if (fonts.display) out.push(line("font-display", fonts.display))
+  out.push(line("display-weight", brand.fonts.display ? (brand.fonts.display.weight ?? 500) : 650))
   if (fonts.mono) out.push(line("font-mono", fonts.mono))
   for (const k of ORDER) if (modes.light[k]) out.push(line(k, css(modes.light[k])))
   out.push(`  --glass-shadow: 0 8px 32px oklch(0.3 0.06 300 / 10%), 0 1px 2px oklch(0.3 0.06 300 / 6%);`)
   out.push(`  --glass-blur: 24px;`)
+  // Shadows tinted with the brand's neutral, so they read as warm or cool like the rest of the greys.
+  const sh = (a) => css({ ...oklch(modes.light.foreground), alpha: a })
+  out.push(`  --shadow-sm: 0 1px 2px ${sh(0.06)}, 0 1px 3px ${sh(0.06)};`)
+  out.push(`  --shadow-md: 0 1px 2px ${sh(0.05)}, 0 4px 12px ${sh(0.07)};`)
+  out.push(`  --shadow-lg: 0 2px 4px ${sh(0.05)}, 0 12px 32px ${sh(0.1)};`)
+  out.push(`  --gradient-brand: linear-gradient(120deg, var(--band-1) 0%, var(--band-2) 40%, var(--band-3) 68%, var(--band-4) 100%);`)
   out.push(`  /* Spacing scale: use only these steps for gaps, padding and margins. */`)
   ;[4, 8, 12, 16, 24, 32, 48, 64, 96].forEach((px, i) => out.push(line(`space-${i + 1}`, `${px}px`)))
   out.push(`}`)
@@ -319,6 +342,9 @@ export function themeCss(brand, theme, { scope } = {}) {
       if (v && css(v) !== css(modes.light[k] ?? "transparent")) out.push(line(k, css(v)))
     }
     out.push(`  --glass-shadow: 0 12px 40px oklch(0 0 0 / 40%), 0 1px 2px oklch(0 0 0 / 30%);`)
+    out.push(`  --shadow-sm: 0 1px 2px oklch(0 0 0 / 30%);`)
+    out.push(`  --shadow-md: 0 4px 12px oklch(0 0 0 / 35%);`)
+    out.push(`  --shadow-lg: 0 12px 32px oklch(0 0 0 / 45%);`)
     out.push(`}`)
   }
   return out.join("\n") + "\n"
@@ -333,7 +359,8 @@ export function fontsCss(brand) {
     if (f.source === "self-hosted") {
       for (const [i, file] of (f.files ?? []).entries()) {
         const w = f.weights?.[i] ?? weightFromName(file)
-        const style = /italic|oblique/i.test(path.basename(file)) ? "italic" : "normal"
+        const stem = path.basename(file, path.extname(file))
+        const style = /italic|oblique/i.test(stem) || /(?:[a-z0-9]|[-_ ])It$/.test(stem) ? "italic" : "normal"
         const ext = path.extname(file).toLowerCase()
         const format = { ".woff2": "woff2", ".woff": "woff", ".otf": "opentype", ".ttf": "truetype" }[ext] ?? "woff2"
         // run-theme copies every file into <out>/fonts/, which travels next to fonts.css.

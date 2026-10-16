@@ -5,102 +5,65 @@
  * Uses theme.css variables only, so it fits any brand. Load it after theme.css.
  *
  * Rules it encodes (see skills/ui-migrate/SKILL.md):
- * - Glass is the surface. Importance is how frosted it is: strong, medium, light. No solid white.
+ * - One solid surface per section for the most important thing (bos-surface). Secondary things are glass
+ *   (bos-glass, bos-row, bos-btn-glass) and turn solid when hovered. Frost tiers remain for panels.
  * - Colour budget: neutrals by default, brand colour for the primary action, active nav, focus and the user's own status.
  * - One spacing scale, one page header, one segmented control.
  * - Hover only on things you can click.
  */
 
-/* ---------- Backdrop: a soft wash behind the whole app, so glass has something to frost ---------- */
+/* ---------- Backdrop: the page, with one fixed glow of brand colour at the top edge ---------- */
+/*
+ * The glow is fixed to the viewport, so it stays put while content scrolls. Glass (the nav, rows,
+ * secondary buttons) always has colour behind it to frost, and the page stays calm everywhere else.
+ * Text contrast is checked against the backdrop colours at more than this strength.
+ */
+:root {
+  --aura-strength: 1;
+}
+.dark {
+  --aura-strength: 0.8;
+}
 .bos-backdrop {
   position: relative;
   isolation: isolate;
   min-height: 100dvh;
-  background:
-    radial-gradient(55% 45% at 8% 0%, color-mix(in oklch, var(--backdrop-1) 70%, transparent), transparent 70%),
-    radial-gradient(45% 40% at 95% 12%, color-mix(in oklch, var(--backdrop-2) 60%, transparent), transparent 70%),
-    radial-gradient(60% 50% at 70% 100%, color-mix(in oklch, var(--backdrop-3) 60%, transparent), transparent 70%),
-    var(--background);
-  background-attachment: fixed;
+  background: var(--background);
 }
-
-/*
- * Auras: a few very soft, blurred pools of light behind everything. They give the glass something
- * to catch without competing with content. Kept faint on purpose (--aura-strength), fixed to the
- * viewport, and drifting so slowly it reads as light, not motion. Text contrast is checked against
- * the backdrop at more than this strength, so auras never put text at risk.
- */
-:root {
-  --aura-strength: 0.35;
-  --aura-blur: 80px;
-}
-.dark {
-  --aura-strength: 0.28;
-}
-.bos-backdrop::before,
-.bos-backdrop::after {
+.bos-backdrop::before {
   content: "";
   position: fixed;
+  inset: 0;
   z-index: -1;
   pointer-events: none;
-  border-radius: 999px;
-  filter: blur(var(--aura-blur));
   opacity: var(--aura-strength);
-  will-change: transform;
-}
-/* Upper left: a pool of the primary, the warmest light on the page. */
-.bos-backdrop::before {
-  top: -12vh;
-  left: -8vw;
-  width: 46vw;
-  height: 46vw;
-  background: radial-gradient(circle at 50% 50%, color-mix(in oklch, var(--primary) 55%, var(--backdrop-1)), transparent 68%);
-  animation: bos-aura-a 38s ease-in-out infinite alternate;
-}
-/* Lower right: a cooler pool from the secondary backdrop colours. */
-.bos-backdrop::after {
-  right: -10vw;
-  bottom: -18vh;
-  width: 52vw;
-  height: 52vw;
   background:
-    radial-gradient(circle at 40% 40%, var(--backdrop-2), transparent 62%),
-    radial-gradient(circle at 70% 70%, var(--backdrop-3), transparent 60%);
-  animation: bos-aura-b 46s ease-in-out infinite alternate;
+    radial-gradient(60% 80% at 100% 0%, var(--backdrop-2) 0%, transparent 60%),
+    radial-gradient(50% 70% at 85% 10%, color-mix(in oklab, var(--primary) 20%, transparent) 0%, transparent 65%),
+    radial-gradient(40% 60% at 70% 0%, color-mix(in oklab, var(--backdrop-3) 70%, transparent) 0%, transparent 70%);
 }
-/* Optional third aura, for long pages: add <div class="bos-aura" aria-hidden="true"></div> inside the backdrop. */
+/* Optional: softer pools in three corners instead of one edge glow. <div class="bos-backdrop" data-aura="soft"> */
+.bos-backdrop[data-aura="soft"]::before {
+  background:
+    radial-gradient(55% 45% at 8% 0%, color-mix(in oklab, var(--backdrop-1) 70%, transparent), transparent 70%),
+    radial-gradient(45% 40% at 95% 12%, color-mix(in oklab, var(--backdrop-2) 60%, transparent), transparent 70%),
+    radial-gradient(60% 50% at 70% 100%, color-mix(in oklab, var(--backdrop-3) 60%, transparent), transparent 70%);
+}
+/* Optional extra glow for long pages, lower down: <div class="bos-aura" aria-hidden="true"></div> */
 .bos-aura {
   position: fixed;
   z-index: -1;
-  top: 38vh;
-  left: 40vw;
-  width: 34vw;
-  height: 34vw;
+  bottom: -20vh;
+  left: -10vw;
+  width: 50vw;
+  height: 50vw;
   border-radius: 999px;
   pointer-events: none;
-  background: radial-gradient(circle, var(--backdrop-1), transparent 65%);
-  filter: blur(var(--aura-blur));
-  opacity: calc(var(--aura-strength) * 0.7);
-  animation: bos-aura-a 52s ease-in-out infinite alternate-reverse;
-}
-@keyframes bos-aura-a {
-  from { transform: translate3d(0, 0, 0) scale(1); }
-  to { transform: translate3d(4vw, 3vh, 0) scale(1.08); }
-}
-@keyframes bos-aura-b {
-  from { transform: translate3d(0, 0, 0) scale(1); }
-  to { transform: translate3d(-5vw, -4vh, 0) scale(1.06); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .bos-backdrop::before,
-  .bos-backdrop::after,
-  .bos-aura {
-    animation: none;
-  }
+  background: radial-gradient(circle, color-mix(in oklab, var(--backdrop-1) 80%, transparent), transparent 65%);
+  opacity: calc(var(--aura-strength) * 0.6);
 }
 @media (prefers-reduced-transparency: reduce) {
   .bos-backdrop::before,
-  .bos-backdrop::after,
   .bos-aura {
     display: none;
   }
@@ -167,7 +130,7 @@
   margin: 0;
   font-family: var(--font-display, var(--font-sans));
   font-size: clamp(2.25rem, 3.5vw, 3rem);
-  font-weight: 600;
+  font-weight: var(--display-weight, 600);
   line-height: 1.05;
   letter-spacing: -0.02em;
   color: var(--foreground);
@@ -229,39 +192,86 @@
 }
 
 /* ---------- Buttons ---------- */
+/* Primary: solid brand colour, one per view. Secondary: glass that turns solid on hover. */
+.bos-btn,
+.bos-btn-primary,
 .bos-btn-glass {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  padding: var(--space-2) var(--space-5);
-  min-height: 40px;
+  padding: 0 22px;
+  min-height: 44px;
   border-radius: 999px;
-  border: 1px solid color-mix(in oklch, var(--foreground) 14%, transparent);
-  background: var(--frost-light);
-  color: var(--foreground);
-  font: inherit;
+  border: 1px solid transparent;
+  font: 600 0.9375rem/1 var(--font-sans);
+  text-decoration: none;
+  white-space: nowrap;
   cursor: pointer;
-  transition: background-color 150ms, border-color 150ms, color 150ms, transform 150ms, box-shadow 150ms;
+  transition: background-color 150ms var(--ease-out, ease-out), border-color 150ms, color 150ms, transform 150ms var(--ease-out, ease-out), box-shadow 150ms;
+}
+.bos-btn-primary {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  box-shadow: var(--shadow-sm);
+}
+.bos-btn-primary:hover {
+  background: color-mix(in oklab, var(--primary), var(--foreground) 14%);
+  transform: translateY(-1px);
+}
+.dark .bos-btn-primary:hover {
+  background: color-mix(in oklab, var(--primary), white 14%);
+}
+.bos-btn-glass {
+  background: var(--frost-medium);
+  border-color: var(--frost-border);
+  color: var(--foreground);
+  -webkit-backdrop-filter: blur(16px) saturate(170%);
+  backdrop-filter: blur(16px) saturate(170%);
+  box-shadow: inset 0 1px 0 var(--glass-highlight), var(--shadow-sm);
 }
 .bos-btn-glass:hover {
-  background: var(--frost-strong);
-  border-color: color-mix(in oklch, var(--foreground) 26%, transparent);
+  background: var(--card);
+  border-color: var(--border);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px oklch(0 0 0 / 8%);
+  box-shadow: var(--shadow-md);
 }
-.bos-btn-glass:active {
-  transform: none;
+.bos-btn-glass:active,
+.bos-btn-primary:active {
+  transform: scale(0.98);
   box-shadow: none;
 }
-.bos-btn-glass:disabled,
-.bos-btn-glass[aria-disabled="true"] {
+.bos-btn-sm {
+  min-height: 36px;
+  padding: 0 16px;
+  font-size: 0.875rem;
+}
+.bos-btn-lg {
+  min-height: 52px;
+  padding: 0 26px;
+}
+:is(.bos-btn-glass, .bos-btn-primary):disabled,
+:is(.bos-btn-glass, .bos-btn-primary)[aria-disabled="true"] {
   opacity: 0.5;
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
 }
-:is(.bos-btn-glass, .bos-segmented > *, .bos-card-link):focus-visible {
+/* Component-library buttons follow the same rule: secondary and glass variants are glass, solid on hover. */
+:where(.bos-backdrop) :is(.cn-button-variant-secondary, .cn-button-variant-glass) {
+  background: var(--frost-medium);
+  border-color: var(--frost-border);
+  color: var(--foreground);
+  -webkit-backdrop-filter: blur(16px) saturate(170%);
+  backdrop-filter: blur(16px) saturate(170%);
+  box-shadow: inset 0 1px 0 var(--glass-highlight), var(--shadow-sm);
+}
+:where(.bos-backdrop) :is(.cn-button-variant-secondary, .cn-button-variant-glass):hover {
+  background: var(--card);
+  border-color: var(--border);
+  box-shadow: var(--shadow-md);
+}
+:is(.bos-btn, .bos-btn-primary, .bos-btn-glass, .bos-segmented > *, .bos-card-link, .bos-row, .bos-text-link):focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
 }
@@ -288,7 +298,7 @@
   gap: 6px;
   padding: 2px 10px;
   border-radius: 999px;
-  border: 1px solid color-mix(in oklch, var(--foreground) 12%, transparent);
+  border: 1px solid color-mix(in oklab, var(--foreground) 12%, transparent);
   background: var(--frost-light);
   color: var(--muted-foreground);
   font-size: 0.8125rem;
@@ -301,7 +311,7 @@
   background: var(--ramp-5);
 }
 .bos-status-done {
-  background: color-mix(in oklch, var(--primary) 12%, transparent);
+  background: color-mix(in oklab, var(--primary) 12%, transparent);
   color: var(--foreground);
 }
 
@@ -314,9 +324,9 @@
 .bos-ramp-5 { background: var(--ramp-5); color: var(--ramp-5-foreground); }
 /* The palest steps get an edge so they don't vanish on glass. */
 :is(.bos-ramp-0, .bos-ramp-1, .bos-ramp-2) {
-  box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--ramp-5) 30%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--ramp-5) 30%, transparent);
 }
-.bos-dot-0 { background: var(--ramp-0); box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--ramp-5) 40%, transparent); }
+.bos-dot-0 { background: var(--ramp-0); box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--ramp-5) 40%, transparent); }
 .bos-dot-1 { background: var(--ramp-1); }
 .bos-dot-2 { background: var(--ramp-2); }
 .bos-dot-3 { background: var(--ramp-3); }
@@ -346,10 +356,12 @@
 /* ---------- Comfort ---------- */
 @media (prefers-reduced-motion: reduce) {
   .bos-btn-glass,
+  .bos-btn-primary,
   .bos-card-link {
     transition: none;
   }
   .bos-btn-glass:hover,
+  .bos-btn-primary:hover,
   .bos-card-link:hover {
     transform: none;
   }
@@ -518,7 +530,7 @@
 }
 
 /* Pressed feedback on anything clickable. */
-:is(.bos-btn-glass, .bos-segmented > *, .bos-card-link, .bos-nav-list a, .bos-nav-list button):active {
+:is(.bos-segmented > *, .bos-card-link, .bos-nav-list a, .bos-nav-list button):active {
   transform: scale(0.98);
   transition-duration: var(--motion-fast);
 }
@@ -560,7 +572,7 @@
  * inset from the edge, and reserve space so long values never run under it.
  * Applies to bos-select, and to every single-choice native select inside the app backdrop.
  */
-:is(.bos-select, :where(.bos-backdrop) select:not([multiple]):not([size])) {
+:is(.bos-select, :where(.bos-backdrop) select:not([multiple]):not([size]):not([data-slot])) {
   appearance: none;
   -webkit-appearance: none;
   min-height: 44px;
@@ -578,10 +590,10 @@
   cursor: pointer;
   transition: border-color var(--motion-fast, 120ms) ease-out;
 }
-:is(.bos-select, :where(.bos-backdrop) select:not([multiple]):not([size])):hover {
-  border-color: color-mix(in oklch, var(--input) 60%, var(--foreground));
+:is(.bos-select, :where(.bos-backdrop) select:not([multiple]):not([size]):not([data-slot])):hover {
+  border-color: color-mix(in oklab, var(--input) 60%, var(--foreground));
 }
-:is(.bos-select, :where(.bos-backdrop) select:not([multiple]):not([size])):focus-visible {
+:is(.bos-select, :where(.bos-backdrop) select:not([multiple]):not([size]):not([data-slot])):focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
 }
@@ -600,25 +612,449 @@
   flex: 1 1 280px;
 }
 
-/* ---------- Sticky app bar: content scrolling up never shows above or behind the bar's top gap ---------- */
+/* ---------- Sticky app bar ---------- */
+/* The bar floats over the page. It is glass, so content scrolling under it blurs through it. */
 .bos-shell-wrap {
   position: sticky;
   top: 0;
   z-index: 50;
-  padding-top: var(--space-5);
-  padding-bottom: var(--space-3);
-  /* Fades content out as it passes under the bar, instead of showing it in the gap above. */
+  padding-top: var(--space-4);
+  padding-bottom: var(--space-2);
+  pointer-events: none;
+}
+.bos-shell-wrap > * {
+  pointer-events: auto;
+}
+/* Optional: fade content out above the bar instead of letting it show in the gap. */
+.bos-shell-wrap[data-fade] {
   background: linear-gradient(to bottom, var(--background) 0%, var(--background) 45%, transparent 100%);
 }
 
 /* ---------- Brand fonts everywhere ---------- */
-/* Body text uses the brand's UI font; headings use its display font when the brand has one. */
+/* Body text uses the brand's body font. Page titles and section titles use its heading font when it has one;
+   smaller headings (h3 and below) stay in the body font so dense UI stays easy to scan. */
 :where(.bos-backdrop) {
   font-family: var(--font-sans);
 }
-:where(.bos-backdrop) :is(h1, h2, h3, .bos-title, .bos-section-title) {
+:where(.bos-backdrop) :is(h1, h2, .bos-title, .bos-section-title) {
   font-family: var(--font-display, var(--font-sans));
+  font-weight: var(--display-weight, 600);
 }
 :where(.bos-backdrop) :is(code, kbd, pre, samp) {
   font-family: var(--font-mono);
+}
+
+/* ==========================================================================
+   Editorial layout (1.2.0)
+   A page reads as: glass nav, a hero with a big heading, a stat strip, then sections. Each section
+   has one solid featured surface (the most important thing) and secondary items in glass.
+   Brand colour appears as one gradient band per page and in small charm shapes.
+   ========================================================================== */
+
+/* ---------- Type scale: the heading font for display, h1, h2 and big numbers; body font for the rest ---------- */
+.bos-display,
+.bos-h1,
+.bos-h2,
+.bos-stat {
+  margin: 0;
+  font-family: var(--font-display, var(--font-sans));
+  font-weight: var(--display-weight, 650);
+  text-wrap: balance;
+}
+.bos-display { font-size: clamp(2.5rem, 3.6vw + 1.125rem, 4.25rem); line-height: 1.04; letter-spacing: -0.022em; }
+.bos-h1 { font-size: clamp(2rem, 1.6vw + 1.5rem, 3rem); line-height: 1.1; letter-spacing: -0.018em; }
+.bos-h2 { font-size: clamp(1.625rem, 1.2vw + 1.125rem, 2.125rem); line-height: 1.15; letter-spacing: -0.012em; }
+.bos-h3 { margin: 0; font-family: var(--font-sans); font-size: 1.1875rem; font-weight: 700; line-height: 1.3; letter-spacing: -0.01em; }
+.bos-lead { margin: 0; font-size: clamp(1.125rem, 0.5vw + 1rem, 1.3125rem); line-height: 1.5; color: var(--muted-foreground); text-wrap: pretty; }
+.bos-stat { font-size: clamp(2.25rem, 2vw + 1.5rem, 3.25rem); line-height: 1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.bos-kicker { font-size: 0.875rem; font-weight: 600; color: var(--primary); }
+.bos-label { font-size: 0.875rem; font-weight: 600; }
+.bos-caption { font-size: 0.8125rem; color: var(--muted-foreground); }
+.bos-num { font-variant-numeric: tabular-nums; }
+.bos-container { max-width: 1200px; margin-inline: auto; padding-inline: var(--space-5); }
+
+/* ---------- Surfaces ---------- */
+/* Solid: the one featured thing in a section (the next step, the user's level, a key form). */
+.bos-surface {
+  background: var(--card);
+  color: var(--card-foreground, var(--foreground));
+  border-radius: 24px;
+  padding: var(--space-6);
+  box-shadow: var(--shadow-md);
+}
+.bos-surface-lg { box-shadow: var(--shadow-lg); }
+/* Glass: nav, floating controls and secondary items. Needs the backdrop glow behind it. */
+.bos-glass {
+  background: var(--frost-medium);
+  -webkit-backdrop-filter: blur(16px) saturate(170%);
+  backdrop-filter: blur(16px) saturate(170%);
+  box-shadow: inset 0 1px 0 var(--glass-highlight), inset 0 0 0 1px var(--frost-border), 0 8px 28px -6px color-mix(in oklab, var(--foreground) 14%, transparent);
+}
+/* The app bar is the most frosted glass, so content passing under it stays a soft blur. */
+.bos-shell.bos-glass {
+  background: var(--frost-strong);
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+  backdrop-filter: blur(20px) saturate(170%);
+}
+/* Outlined: quiet repeating cards (a grid of courses, articles, products). */
+.bos-tile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-5);
+  border-radius: 24px;
+  border: 1px solid var(--border);
+  background: var(--frost-medium);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  color: inherit;
+  text-decoration: none;
+}
+.bos-tile p { margin: 0; color: var(--muted-foreground); }
+a.bos-tile,
+button.bos-tile {
+  cursor: pointer;
+  transition: background-color 150ms, box-shadow 150ms, transform 150ms var(--ease-out, ease-out);
+}
+a.bos-tile:hover,
+button.bos-tile:hover {
+  background: var(--card);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+/* ---------- Hero ---------- */
+.bos-hero {
+  padding-block: var(--space-8) var(--space-2);
+}
+.bos-hero-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 0.75fr;
+  gap: var(--space-7);
+  align-items: center;
+}
+.bos-hero .bos-lead {
+  margin: 18px 0 30px;
+  max-width: 34ch;
+}
+.bos-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+/* ---------- Stat strip ---------- */
+.bos-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  margin-top: var(--space-8);
+  border-block: 1px solid var(--border);
+}
+.bos-stats > * {
+  padding: 28px 24px;
+}
+.bos-stats > * + * {
+  border-left: 1px solid var(--border);
+}
+.bos-stats .bos-caption,
+.bos-stats small {
+  display: block;
+  margin-top: var(--space-1);
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+}
+
+/* ---------- Sections ---------- */
+.bos-block {
+  padding-top: var(--space-8);
+}
+.bos-sec-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+.bos-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  color: var(--foreground);
+  text-decoration: none;
+}
+.bos-text-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+/* Featured item beside a list of secondary ones. */
+.bos-feature-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: var(--space-5);
+  align-items: start;
+}
+.bos-feature {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.bos-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-5);
+}
+.bos-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-5);
+}
+
+/* Grid children may shrink below their content (long code, tables), so a grid never widens the page. */
+:is(.bos-hero-grid, .bos-feature-grid, .bos-grid-2, .bos-grid-3, .bos-band) > * {
+  min-width: 0;
+}
+
+/* ---------- Rows: secondary items in glass, solid when hovered ---------- */
+.bos-rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.bos-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--space-4);
+  align-items: center;
+  padding: 16px 18px;
+  border-radius: 18px;
+  color: inherit;
+  text-decoration: none;
+  background: var(--frost-medium);
+  -webkit-backdrop-filter: blur(16px) saturate(170%);
+  backdrop-filter: blur(16px) saturate(170%);
+  box-shadow: inset 0 1px 0 var(--glass-highlight), inset 0 0 0 1px var(--frost-border);
+}
+/* With a leading charm or icon: <span class="bos-row-lead">…</span> first. */
+.bos-row:has(> .bos-row-lead) {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+}
+a.bos-row,
+button.bos-row {
+  cursor: pointer;
+  border: 0;
+  font: inherit;
+  text-align: left;
+  transition: background-color 150ms, box-shadow 150ms, transform 150ms var(--ease-out, ease-out);
+}
+a.bos-row:hover,
+button.bos-row:hover {
+  background: var(--card);
+  box-shadow: inset 0 0 0 1px var(--border), var(--shadow-md);
+}
+.bos-row-chevron {
+  color: var(--muted-foreground);
+  transition: transform 150ms var(--ease-out, ease-out);
+}
+.bos-row:hover .bos-row-chevron {
+  transform: translateX(3px);
+}
+.bos-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+  margin-top: 6px;
+}
+
+/* ---------- Pills: the user's own status, in a pale tint of the primary ---------- */
+.bos-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 12px;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  background: color-mix(in oklab, var(--primary) 9%, var(--card));
+  color: color-mix(in oklab, var(--primary), var(--foreground) 25%);
+}
+.dark .bos-pill {
+  background: color-mix(in oklab, var(--primary) 18%, var(--card));
+  color: color-mix(in oklab, var(--primary), white 45%);
+}
+
+/* ---------- Charms: soft brand shapes for badges, avatars and icon frames ---------- */
+.bos-charm {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: var(--charm-size, 88px);
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 60% 60% 60% 8%;
+  background: var(--gradient-brand);
+  color: var(--band-foreground, white);
+}
+.bos-charm > svg {
+  width: 40%;
+  height: 40%;
+}
+.bos-charm > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.bos-charm-petal { border-radius: 60% 60% 60% 8%; }
+.bos-charm-leaf { border-radius: 8% 60% 8% 60%; }
+.bos-charm-arch { border-radius: 50% 50% 12% 12% / 40% 40% 12% 12%; }
+.bos-charm-bloom { border-radius: 60% 40% 55% 45% / 50% 55% 45% 50%; }
+.bos-charm-pebble { border-radius: 42% 58% 46% 54% / 58% 44% 56% 42%; }
+.bos-charm-tab { border-radius: 50% 50% 50% 50% / 50% 50% 18% 18%; }
+.bos-charm-sm { --charm-size: 40px; }
+.bos-charm-md { --charm-size: 64px; }
+.bos-charm-lg { --charm-size: 120px; }
+/* Fills: the gradient (default), the primary, or a pale tint with primary ink. */
+.bos-charm-primary { background: var(--primary); color: var(--primary-foreground); }
+.bos-charm-soft { background: color-mix(in oklab, var(--primary) 12%, var(--card)); color: color-mix(in oklab, var(--primary), var(--foreground) 25%); }
+.bos-charm-secondary { background: var(--band-1); color: var(--band-foreground, white); }
+.dark .bos-charm-soft { background: color-mix(in oklab, var(--primary) 22%, var(--card)); color: color-mix(in oklab, var(--primary), white 45%); }
+/* Avatar: initials in a tab charm. */
+.bos-avatar {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50% 50% 50% 50% / 50% 50% 18% 18%;
+  background: color-mix(in oklab, var(--primary) 12%, var(--card));
+  color: color-mix(in oklab, var(--primary), var(--foreground) 30%);
+  font-weight: 700;
+  font-size: 0.9375rem;
+}
+.dark .bos-avatar {
+  background: color-mix(in oklab, var(--primary) 22%, var(--card));
+  color: color-mix(in oklab, var(--primary), white 50%);
+}
+
+/* ---------- Band: the one full-colour gradient on a page, for the closing call to action ---------- */
+.bos-band {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--space-6);
+  align-items: center;
+  margin-top: var(--space-8);
+  padding: 56px;
+  border-radius: 28px;
+  background: var(--gradient-brand);
+  color: var(--band-foreground, white);
+}
+.bos-band :is(h1, h2, h3, .bos-h1, .bos-h2, .bos-h3) {
+  color: inherit;
+}
+.bos-band p {
+  margin: 10px 0 0;
+  max-width: 46ch;
+  color: color-mix(in oklab, var(--band-foreground, white) 90%, transparent);
+}
+/* Glass on colour: a clear pill that turns solid white on hover. */
+.bos-band .bos-btn-glass {
+  background: oklch(1 0 0 / 18%);
+  border-color: oklch(1 0 0 / 35%);
+  color: var(--band-foreground, white);
+  box-shadow: inset 0 1px 0 oklch(1 0 0 / 55%), 0 8px 24px -8px oklch(0 0 0 / 30%);
+}
+.bos-band .bos-btn-glass:hover {
+  background: white;
+  border-color: white;
+  color: var(--band-1);
+}
+
+/* ---------- Data table: ranked lists and leaderboards ---------- */
+.bos-table-wrap {
+  padding: var(--space-2) var(--space-5);
+  border-radius: 24px;
+  border: 1px solid var(--border);
+  background: var(--card);
+}
+.bos-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.bos-table th {
+  padding: 16px 8px 10px;
+  text-align: left;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--muted-foreground);
+}
+.bos-table td {
+  padding: 14px 8px;
+  border-top: 1px solid var(--border);
+}
+.bos-table .bos-row-self td {
+  background: color-mix(in oklab, var(--primary) 7%, var(--card));
+}
+.dark .bos-table .bos-row-self td {
+  background: color-mix(in oklab, var(--primary) 14%, var(--card));
+}
+.bos-table .bos-row-self td:first-child { border-radius: 12px 0 0 12px; }
+.bos-table .bos-row-self td:last-child { border-radius: 0 12px 12px 0; }
+.bos-rank {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+.bos-rank-top {
+  border-color: transparent;
+  background: var(--foreground);
+  color: var(--background);
+}
+
+/* ---------- Floating control (a second glass element, bottom right) ---------- */
+.bos-float {
+  position: fixed;
+  right: var(--space-5);
+  bottom: var(--space-5);
+  z-index: 40;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 960px) {
+  .bos-hero-grid,
+  .bos-feature-grid,
+  .bos-grid-3,
+  .bos-grid-2 {
+    grid-template-columns: 1fr;
+  }
+  .bos-band {
+    grid-template-columns: 1fr;
+    padding: 36px;
+  }
+  .bos-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .bos-stats > :nth-child(odd) {
+    border-left: 0;
+  }
+  .bos-stats > :nth-child(n + 3) {
+    border-top: 1px solid var(--border);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(.bos-row, .bos-tile, .bos-btn-glass, .bos-btn-primary, .bos-row-chevron) {
+    transition: none;
+    transform: none !important;
+  }
+}
+@media (prefers-reduced-transparency: reduce) {
+  :is(.bos-glass, .bos-row, .bos-btn-glass, .bos-tile) {
+    background: var(--card);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
 }

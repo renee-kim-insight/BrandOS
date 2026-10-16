@@ -1,6 +1,6 @@
 {
   "name": "brandos",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Turn a brand guide into a themed, accessible component library and apply it to any app.",
   "type": "module",
   "bin": {

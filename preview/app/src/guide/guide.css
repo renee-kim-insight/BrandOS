@@ -1,0 +1,914 @@
+/* Guide-only styles: diagrams, specimens and the component gallery. Everything else is brandos-ui.css. */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 96px;
+}
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font: 16px/1.6 var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+code {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+}
+
+/* Nav */
+.gd-shell {
+  padding: 8px 8px 8px 20px;
+}
+.gd-brand {
+  font-weight: 700;
+  color: var(--foreground);
+  text-decoration: none;
+}
+.gd-brand-select {
+  min-height: 40px;
+  max-width: 220px;
+  border-radius: 999px;
+}
+.gd-icon-btn {
+  flex: none;
+  width: 40px;
+  min-height: 40px;
+  padding: 0;
+}
+
+/* Sections */
+.gd-section {
+  padding-top: 112px;
+}
+.gd-sec-head {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 32px;
+  max-width: 760px;
+}
+.gd-intro {
+  margin-top: 6px;
+}
+.gd-sub {
+  margin: 48px 0 18px;
+}
+.gd-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 56px 0 64px;
+  color: var(--muted-foreground);
+  font-size: 14px;
+}
+.gd-code {
+  margin: 12px 0 0;
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: color-mix(in oklab, var(--foreground) 5%, var(--card));
+  overflow-x: auto;
+  line-height: 1.7;
+}
+.gd-chipcode {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--foreground) 6%, transparent);
+}
+.gd-arrow {
+  color: var(--muted-foreground);
+  flex: none;
+}
+.gd-level-top {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+.gd-next strong {
+  white-space: nowrap;
+}
+.gd-next {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin: 20px 0 8px;
+  font-size: 14px;
+}
+
+/* How it works: flow */
+.gd-flow {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 16px;
+  counter-reset: step;
+}
+.gd-flow-step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px;
+  border-radius: 24px;
+  background: var(--frost-medium);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  box-shadow: inset 0 0 0 1px var(--frost-border);
+}
+.gd-flow-step:first-child {
+  background: var(--card);
+  box-shadow: var(--shadow-md);
+}
+.gd-flow-step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 50px;
+  right: -14px;
+  width: 12px;
+  height: 12px;
+  border-top: 2px solid var(--muted-foreground);
+  border-right: 2px solid var(--muted-foreground);
+  transform: rotate(45deg);
+  opacity: 0.5;
+}
+.gd-flow-step p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted-foreground);
+}
+.gd-flow-num {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  font-family: var(--font-display, var(--font-sans));
+  font-size: 28px;
+  font-weight: var(--display-weight, 600);
+  color: color-mix(in oklab, var(--foreground) 22%, transparent);
+}
+.gd-flow-step .bos-charm {
+  margin-bottom: 6px;
+}
+.gd-fontflow {
+  padding: 32px;
+  border-radius: 24px;
+}
+.gd-fontflow-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 16px;
+  justify-items: center;
+}
+.gd-node {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1px dashed color-mix(in oklab, var(--foreground) 25%, transparent);
+  font-size: 14px;
+  text-align: center;
+}
+.gd-node-out {
+  border-style: solid;
+  border-color: transparent;
+  background: var(--card);
+  box-shadow: var(--shadow-sm);
+}
+.gd-node small {
+  flex-basis: 100%;
+  color: var(--muted-foreground);
+}
+.gd-fontflow-grid .gd-arrow {
+  transform: rotate(90deg);
+}
+
+/* Anatomy wireframe */
+.gd-anatomy {
+  display: grid;
+  grid-template-columns: 1.3fr 0.7fr;
+  gap: 32px;
+  align-items: start;
+}
+.gd-wire {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 18px;
+  border-radius: 24px;
+  background: var(--background);
+  box-shadow: inset 0 0 0 1px var(--border), var(--shadow-md);
+  --w: color-mix(in oklab, var(--foreground) 14%, transparent);
+  --w2: color-mix(in oklab, var(--foreground) 8%, transparent);
+}
+.gd-wire > *,
+.gd-wire-card,
+.gd-wire-hero > div {
+  position: relative;
+}
+.gd-wire i,
+.gd-legend-num {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: var(--foreground);
+  color: var(--background);
+  font: 700 12px/1 var(--font-sans);
+  font-style: normal;
+  flex: none;
+}
+.gd-wire i {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  z-index: 2;
+  box-shadow: 0 0 0 3px var(--background);
+}
+.gd-wire-glow {
+  position: absolute !important;
+  inset: 0 0 auto auto;
+  width: 60%;
+  height: 300px;
+  background:
+    radial-gradient(60% 80% at 100% 0%, var(--backdrop-2) 0%, transparent 70%),
+    radial-gradient(50% 70% at 85% 10%, color-mix(in oklab, var(--primary) 22%, transparent), transparent 70%);
+}
+.gd-wire-glow i {
+  top: 12px !important;
+  left: auto !important;
+  right: 12px;
+}
+.gd-wire-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: var(--frost-medium);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: inset 0 0 0 1px var(--frost-border), var(--shadow-sm);
+}
+.gd-wire-nav b {
+  width: 60px;
+  height: 10px;
+  border-radius: 6px;
+  background: var(--foreground);
+  opacity: 0.6;
+  margin-right: auto;
+}
+.gd-wire-nav span {
+  width: 34px;
+  height: 8px;
+  border-radius: 6px;
+  background: var(--w);
+}
+.gd-wire-nav span:first-of-type {
+  background: var(--primary);
+}
+.gd-wire-hero {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 18px;
+  align-items: center;
+  padding: 18px 4px 4px;
+}
+.gd-wire-h {
+  height: 18px;
+  border-radius: 6px;
+  background: color-mix(in oklab, var(--foreground) 55%, transparent);
+  margin-bottom: 8px;
+}
+.gd-wire-h.short {
+  width: 70%;
+}
+.gd-wire-p {
+  height: 8px;
+  width: 80%;
+  border-radius: 6px;
+  background: var(--w);
+  margin: 10px 0;
+}
+.gd-wire-btns {
+  display: flex;
+  gap: 8px;
+}
+.gd-wire-btns span {
+  width: 64px;
+  height: 18px;
+  border-radius: 999px;
+}
+.gd-wire-btns .p {
+  background: var(--primary);
+}
+.gd-wire-btns .g {
+  background: var(--frost-medium);
+  box-shadow: inset 0 0 0 1px var(--w);
+}
+.gd-wire-card {
+  padding: 14px;
+  border-radius: 14px;
+  background: var(--card);
+  box-shadow: var(--shadow-md);
+}
+.gd-wire-card.tall {
+  min-height: 96px;
+}
+.gd-wire-charm {
+  display: block;
+  width: 30px;
+  height: 30px;
+  border-radius: 60% 60% 60% 8%;
+  background: var(--gradient-brand);
+}
+.gd-wire-bar {
+  height: 6px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--primary) 60%, var(--progress-track) 60%);
+}
+.gd-wire-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-block: 1px solid var(--border);
+}
+.gd-wire-stats span {
+  height: 34px;
+  margin: 10px;
+  border-radius: 6px;
+  background: var(--w2);
+}
+.gd-wire-feature {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 12px;
+}
+.gd-wire-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.gd-wire-rows span {
+  flex: 1;
+  border-radius: 10px;
+  background: var(--frost-medium);
+  box-shadow: inset 0 0 0 1px var(--w2);
+}
+.gd-wire-tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.gd-wire-tiles span {
+  height: 54px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.gd-wire-table {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.gd-wire-table span {
+  height: 12px;
+  border-radius: 6px;
+  background: var(--w2);
+}
+.gd-wire-table span.self {
+  background: color-mix(in oklab, var(--primary) 16%, transparent);
+}
+.gd-wire-band {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px;
+  border-radius: 14px;
+  background: var(--gradient-brand);
+}
+.gd-wire-band span {
+  width: 70px;
+  height: 20px;
+  border-radius: 999px;
+  background: oklch(1 0 0 / 25%);
+  box-shadow: inset 0 0 0 1px oklch(1 0 0 / 50%);
+}
+.gd-legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.gd-legend li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.gd-legend strong {
+  display: block;
+}
+.gd-legend span:not(.gd-legend-num) {
+  font-size: 14px;
+  color: var(--muted-foreground);
+}
+
+/* Surfaces ladder */
+.gd-ladder {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+}
+.gd-ladder-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.gd-ladder-item p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted-foreground);
+}
+.gd-ladder-item > code {
+  color: var(--muted-foreground);
+}
+.gd-ladder-demo {
+  min-height: 190px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 24px;
+  border: 1px dashed color-mix(in oklab, var(--foreground) 14%, transparent);
+}
+.gd-ladder-demo.bos-surface {
+  border: 0;
+  align-items: flex-start;
+  padding: 24px;
+}
+.gd-on-glow {
+  background:
+    radial-gradient(80% 90% at 100% 0%, var(--backdrop-2), transparent 70%),
+    radial-gradient(70% 80% at 0% 100%, color-mix(in oklab, var(--primary) 14%, transparent), transparent 70%);
+}
+.gd-mini-band {
+  margin: 0;
+  padding: 22px;
+  grid-template-columns: 1fr auto;
+}
+.gd-states {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  margin-top: 16px;
+}
+.gd-states > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+.gd-states small {
+  font-size: 13px;
+  color: var(--muted-foreground);
+}
+.bos-band .gd-states small,
+.bos-band .gd-arrow {
+  color: oklch(1 0 0 / 85%);
+}
+.gd-states-band {
+  margin: 0;
+  display: block;
+  padding: 32px;
+}
+.gd-states-band .gd-states {
+  margin: 0;
+}
+.bos-btn-glass.gd-force-hover {
+  background: var(--card);
+  border-color: var(--border);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+.bos-btn-glass.gd-force-press {
+  background: var(--card);
+  border-color: var(--border);
+  transform: scale(0.98);
+  box-shadow: none;
+}
+.bos-band .bos-btn-glass.gd-force-hover-band {
+  background: white;
+  border-color: white;
+  color: var(--band-1);
+}
+
+/* Colours */
+.gd-colours {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px 32px;
+}
+.gd-colour-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.gd-swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+  gap: 10px;
+}
+.gd-swatch {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.gd-swatch span {
+  height: 56px;
+  border-radius: 14px;
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--foreground) 10%, transparent);
+}
+.gd-swatch code {
+  font-size: 11px;
+  color: var(--muted-foreground);
+  word-break: break-all;
+}
+.gd-gradient {
+  height: 56px;
+  border-radius: 14px;
+  background: var(--gradient-brand);
+}
+
+/* Type */
+.gd-type-row {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 24px;
+  align-items: baseline;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border);
+}
+.gd-type-row:first-child {
+  padding-top: 0;
+}
+.gd-type-meta {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
+.gd-type-meta span,
+.gd-type-meta code {
+  color: var(--muted-foreground);
+}
+
+/* Spacing, shadow, radius */
+.gd-spacing {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 14px;
+}
+.gd-spacing div {
+  display: grid;
+  grid-template-columns: 80px 1fr 28px;
+  align-items: center;
+  gap: 10px;
+}
+.gd-spacing code,
+.gd-spacing small {
+  color: var(--muted-foreground);
+  font-size: 12px;
+}
+.gd-spacing span {
+  height: 10px;
+  border-radius: 4px;
+  background: color-mix(in oklab, var(--primary) 55%, transparent);
+}
+.gd-shadows {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 16px;
+}
+.gd-shadows div {
+  padding: 18px;
+  border-radius: 16px;
+  background: var(--card);
+}
+.gd-radii {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 16px;
+}
+.gd-radii div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.gd-radii span {
+  height: 56px;
+  border: 2px solid color-mix(in oklab, var(--foreground) 30%, transparent);
+  background: color-mix(in oklab, var(--foreground) 4%, transparent);
+}
+.gd-radii small {
+  color: var(--muted-foreground);
+}
+
+/* Charms */
+.gd-charms {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 20px;
+}
+.gd-charm-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 24px 12px;
+  border-radius: 24px;
+  background: var(--frost-medium);
+  box-shadow: inset 0 0 0 1px var(--frost-border);
+}
+.gd-charm-cell code {
+  color: var(--muted-foreground);
+}
+.gd-charm-initials {
+  font-weight: 700;
+  font-size: 22px;
+}
+.gd-charm-neutral {
+  background: color-mix(in oklab, var(--foreground) 10%, var(--card));
+  color: var(--foreground);
+}
+
+/* Specimens */
+.gd-specimens {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+.gd-span-2 {
+  grid-column: span 2;
+}
+.gd-specimen {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  border-radius: 24px;
+  overflow: hidden;
+  background: var(--card);
+  border: 1px solid var(--border);
+}
+.gd-stage {
+  flex: 1;
+  padding: 32px 28px;
+  background:
+    radial-gradient(70% 90% at 100% 0%, color-mix(in oklab, var(--backdrop-2) 80%, transparent), transparent 70%),
+    var(--background);
+}
+.gd-specimen figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 20px 16px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+}
+.gd-specimen figcaption span {
+  color: var(--muted-foreground);
+}
+.gd-progress-demo .gd-next:first-child {
+  margin-top: 0;
+}
+.gd-ramp {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.gd-ramp span {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  font-weight: 700;
+  font-size: 14px;
+}
+.gd-input {
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid var(--input);
+  background: var(--frost-strong);
+  color: var(--foreground);
+  font: inherit;
+}
+.gd-input:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+.gd-skel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Component gallery */
+.gd-index {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 32px;
+}
+.gd-index a {
+  text-decoration: none;
+  color: var(--foreground);
+  transition: background-color 150ms;
+}
+.gd-index a:hover {
+  background: var(--card);
+}
+.gd-components {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+.gd-comp {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 20px;
+  border-radius: 24px;
+  background: var(--frost-medium);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  box-shadow: inset 0 0 0 1px var(--frost-border);
+  scroll-margin-top: 96px;
+}
+.gd-comp header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.gd-comp-desc {
+  margin: 4px 0 14px;
+}
+.gd-comp-stage {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+  padding: 28px 20px;
+  border-radius: 18px;
+  overflow: auto;
+  background:
+    radial-gradient(70% 90% at 100% 0%, color-mix(in oklab, var(--backdrop-2) 80%, transparent), transparent 70%),
+    radial-gradient(60% 80% at 0% 100%, color-mix(in oklab, var(--backdrop-1) 60%, transparent), transparent 70%),
+    var(--background);
+}
+.gd-comp-stage > * {
+  max-width: 100%;
+}
+
+/* Example page in a browser frame */
+.gd-browser {
+  border-radius: 24px;
+  overflow: hidden;
+  background: var(--background);
+  box-shadow: inset 0 0 0 1px var(--border), var(--shadow-lg);
+}
+.gd-browser-bar {
+  display: flex;
+  gap: 6px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--card);
+}
+.gd-browser-bar span {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--foreground) 18%, transparent);
+}
+.gd-browser-page {
+  position: relative;
+  isolation: isolate;
+  padding: 20px 32px 32px;
+}
+.gd-browser-glow {
+  position: absolute;
+  inset: 0 0 auto auto;
+  width: 70%;
+  height: 480px;
+  z-index: -1;
+  background:
+    radial-gradient(60% 80% at 100% 0%, var(--backdrop-2) 0%, transparent 60%),
+    radial-gradient(50% 70% at 85% 10%, color-mix(in oklab, var(--primary) 20%, transparent) 0%, transparent 65%);
+}
+.gd-browser .bos-band {
+  margin-top: 40px;
+}
+
+/* Rules */
+.gd-rules-card {
+  padding: 32px;
+  border-radius: 24px;
+}
+.gd-rule-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.gd-rules {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.gd-rules li {
+  display: flex;
+  flex-direction: column;
+}
+.gd-rules span {
+  font-size: 14px;
+  color: var(--muted-foreground);
+}
+
+@media (max-width: 1100px) {
+  .gd-flow {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .gd-flow-step:nth-child(3)::after {
+    display: none;
+  }
+  .gd-ladder {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .gd-charms {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 860px) {
+  .gd-anatomy,
+  .gd-components,
+  .gd-specimens {
+    grid-template-columns: 1fr;
+  }
+  .gd-span-2 {
+    grid-column: auto;
+  }
+  .gd-type-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}
+@media (max-width: 640px) {
+  .gd-flow,
+  .gd-ladder {
+    grid-template-columns: 1fr;
+  }
+  .gd-flow-step::after {
+    display: none;
+  }
+  .gd-charms {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .gd-brand-select {
+    max-width: 130px;
+  }
+  .gd-browser-page {
+    padding: 16px;
+  }
+  .gd-section {
+    padding-top: 80px;
+  }
+}
