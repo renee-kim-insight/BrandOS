@@ -49,14 +49,29 @@ export function Guide() {
     } catch {}
   }, [brand])
   const current = brands.find((b) => b.id === brand) ?? brands[0]
-  // Some demos focus an input when they mount. Keep the guide opening at the top.
+  // Some demos focus an input when they mount, which scrolls the page and the demo's own panel.
+  // Undo that until the reader starts moving around, so the guide opens at the top with every demo at rest.
   React.useEffect(() => {
-    const t = window.setTimeout(() => {
-      if (window.location.hash) return
-      ;(document.activeElement as HTMLElement | null)?.blur?.()
-      window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior })
-    }, 50)
-    return () => window.clearTimeout(t)
+    let touched = false
+    const mark = () => (touched = true)
+    const opts = { once: true, passive: true } as AddEventListenerOptions
+    for (const ev of ["wheel", "touchstart", "keydown", "pointerdown"]) window.addEventListener(ev, mark, opts)
+    const reset = () => {
+      if (touched) return
+      const a = document.activeElement as HTMLElement | null
+      if (a && a.closest(".gd-comp")) a.blur()
+      document.querySelectorAll<HTMLElement>(".gd-comp-stage, .gd-comp-stage *").forEach((el) => {
+        if (el.closest('[data-slot*="scroller"]')) return // chat transcripts stay pinned to the newest message
+        if (el.scrollTop) el.scrollTop = 0
+        if (el.scrollLeft && getComputedStyle(el).direction !== "rtl") el.scrollLeft = 0
+      })
+      if (!window.location.hash) window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior })
+    }
+    const timers = [0, 100, 400, 1200].map((ms) => window.setTimeout(reset, ms))
+    return () => {
+      timers.forEach((t) => window.clearTimeout(t))
+      for (const ev of ["wheel", "touchstart", "keydown", "pointerdown"]) window.removeEventListener(ev, mark)
+    }
   }, [])
 
   return (

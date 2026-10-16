@@ -2,6 +2,11 @@
 
 BrandOS uses semantic versioning: patch (1.0.x) for fixes and rule changes, minor (1.x.0) for new features, major (x.0.0) for breaking changes.
 
+## 1.2.2
+
+- Command menus rest cleanly: the panel clips instead of scrolling, so the search field can't be pushed out of place, and the pre-selected first item only shows its highlight once the menu is in use.
+- Guide: demos that grab focus on load no longer scroll the page or their own panels.
+
 ## 1.2.1
 
 - Hover only on things you can click: table rows (including header and footer rows) and plain ghost badges no longer change on hover.

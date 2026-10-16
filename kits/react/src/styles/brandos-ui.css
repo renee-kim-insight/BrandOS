@@ -1083,3 +1083,13 @@ button.bos-row:hover {
 :where(.bos-backdrop) input[type="file"]:hover::file-selector-button {
   box-shadow: var(--shadow-md);
 }
+
+/* ---------- Command menus at rest ---------- */
+/* The panel clips instead of scrolling, so focusing or selecting an item can never shift the search field out of place. */
+[data-slot="command"] {
+  overflow: clip;
+}
+/* The first item is pre-selected for the keyboard. Show that only once the menu is in use, so it never looks hovered at rest. */
+[data-slot="command"]:not(:focus-within):not(:hover) [data-slot="command-item"][data-selected="true"] {
+  background: transparent;
+}
