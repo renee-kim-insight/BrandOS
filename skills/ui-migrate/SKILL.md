@@ -68,6 +68,15 @@ Off-brand colours usually survive in places a stylesheet search misses. Check al
 - SVGs and images with colours baked in (report these and propose a fix before changing them)
 - chart settings (use `--chart-1` to `--chart-5`)
 
+### Palette lock
+
+Every coloured value must come from the brand. Blacks, whites and greys are free; anything with colour must share a hue with one of the brand colours in `palette.json` (tints, shades and glass over brand colours are fine). Fonts must be the brand's fonts or generic fallbacks. Two checks enforce it, and a page is not done until both pass:
+
+- `brandos audit <app>`: scans the app's code (CSS, templates, scripts) and lists every off-brand colour and font with file and line.
+- `brandos verify <url> --app <app>`: opens the running app in a real browser, in light and dark, and lists every off-brand colour and font actually on screen, including ones that come from data, runtime styles, third-party components and icons. Needs Playwright (`npm install playwright && npx playwright install chromium` in the brandos folder).
+
+When either finds something, fix the source: map it to a theme token (`--primary`, `--ramp-N`, `--chart-N`, `--destructive`, a neutral), never just change the hex to a brand hex in place. The only colour allowed outside the brand is the standard error red, and only when the brand defines no error colour.
+
 ## 2. For each item, in order
 
 ### a. Propose
@@ -89,7 +98,7 @@ For small swaps, proceed. For restructures that change layout or how something i
 
 ### c. Show
 
-Mark the item `[~]` in `MIGRATION.md`. Run the app (or reload it) and give the person the URL of the page, plus a short summary: what changed, and anything you chose not to change and why. A before-and-after screenshot helps when you can take one.
+Run `brandos audit` and `brandos verify` for the page; both must report nothing off-brand. Mark the item `[~]` in `MIGRATION.md`. Run the app (or reload it) and give the person the URL of the page, plus a short summary: what changed, and anything you chose not to change and why. A before-and-after screenshot helps when you can take one.
 
 ### d. Wait
 

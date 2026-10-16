@@ -15,6 +15,15 @@ It checks:
 2. **Approvals:** every item in `MIGRATION.md` is `[x]`.
 3. **Hand-built UI:** raw buttons, inputs, tables, modals and so on outside the kit.
 4. **Hard-coded colours:** hex, rgb, hsl and Tailwind palette colours in app code and stylesheets.
+5. **Palette lock:** every coloured value and font in the code must come from the brand (`palette.json`), listed by file and line.
+
+Then check what is actually on screen:
+
+```
+brandos verify http://localhost:5173 --app <app>
+```
+
+It opens each page (from the scan, or `--pages /,/profile`) in light and dark and lists every off-brand colour and font, including ones from data, runtime styles and third-party components. Both checks must be clean.
 
 For each finding, either fix it (migrate the element, replace the colour with a token) or, if it is intentional (a third-party embed, a chart's data colours, an email template), record why under the relevant item in `MIGRATION.md`.
 

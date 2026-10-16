@@ -47,7 +47,7 @@ export async function install(a, PKG) {
   console.log(`App: ${app}\nFramework: ${d.framework}  Tailwind: ${d.tailwind ? `v${d.tailwind.version}` : "none"}  Kit: ${kit}${dry ? "  (dry run)" : ""}`)
   for (const n of d.notes) console.log(`  note: ${n}`)
 
-  const brandFiles = ["theme.css", "fonts.css", "tokens.json"].filter((f) => fs.existsSync(path.join(brandDir, f)))
+  const brandFiles = ["theme.css", "fonts.css", "tokens.json", "palette.json"].filter((f) => fs.existsSync(path.join(brandDir, f)))
   const fontDir = path.join(brandDir, "fonts")
   if (fs.existsSync(fontDir)) for (const f of fs.readdirSync(fontDir)) brandFiles.push(path.join("fonts", f))
 
@@ -127,7 +127,7 @@ export async function install(a, PKG) {
       console.log(`Running: ${cmd}`)
       execSync(cmd, { cwd: app, stdio: "inherit" })
     } else log.todo.push(`Install dependencies: ${cmd}`)
-    writeManifest(app, { kit, brandDir, components: wanted, files: log.copied }, dry)
+    writeManifest(app, { kit, brandDir, components: wanted, files: log.copied.concat(log.updated, log.same) }, dry)
   } else if (kit === "primevue") {
     // PrimeVue bridge: keep every PrimeVue component, point its tokens at the brand theme, add the Glass layer.
     const dest = path.join(app, d.srcDir, a.dir ?? "brandos")
@@ -176,7 +176,7 @@ export async function install(a, PKG) {
     log.todo.push(darkSel ? `Dark mode follows PrimeVue's darkModeSelector (${darkSel}); theme.css was lined up with it.` : `PrimeVue dark mode is off, so the light theme is used.`)
     log.todo.push(`Add class="bos-backdrop" to the app's root element so glass has a soft brand wash behind it. Shared classes for frost tiers, page headers, segmented controls, buttons, chips, ramps and progress are in brandos-ui.css (see skills/ui-migrate).`)
     wireRoot(app, d, brandDir, dry, log)
-    writeManifest(app, { kit, brandDir, files: log.copied }, dry)
+    writeManifest(app, { kit, brandDir, files: log.copied.concat(log.updated, log.same), darkSelector: darkSel && darkSel !== "system" ? darkSel : null }, dry)
   } else {
     // CSS kit: exact styles as plain CSS + generated HTML markup for every component.
     const dest = path.join(app, a.dir ?? "brandos")
@@ -191,7 +191,7 @@ export async function install(a, PKG) {
     log.todo.push(`Copy component markup from ${path.relative(app, path.join(dest, "markup"))}/. Keep the classes and data attributes exactly; only change text and wiring.`)
     if (d.framework === "angular") log.todo.push(`Angular: add the four CSS files to "styles" in angular.json, in that order.`)
     wireRoot(app, d, brandDir, dry, log)
-    writeManifest(app, { kit, brandDir, files: log.copied }, dry)
+    writeManifest(app, { kit, brandDir, files: log.copied.concat(log.updated, log.same) }, dry)
   }
 
   const show = (t, list) => list.length && console.log(`\n${t}\n${list.map((x) => `  ${x}`).join("\n")}`)
@@ -306,6 +306,7 @@ function writeManifest(app, info, dry) {
     kit: info.kit,
     brand: path.relative(app, info.brandDir) || ".",
     components: info.components,
+    darkSelector: info.darkSelector ?? undefined,
     files: Object.fromEntries((info.files ?? []).map((f) => [f, hash(f)])),
   }
   fs.writeFileSync(path.join(dir, "manifest.json"), JSON.stringify(manifest, null, 2) + "\n")

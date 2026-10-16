@@ -73,7 +73,8 @@ brandos preview --brand brand-out      Local site with every component in the br
 brandos detect <app>                   Framework, Tailwind, package manager
 brandos install <app>                  Install the kit and theme (never overwrites your files)
 brandos scan <app>                     Write MIGRATION.md, the page-by-page plan
-brandos audit <app>                    Final check
+brandos audit <app>                    Final check: leftovers, off-brand colours and fonts in the code
+brandos verify <url> --app <app>       Check every colour and font on screen in the running app
 ```
 
 ## Maintaining BrandOS

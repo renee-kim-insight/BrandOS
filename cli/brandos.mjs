@@ -31,7 +31,8 @@ App
   detect [appDir]                               Report framework, styling and package manager
   install [appDir] [--kit react] [--dry-run]    Copy the component kit and theme into an app
   scan [appDir] [--out MIGRATION.md]            Inventory pages and hand-built UI, write the migration plan
-  audit [appDir]                                Find leftover hand-built UI and hard-coded colours
+  audit [appDir]                                Leftover hand-built UI, off-brand colours and fonts in the code
+  verify <url> --app <appDir> [--pages /,/a]    Open the running app and check every colour and font on screen
 
 Preview
   preview [--brand brand-out-dir] [--port 4321] Local site showing every component in the brand
@@ -90,6 +91,11 @@ try {
     case "audit": {
       const { auditApp } = await import("./lib/scan.mjs")
       process.exitCode = await auditApp(a)
+      break
+    }
+    case "verify": {
+      const { verify } = await import("./lib/verify.mjs")
+      process.exitCode = await verify(a, PKG)
       break
     }
     case "preview": {

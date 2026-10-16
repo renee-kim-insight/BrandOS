@@ -610,3 +610,15 @@
   /* Fades content out as it passes under the bar, instead of showing it in the gap above. */
   background: linear-gradient(to bottom, var(--background) 0%, var(--background) 45%, transparent 100%);
 }
+
+/* ---------- Brand fonts everywhere ---------- */
+/* Body text uses the brand's UI font; headings use its display font when the brand has one. */
+:where(.bos-backdrop) {
+  font-family: var(--font-sans);
+}
+:where(.bos-backdrop) :is(h1, h2, h3, .bos-title, .bos-section-title) {
+  font-family: var(--font-display, var(--font-sans));
+}
+:where(.bos-backdrop) :is(code, kbd, pre, samp) {
+  font-family: var(--font-mono);
+}

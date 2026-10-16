@@ -122,11 +122,11 @@ export const BrandOSPreset = definePreset(Aura, {
     },
     // Severities follow the colour budget: "danger" is the brand's destructive colour, "success" is the
     // brand colour, and "info" is neutral. Nothing renders stock green, blue or sky.
+    // Every stock colour ramp is remapped, so no PrimeVue severity or component can show a non-brand colour:
+    // danger uses the brand's destructive colour, warnings and info are neutral, everything else is the brand colour.
     red: ramp("var(--destructive)"),
-    green: ramp("var(--primary)"),
-    emerald: ramp("var(--primary)"),
-    blue: ramp("var(--muted-foreground)"),
-    sky: ramp("var(--muted-foreground)"),
+    ...Object.fromEntries(["green", "emerald", "teal", "cyan", "lime", "violet", "purple", "fuchsia", "pink", "rose", "indigo"].map((n) => [n, ramp("var(--primary)")])),
+    ...Object.fromEntries(["blue", "sky", "orange", "amber", "yellow"].map((n) => [n, ramp("var(--muted-foreground)")])),
   },
   semantic: {
     primary: ramp("var(--primary)"),

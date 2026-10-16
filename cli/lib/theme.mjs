@@ -62,22 +62,26 @@ export function generateTheme(brand) {
   L.ring = ringL ?? N(0.48, 0.15)
 
   const danger = brand.colors.danger ? oklch(brand.colors.danger) : mk(0.551, 0.19, 27.2)
+  if (!brand.colors.danger) changes.push(`DECISION NEEDED: the brand has no error colour, so errors use a standard red (${hex(danger)}). Add colors.danger to brand.json if the guide has one; this red is the only colour allowed outside the brand.`)
   L.destructive = nudge(danger, (c) => contrast(c, L.background) >= RULES.text && contrast(c, WHITE) >= RULES.text) ?? mk(0.5, 0.19, 27)
 
   // Brand palette for charts and backdrop
   const brandHues = [P, brand.colors.secondary && oklch(brand.colors.secondary), ...(brand.colors.accents ?? []).map(oklch)].filter(Boolean)
   const chromatic = brandHues.filter((c) => !isNeutral(c))
   const baseHue = chromatic[0]?.h ?? 280
-  const chart = []
-  for (const c of brandHues) if (chart.length < 5) chart.push(isNeutral(c) ? null : c)
-  const filler = [0, 60, 150, 210, 300]
-  let fi = 0
-  for (let i = 0; i < 5; i++) if (!chart[i]) chart[i] = mk(0.62, 0.15, (baseHue + filler[fi++ % 5]) % 360)
+  // Charts use only brand colours. With fewer than five, repeat them at other lightness levels
+  // instead of inventing hues; a brand with no colour at all gets a neutral greyscale.
+  const chart = chromatic.slice(0, 5)
+  const steps = [0.45, 0.75, 0.35, 0.82]
+  for (let i = 0; chart.length < 5; i++) {
+    const src = chromatic[i % Math.max(chromatic.length, 1)]
+    chart.push(src ? { ...src, l: steps[Math.floor(i / Math.max(chromatic.length, 1)) % steps.length] } : N(0.3 + chart.length * 0.12, 0.02))
+  }
   chart.forEach((c, i) => (L[`chart-${i + 1}`] = c))
 
   // Backdrop and aura colours come only from the brand. With fewer than three brand colours, stay close
   // to the primary hue instead of inventing new ones, so the background never adds off-brand colour.
-  const bd = [chromatic[0], chromatic[1], chromatic[2]].map((c, i) => c?.h ?? (baseHue + [0, 18, -18][i] + 360) % 360)
+  const bd = [chromatic[0], chromatic[1], chromatic[2]].map((c, i) => c?.h ?? (baseHue + [0, 8, -8][i] + 360) % 360)
   // Soft wash: glass reads through gentle colour, so the backdrop stays pale and low in chroma.
   L["backdrop-1"] = mk(0.9, 0.05, bd[0])
   L["backdrop-2"] = mk(0.91, 0.045, bd[1])
@@ -132,7 +136,8 @@ export function generateTheme(brand) {
     D.primary = dp
     D["primary-foreground"] = dpf
     if (!isNeutral(P)) changes.push(`Dark mode: primary is ${hex(dp)} with ${dpf === WHITE ? "white" : "near-black"} text, so both the button text (4.5:1) and the button itself (3:1) read on the dark page.`)
-    D.ring = isNeutral(P) ? mk(0.673, 0.152, baseHue) : dp
+    // A neutral brand keeps a neutral focus ring rather than inventing a colour.
+    D.ring = isNeutral(P) ? (chromatic[0] ? { ...chromatic[0], l: 0.7 } : D.foreground) : dp
     D.destructive = nudge({ ...danger, l: Math.max(danger.l, 0.62) }, (c) => contrast(c, D.background) >= RULES.text && contrast(c, D.card) >= RULES.text, { step: 0.01 }) ?? mk(0.64, 0.18, 27)
     for (let i = 1; i <= 5; i++) {
       const c = L[`chart-${i}`]

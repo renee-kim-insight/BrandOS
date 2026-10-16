@@ -3,6 +3,7 @@ import path from "node:path"
 
 import { fontsCss, fontsHtml, generateTheme, reportMd, themeCss, tokensJson } from "./theme.mjs"
 import { validateBrand } from "./validate.mjs"
+import { buildPalette } from "./palette.mjs"
 
 export async function runTheme(a) {
   const file = a._[0] ?? "brand.json"
@@ -36,6 +37,7 @@ export async function runTheme(a) {
   fs.writeFileSync(path.join(out, "fonts.html"), fontsHtml(brand))
   fs.writeFileSync(path.join(out, "tokens.json"), JSON.stringify(tokensJson(brand, theme), null, 2) + "\n")
   fs.writeFileSync(path.join(out, "theme-report.md"), reportMd(brand, theme))
+  fs.writeFileSync(path.join(out, "palette.json"), JSON.stringify(buildPalette(brand, theme), null, 2) + "\n")
   for (const c of theme.changes) console.log(`• ${c}`)
   const fails = theme.audit.checks.filter((c) => !c.pass)
   if (fails.length) {
@@ -43,6 +45,6 @@ export async function runTheme(a) {
     console.log(`\nWrote ${out}/ but ${fails.length} contrast checks fail. See theme-report.md.`)
     return 1
   }
-  console.log(`✓ ${brand.name}: ${theme.audit.checks.length} contrast checks pass. Wrote theme.css, fonts.css, fonts.html, tokens.json, theme-report.md to ${out}/`)
+  console.log(`✓ ${brand.name}: ${theme.audit.checks.length} contrast checks pass. Wrote theme.css, fonts.css, fonts.html, tokens.json, palette.json, theme-report.md to ${out}/`)
   return 0
 }

@@ -130,6 +130,20 @@ export async function auditApp(a) {
     const r = audit(parseThemeCss(fs.readFileSync(path.join(app, themeCandidates[0]), "utf8")))
     contrast = { pass: r.pass, failing: r.checks.filter((c) => !c.pass) }
   }
+  // Palette lock: every coloured value and every font in the app's own code must come from the brand.
+  let palette = null
+  try {
+    const m = JSON.parse(fs.readFileSync(path.join(app, ".brandos", "manifest.json"), "utf8"))
+    const pf = Object.keys(m.files ?? {}).find((f) => /(^|[\\/])palette\.json$/.test(f))
+    if (pf) palette = JSON.parse(fs.readFileSync(path.join(app, pf), "utf8"))
+  } catch {}
+  const offBrand = []
+  if (palette) {
+    const { scanSource } = await import("./palette.mjs")
+    for (const f of walk(app).filter((f) => (UI_EXT.test(f) || STYLE_EXT.test(f) || /\.(ts|js|mjs)$/.test(f)) && !/(^|[\\/])brandos[\\/]/.test(f) && !/\.(test|spec)\./.test(f)))
+      for (const v of scanSource(fs.readFileSync(path.join(app, f), "utf8"), palette)) offBrand.push({ file: f, ...v })
+  }
+
   console.log(`BrandOS audit: ${app}\n`)
   console.log(contrast ? (contrast.pass ? "✓ Theme contrast passes WCAG 2.2 AA" : `✗ Theme contrast: ${contrast.failing.length} failing pairs`) : "• No installed theme.css found")
   if (status) console.log(`${status.todo + status.review ? "✗" : "✓"} Pages: ${status.approved} approved, ${status.review} in review, ${status.todo} to do`)
@@ -139,7 +153,15 @@ export async function auditApp(a) {
   for (const r of rows.sort((x, y) => y.total + y.colors - (x.total + x.colors)).slice(0, 15))
     console.log(`   ${r.file}: ${describe(r.counts)}${r.colors ? `${r.total ? ", " : ""}${r.colors} colours` : ""}`)
   for (const s of styles.slice(0, 10)) console.log(`   ${s.file}: ${s.colors} colours`)
-  const ok = (!contrast || contrast.pass) && (!status || status.todo + status.review === 0) && t.total === 0
+  if (palette) {
+    const cols = offBrand.filter((o) => o.kind === "colour"), fonts = offBrand.filter((o) => o.kind === "font")
+    console.log(`${cols.length ? "✗" : "✓"} Off-brand colours: ${cols.length} (palette: ${palette.families.map((f) => f.hex).filter((h, i, a) => a.indexOf(h) === i).join(", ")})`)
+    for (const o of cols.slice(0, 25)) console.log(`   ${o.file}:${o.line}  ${o.value}  ${o.detail}`)
+    if (cols.length > 25) console.log(`   …and ${cols.length - 25} more`)
+    console.log(`${fonts.length ? "✗" : "✓"} Off-brand fonts: ${fonts.length} (allowed: ${Object.values(palette.fonts).flat().join(", ")})`)
+    for (const o of fonts.slice(0, 15)) console.log(`   ${o.file}:${o.line}  ${o.value}  ${o.detail}`)
+  } else console.log("• No palette.json installed; re-run brandos theme and brandos install to enable the palette lock")
+  const ok = (!contrast || contrast.pass) && (!status || status.todo + status.review === 0) && t.total === 0 && offBrand.length === 0
   console.log(ok ? "\n✓ Ready to ship" : "\nNot finished yet. Fix the items above, or record why each one stays in MIGRATION.md.")
   return ok ? 0 : 1
 }

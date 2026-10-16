@@ -2,6 +2,19 @@
 
 BrandOS uses semantic versioning: patch (1.0.x) for fixes and rule changes, minor (1.x.0) for new features, major (x.0.0) for breaking changes.
 
+## 1.1.0
+
+Palette lock: apps may only use brand colours (plus black, white and greys) and brand fonts, and BrandOS checks it.
+
+- `brandos theme` writes `palette.json`: the brand's colour families (by hue) and allowed fonts. Install copies it into the app.
+- `brandos audit` now lists every off-brand colour and font in the app's code, with file and line, and fails until there are none.
+- New `brandos verify <url> --app <app>`: opens the running app in a real browser, in light and dark, and lists every off-brand colour and font actually on screen, including values from data, runtime styles, third-party components and icons. Needs Playwright.
+- A colour passes when it is a neutral or shares a hue with a brand colour; pale tints get a wider tolerance because their hue drifts.
+- Theme: chart colours, backdrop and the dark-mode focus ring now come only from brand colours (no invented hues). A brand without an error colour gets a flagged standard red.
+- PrimeVue: every stock colour ramp is remapped (danger to the destructive colour, warn and info to neutral, the rest to the brand colour), so no severity can show a non-brand colour.
+- Fonts: inside `bos-backdrop`, body text uses the brand UI font, headings the display font, code the mono font.
+- Install records the app's dark-mode selector and keeps every BrandOS file in the manifest across re-installs.
+
 ## 1.0.8
 
 - PrimeVue preset passes strict TypeScript, including `noUncheckedIndexedAccess`. Fixes two type-check errors in apps with strict settings.
