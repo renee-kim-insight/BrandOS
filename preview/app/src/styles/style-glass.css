@@ -1898,6 +1898,14 @@
   .cn-input-group {
     @apply bg-background/70 dark:bg-input/20 backdrop-blur-sm;
   }
+  /* Attachment chips without a remove button: even padding, so the name never runs to the edge. */
+  .cn-attachment-orientation-horizontal:not(:has([data-slot="attachment-actions"])) {
+    @apply pr-3.5;
+  }
+  .cn-attachment-size-sm {
+    @apply gap-2;
+  }
+
   /* Text keeps the field's inset unless an icon or prefix sits on that side. */
   .cn-input-group .cn-input {
     @apply h-auto bg-transparent px-4 backdrop-blur-none dark:bg-transparent;

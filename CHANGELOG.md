@@ -2,6 +2,10 @@
 
 BrandOS uses semantic versioning: patch (1.0.x) for fixes and rule changes, minor (1.x.0) for new features, major (x.0.0) for breaking changes.
 
+## 1.2.3
+
+- Attachment chips without a remove button have even padding on both sides, so the file name no longer runs to the right edge, and small chips have a tighter gap between icon and name.
+
 ## 1.2.2
 
 - Command menus rest cleanly: the panel clips instead of scrolling, so the search field can't be pushed out of place, and the pre-selected first item only shows its highlight once the menu is in use.
