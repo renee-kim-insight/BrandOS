@@ -1058,3 +1058,28 @@ button.bos-row:hover {
     backdrop-filter: none;
   }
 }
+
+/* ---------- File inputs: the browse button looks like a button ---------- */
+:where(.bos-backdrop) input[type="file"] {
+  display: flex;
+  align-items: center;
+  padding-left: 6px;
+  color: var(--muted-foreground);
+  cursor: pointer;
+}
+:where(.bos-backdrop) input[type="file"]::file-selector-button {
+  height: 30px;
+  margin-right: 12px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--foreground);
+  font: 600 0.8125rem var(--font-sans);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 150ms, background-color 150ms;
+}
+:where(.bos-backdrop) input[type="file"]:hover::file-selector-button {
+  box-shadow: var(--shadow-md);
+}

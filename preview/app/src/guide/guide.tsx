@@ -1,5 +1,4 @@
 import * as React from "react"
-import { useTheme } from "next-themes"
 import {
   ArrowRight,
   Check,
@@ -26,6 +25,9 @@ import { COMPONENTS } from "@/docs/registry"
 import BRANDS from "./brands.json"
 
 const demos = import.meta.glob("../docs/demos/*.tsx", { eager: true }) as Record<string, { default: React.ComponentType }>
+
+export type Mode = "light" | "dark"
+export const ModeContext = React.createContext<{ mode: Mode; setMode: (m: Mode) => void }>({ mode: "light", setMode: () => {} })
 
 type Brand = { id: string; label: string; display: string | null; sans: string }
 
@@ -94,8 +96,8 @@ const SECTIONS: [string, string, boolean][] = [
 ]
 
 function Nav({ brands, brand, setBrand }: { brands: Brand[]; brand: string; setBrand: (b: string) => void }) {
-  const { resolvedTheme, setTheme } = useTheme()
-  const dark = resolvedTheme === "dark"
+  const { mode, setMode } = React.useContext(ModeContext)
+  const dark = mode === "dark"
   return (
     <div className="bos-shell-wrap">
       <div className="bos-container">
@@ -128,7 +130,7 @@ function Nav({ brands, brand, setBrand }: { brands: Brand[]; brand: string; setB
               type="button"
               className="bos-btn-glass gd-icon-btn"
               aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
-              onClick={() => setTheme(dark ? "light" : "dark")}
+              onClick={() => setMode(dark ? "light" : "dark")}
             >
               {dark ? <SunIcon size={18} /> : <MoonIcon size={18} />}
             </button>
@@ -813,6 +815,14 @@ function Patterns() {
 
 /* ------------------------------------------------------------------ component library */
 
+// Extra context for demos that are hard to read at a glance.
+const NOTES: Record<string, string> = {
+  direction: "Shown in Arabic, which reads right to left: text aligns right, the button sits on the left, and the slider fills from the right edge. Wrap a page in Direction and every component flips like this.",
+  combobox: "Type to filter, or open the list with the arrow. The list floats above the page.",
+  "input-otp": "One box per character; typing moves to the next box.",
+  resizable: "Drag the handle between the panels.",
+}
+
 function ComponentLibrary() {
   const [q, setQ] = React.useState("")
   const list = COMPONENTS.filter((c) => !q || `${c.name} ${c.description}`.toLowerCase().includes(q.toLowerCase()))
@@ -848,6 +858,7 @@ function ComponentLibrary() {
               </header>
               <p className="bos-caption gd-comp-desc">{c.description}</p>
               <div className="gd-comp-stage">{Demo ? <ErrorBoundary name={c.name}><Demo /></ErrorBoundary> : <span className="bos-caption">See the docs site for this one.</span>}</div>
+              {NOTES[c.slug] && <p className="bos-caption gd-comp-note">{NOTES[c.slug]}</p>}
             </article>
           )
         })}

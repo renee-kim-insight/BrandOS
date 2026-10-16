@@ -113,7 +113,7 @@
   }
 
   .cn-badge-variant-ghost {
-    @apply hover:bg-muted hover:text-muted-foreground dark:hover:bg-muted/50;
+    @apply [a]:hover:bg-muted [a]:hover:text-muted-foreground dark:[a]:hover:bg-muted/50;
   }
 
   .cn-badge-variant-link {
@@ -1286,7 +1286,7 @@
   }
 
   .cn-table-row {
-    @apply hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors;
+    @apply data-[state=selected]:bg-muted border-b transition-colors;
   }
 
   .cn-table-row-aria {
@@ -1898,8 +1898,15 @@
   .cn-input-group {
     @apply bg-background/70 dark:bg-input/20 backdrop-blur-sm;
   }
+  /* Text keeps the field's inset unless an icon or prefix sits on that side. */
   .cn-input-group .cn-input {
-    @apply h-auto bg-transparent px-0 backdrop-blur-none dark:bg-transparent;
+    @apply h-auto bg-transparent px-4 backdrop-blur-none dark:bg-transparent;
+  }
+  .cn-input-group:has(> [data-align="inline-start"]) > .cn-input {
+    @apply pl-1.5;
+  }
+  .cn-input-group:has(> [data-align="inline-end"]) > .cn-input {
+    @apply pr-1.5;
   }
   .cn-input-group .cn-textarea {
     @apply bg-transparent px-4 pt-3 backdrop-blur-none dark:bg-transparent;

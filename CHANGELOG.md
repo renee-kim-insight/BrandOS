@@ -2,6 +2,13 @@
 
 BrandOS uses semantic versioning: patch (1.0.x) for fixes and rule changes, minor (1.x.0) for new features, major (x.0.0) for breaking changes.
 
+## 1.2.1
+
+- Hover only on things you can click: table rows (including header and footer rows) and plain ghost badges no longer change on hover.
+- Input groups and comboboxes keep the field's inner padding when there is no icon or prefix on that side, so text no longer touches the edge.
+- File inputs show a real browse button.
+- Guide: the light and dark switch works inside sandboxed pages and follows the host's theme; demos that are hard to read at a glance (right-to-left direction, combobox) have a short note.
+
 ## 1.2.0
 
 Editorial layout, heading fonts and a visual guide.
