@@ -86,6 +86,7 @@ export async function studio(a, PKG) {
         return send(200, sources(ws(data.id)))
       }
       if (url.pathname === "/api/read") return send(200, await readAll(ws(data.id), data.urls ?? []))
+      if (url.pathname === "/api/fonts") return send(200, { families: fontFamilies(path.join(ws(data.id), "sources")) })
       if (url.pathname === "/api/check") {
         const dir = ws(data.id)
         const brand = clean(data.brand)
@@ -106,7 +107,8 @@ export async function studio(a, PKG) {
         fs.writeFileSync(path.join(dir, "brand.json"), JSON.stringify(brand, null, 2) + "\n")
         const { zip, dir: packDir, name } = await buildPack(path.join(dir, "brand.json"), { out: path.join(dir, "packs"), quiet: true })
         const licensed = Object.values(brand.fonts).some((f) => f?.source === "self-hosted" && f.files?.length)
-        return send(200, { ok: true, name, zip: `/files/${data.id}/packs/${path.basename(zip)}`, preview: `/files/${data.id}/packs/${name}/preview.html`, rules: `/files/${data.id}/packs/${name}/brand-rules.md`, folder: packDir, zipPath: zip, licensed })
+        const fonts = Object.entries(brand.fonts).filter(([, f]) => f).map(([k, f]) => ({ role: { sans: "body", display: "headings", mono: "code" }[k] ?? k, family: f.family, source: f.source, files: f.files?.length ?? 0, fallback: f.fallback }))
+        return send(200, { ok: true, fonts, name, zip: `/files/${data.id}/packs/${path.basename(zip)}`, preview: `/files/${data.id}/packs/${name}/preview.html`, rules: `/files/${data.id}/packs/${name}/brand-rules.md`, folder: packDir, zipPath: zip, licensed })
       }
       return send(404, { error: "Not found" })
     } catch (e) {
@@ -192,7 +194,7 @@ async function readAll(dir, urls) {
   }
   if (!brand.name) brand.name = "New brand"
   // Font files dropped in: attach them, and use a second family as the heading font when none is set.
-  const families = fontFamiliesIn([path.join(src, "fonts")]).map((f) => ({ family: f.family, files: f.files.length, kind: classify(f.family) }))
+  const families = fontFamilies(src)
   if (!brand.fonts.sans) brand.fonts.sans = families.find((f) => f.kind === "sans") ? fontEntry({ family: families.find((f) => f.kind === "sans").family }) : { family: "Geist", source: "google" }
   if (!brand.fonts.display) {
     const second = families.filter((f) => f.family !== brand.fonts.sans.family && f.kind !== "mono").sort((a, b) => (a.kind === "sans") - (b.kind === "sans"))[0]
@@ -255,4 +257,19 @@ function okColour(v) {
   } catch {
     return false
   }
+}
+
+const WEIGHT_NAMES = [[/thin|hairline/i, "Thin"], [/extra ?light|ultra ?light/i, "Extra Light"], [/light/i, "Light"], [/semi ?bold|demi/i, "Semibold"], [/extra ?bold|ultra ?bold/i, "Extra Bold"], [/black|heavy/i, "Black"], [/bold/i, "Bold"], [/medium/i, "Medium"], [/book/i, "Book"]]
+function fontFamilies(src) {
+  return fontFamiliesIn([path.join(src, "fonts")]).map((f) => {
+    const names = f.files.map((p) => path.basename(p))
+    const weights = [...new Set(names.map((n) => {
+      const stem = n.replace(/\.[^.]+$/, "")
+      const w = WEIGHT_NAMES.find(([re]) => re.test(stem))?.[1] ?? "Regular"
+      return /italic|oblique|(?:[a-z0-9]|[-_ ])It$/i.test(stem) ? `${w} Italic` : w
+    }))]
+    const order = ["Thin", "Extra Light", "Light", "Book", "Regular", "Medium", "Semibold", "Bold", "Extra Bold", "Black"]
+    weights.sort((a, b) => order.indexOf(a.replace(" Italic", "")) - order.indexOf(b.replace(" Italic", "")) || a.length - b.length)
+    return { family: f.family, files: f.files.length, names, weights, kind: classify(f.family) }
+  })
 }
