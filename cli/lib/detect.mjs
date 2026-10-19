@@ -67,9 +67,15 @@ export function detect(dir = ".") {
   if (framework === "svelte") notes.push("Svelte: use the CSS kit. shadcn-svelte shares our token names, so theme.css works with it directly.")
   if (kit === "primevue") notes.push("PrimeVue 4 found. BrandOS re-skins it in place with a preset that reads the brand theme, plus the Glass layer, so every existing screen changes at once. Pages can then be migrated to kit components one by one (CSS kit markup).")
   else if (uiLibrary) notes.push(`${uiLibrary} found. There is no automatic bridge for it yet: theme.css variables can be mapped onto its theme by hand, and pages migrated to the CSS kit.`)
-  if (["html", "dotnet", "unknown"].includes(framework)) notes.push("No JS framework found. Use the CSS kit: plain HTML markup plus glass-ui.css.")
+  // Monorepos and full-stack repos keep the UI in a subfolder (app/frontend, web, client, src/ui...).
+  const frontends = pkg && framework !== "unknown" ? [] : findFrontends(root)
+  if (frontends.length) {
+    notes.length = 0
+    notes.push(`The app's frontend is not at the repo root. Found ${frontends.length === 1 ? "it" : `${frontends.length} candidates`} in: ${frontends.map((f) => `${f.path} (${f.label})`).join("; ")}.`)
+    notes.push(`Run detect and install on that folder, e.g. brandos install ${path.join(path.basename(root), frontends[0].path)} --pack <brand>.zip`)
+  } else if (["html", "dotnet", "unknown"].includes(framework)) notes.push("No JS framework found. Use the CSS kit: plain HTML markup plus glass-ui.css.")
 
-  return { root, framework, react, typescript: ts, tailwind, shadcn: !!shadcn, uiLibrary, packageManager: pm, srcDir, cssEntry, mainEntry, rootHtml, layout, componentsDir, kit, notes }
+  return { root, frontends, framework, react, typescript: ts, tailwind, shadcn: !!shadcn, uiLibrary, packageManager: pm, srcDir, cssEntry, mainEntry, rootHtml, layout, componentsDir, kit, notes }
 }
 
 function hasFiles(root, re, depth = 3) {
@@ -89,4 +95,41 @@ function hasFiles(root, re, depth = 3) {
     return false
   }
   return walk(root, 0)
+}
+
+const UI_DEPS = [
+  ["next", "Next.js"], ["@angular/core", "Angular"], ["nuxt", "Nuxt"], ["vue", "Vue"], ["@sveltejs/kit", "SvelteKit"], ["svelte", "Svelte"],
+  ["solid-js", "Solid"], ["astro", "Astro"], ["react", "React"], ["lit", "Lit"], ["preact", "Preact"],
+]
+const SKIP_DIRS = /^(node_modules|dist|build|out|bin|obj|coverage|vendor|venv|\.venv|__pycache__|target|\.next|\.nuxt)$/
+
+/** Folders below root that hold a UI: package.json with a UI framework, Razor views, or server templates. */
+export function findFrontends(root, depth = 4) {
+  const found = []
+  const walk = (d, n) => {
+    if (n > depth) return
+    let entries = []
+    try {
+      entries = fs.readdirSync(d, { withFileTypes: true })
+    } catch {
+      return
+    }
+    const rel = path.relative(root, d) || "."
+    if (n > 0 && entries.some((e) => e.name === "package.json")) {
+      const p = readJson(path.join(d, "package.json"))
+      const deps = { ...(p?.dependencies ?? {}), ...(p?.devDependencies ?? {}) }
+      const hit = UI_DEPS.find(([dep]) => dep in deps)
+      if (hit) {
+        const ui = "primevue" in deps ? " + PrimeVue" : "@mui/material" in deps ? " + MUI" : "tailwindcss" in deps ? " + Tailwind" : ""
+        found.push({ path: rel, label: hit[1] + ui, kind: "js" })
+        return
+      }
+    }
+    if (entries.some((e) => /\.(cs|fs)proj$/.test(e.name)) && hasFiles(d, /\.(cshtml|razor)$/, 3)) found.push({ path: rel, label: ".NET Razor/Blazor views", kind: "dotnet" })
+    else if (n > 0 && /^(templates|views)$/.test(path.basename(d)) && entries.some((e) => /\.(html|jinja2?|j2|hbs|ejs|njk)$/.test(e.name))) found.push({ path: rel, label: "server-rendered HTML templates", kind: "html" })
+    for (const e of entries) if (e.isDirectory() && !e.name.startsWith(".") && !SKIP_DIRS.test(e.name)) walk(path.join(d, e.name), n + 1)
+  }
+  walk(root, 0)
+  // JS apps first, then the shallowest.
+  return found.sort((a, b) => (a.kind !== "js") - (b.kind !== "js") || a.path.split("/").length - b.path.split("/").length)
 }

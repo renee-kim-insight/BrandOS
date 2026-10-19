@@ -2,6 +2,11 @@
 
 BrandOS uses semantic versioning: patch (1.0.x) for fixes and rule changes, minor (1.x.0) for new features, major (x.0.0) for breaking changes.
 
+## 1.3.1
+
+- `brandos detect` finds the frontend when it isn't at the repo root (monorepos and full-stack repos: `app/frontend`, `web`, `client` and so on), lists every candidate with its framework (React, Vue, Angular, Svelte, Next.js and others, plus PrimeVue, MUI or Tailwind), and also spots .NET Razor views and server-rendered templates.
+- `brandos install` on a repo root whose UI lives in a subfolder now stops and names the right folder, instead of installing in the wrong place (`--here` overrides).
+
 ## 1.3.0
 
 Brand packs and BrandOS Studio: make a brand once, reuse it everywhere, with no AI in the loop.

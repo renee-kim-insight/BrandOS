@@ -12,6 +12,9 @@ const BASE_DEPS = ["@base-ui/react", "class-variance-authority", "clsx", "tailwi
 export async function install(a, PKG) {
   const app = path.resolve(a._[0] ?? ".")
   const d = detect(app)
+  // Installing at a repo root whose UI lives in a subfolder would put the kit in the wrong place.
+  if (d.frontends?.length && !a.here)
+    throw new Error(`${path.basename(app)}'s frontend is in a subfolder: ${d.frontends.map((f) => `${f.path} (${f.label})`).join(", ")}. Install there instead, e.g. brandos install ${path.join(a._[0] ?? ".", d.frontends[0].path)}${a.pack ? ` --pack ${a.pack}` : ""}. (Add --here to install at the root anyway.)`)
   const kit = a.kit ?? d.kit
   // A brand pack (zip or folder) is a ready-made brand: no extract or theme step needed.
   const brandDir = a.pack ? (await import("./pack.mjs")).openPack(String(a.pack), app) : path.resolve(a.brand ?? findBrandDir(app))
