@@ -6,6 +6,13 @@ Give BrandOS a brand guide (PDF, PowerPoint, website, or just colours and a font
 
 It runs in any coding agent: Claude Code, Cursor, Codex, GitHub Copilot, and (with one manual step) Lovable.
 
+## Two steps: make a brand pack once, use it everywhere
+
+1. **Make the brand pack (once per brand, no AI).** Run `npx brandos studio` and open http://localhost:4400. Drop in whatever the brand comes as: a PDF or PowerPoint guide, a website link, design tokens (W3C, Figma variables, Tokens Studio, Style Dictionary), CSS or SCSS variables, a Tailwind config, an existing `brand.json`, and any licensed font files. Check the colours and fonts it found, fix anything by hand with a live preview and the contrast checks, then export `<brand>-brand-<version>.zip`. Everything stays on your computer. Without the dashboard: `brandos extract <source>` then `brandos pack brand.json`.
+2. **Use the pack in any app.** `npx brandos install path/to/app --pack <brand>-brand-1.0.0.zip` installs the theme, fonts and component kit with no extraction. Then an agent migrates the pages with the ui-migrate skill, reading the pack's short `brand-rules.md` instead of the brand guide, which keeps AI use low.
+
+A pack holds `brand.json`, `theme.css`, `fonts.css` and the font files, `tokens.json`, `palette.json`, `brandos-ui.css`, adapters for Tailwind v4, Tailwind v3 and PrimeVue, `brand-rules.md` for AI tools, a contrast report and `preview.html`. Projects that don't use BrandOS can load the CSS files directly. Packs with licensed fonts belong in a private place.
+
 ## Quick start
 
 1. Put this `brandos` folder in the root of the app's repository and run `npm install` inside it.

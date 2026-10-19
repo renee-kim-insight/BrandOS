@@ -5,3 +5,5 @@ preview/app/src/guide/brands.css
 preview/app/src/guide/brands.json
 preview/app/src/styles/brandos-ui.css
 preview/app/vite.guide.config.ts
+brand-studio/
+brand-packs/

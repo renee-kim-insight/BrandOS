@@ -8,6 +8,10 @@ You are helping someone put their client's brand on an app. BrandOS gives you th
 
 Run every command with `node <path-to-brandos>/cli/brandos.mjs <command>` (below written as `brandos <command>`). Run `npm install` inside the brandos folder once first.
 
+## Brand packs come first
+
+If the person has a brand pack (`<brand>-brand-<version>.zip`), skip brand intake: run `brandos install <app> --pack <zip>`, then read `brand-rules.md` (copied to the app root) and go straight to migration. If they don't, suggest `brandos studio` to make one: it reads any brand guide, link or design-system file without AI, and the person checks the result there. Build the pack with `brandos pack brand.json` when intake happens here instead.
+
 ## The workflow
 
 Follow these phases in order. Each has a skill with the detailed steps in `skills/<name>/SKILL.md`. Read the skill before starting its phase.

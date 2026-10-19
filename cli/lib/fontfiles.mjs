@@ -93,3 +93,15 @@ export function classify(family) {
 export function standIn(family) {
   return { slab: "Bitter", serif: "Source Serif 4", mono: "Geist Mono", sans: "Geist" }[classify(family)]
 }
+
+// Where a font comes from decides how the theme loads it. Only claim Google Fonts when we know it is there.
+const GOOGLE = /^(Inter|Roboto|Open Sans|Lato|Montserrat|Poppins|Nunito|Nunito Sans|Raleway|Work Sans|DM Sans|Manrope|Source Sans 3|Source Sans Pro|Noto Sans|IBM Plex Sans|IBM Plex Mono|Geist|Geist Mono|Plus Jakarta Sans|Outfit|Figtree|Lexend|Space Grotesk|Playfair Display|Merriweather|Lora|Rubik|Karla|Mulish|Barlow|Oswald|PT Sans|Fira Sans|Fira Code|JetBrains Mono|Archivo|Sora|Urbanist|Instrument Sans|Instrument Serif|Libre Franklin|Libre Baskerville|Cormorant Garamond|EB Garamond|Crimson Pro|Quicksand|Josefin Sans|Cabin|Heebo|Hind|Titillium Web|Ubuntu|Bebas Neue|Anton|Space Mono|Bitter|Roboto Slab|Zilla Slab|Source Serif 4|Noto Serif|Fraunces|DM Serif Display|Libre Caslon Text)$/i
+const SYSTEM = /^(Arial|Helvetica|Helvetica Neue|Calibri|Cambria|Segoe UI|Georgia|Times|Times New Roman|Verdana|Tahoma|Trebuchet MS|Courier New|SF Pro|San Francisco|system-ui|Aptos)/i
+export function fontEntry(f) {
+  const google = [...(f.sources ?? [])].some((s) => /Google Fonts link/.test(s)) || GOOGLE.test(f.family)
+  if (google) return { family: f.family, source: "google" }
+  if (SYSTEM.test(f.family)) return { family: f.family, source: "system" }
+  // Licensed or unknown face: the client must supply web font files. Fall back to a close free face until then.
+  return { family: f.family, source: "self-hosted", files: [], fallback: standIn(f.family) }
+}
+

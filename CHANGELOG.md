@@ -2,6 +2,16 @@
 
 BrandOS uses semantic versioning: patch (1.0.x) for fixes and rule changes, minor (1.x.0) for new features, major (x.0.0) for breaking changes.
 
+## 1.3.0
+
+Brand packs and BrandOS Studio: make a brand once, reuse it everywhere, with no AI in the loop.
+
+- New `brandos studio`: a local dashboard. Drop in brand guides (PDF, PowerPoint), website links, design-system files and licensed fonts; check and fix the colours, fonts, corners and dark mode with a live preview and live contrast checks; export a brand pack. Runs on the person's computer only; projects are saved in `brand-studio/` and kept out of git.
+- New `brandos pack brand.json`: builds `<brand>-brand-<version>.zip` with the theme, fonts, tokens, palette, `brandos-ui.css`, adapters (Tailwind v4, Tailwind v3, PrimeVue), `brand-rules.md` (a one-page brief for AI tools), a contrast report and `preview.html`.
+- `brandos install --pack <zip|folder>`: installs straight from a pack and copies `brand-rules.md` to the app root. The unpacked copy is kept out of git.
+- `brandos extract` now reads design-system files exactly: W3C design tokens, Figma variables exports, Tokens Studio and Style Dictionary JSON, CSS, SCSS and Less variables (including shadcn-style HSL channels), Tailwind configs (read as text, never run), and existing brand.json files. Roles come from token names (primary, brand, secondary, accent, error, neutral, background), and heading and body fonts from font tokens.
+- More free stand-ins recognised for licensed slab and serif faces.
+
 ## 1.2.3
 
 - Attachment chips without a remove button have even padding on both sides, so the file name no longer runs to the right edge, and small chips have a tighter gap between icon and name.

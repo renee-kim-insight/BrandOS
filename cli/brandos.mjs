@@ -26,10 +26,16 @@ Brand
   validate <brand.json>                         Check a brand file against the schema
   theme <brand.json> [--out dir] [--scope slug] Generate theme.css, fonts.css, tokens.json and a contrast report
   contrast <theme.css>                          WCAG AA check of an existing theme
+  pack <brand.json> [--out brand-packs]         Build a reusable brand pack (zip): theme, fonts, adapters, rules, preview
+  studio [--port 4400] [--dir brand-studio]     Dashboard: drop in guides, links or design-system files, check, export a pack
+
+  extract also reads design-system files: tokens JSON (W3C, Figma variables, Tokens Studio,
+  Style Dictionary), CSS or SCSS variables, a Tailwind config, or an existing brand.json.
 
 App
   detect [appDir]                               Report framework, styling and package manager
   install [appDir] [--kit react] [--dry-run]    Copy the component kit and theme into an app
+          [--pack brand.zip]                    ...using a brand pack instead of brand-out/
   scan [appDir] [--out MIGRATION.md]            Inventory pages and hand-built UI, write the migration plan
   audit [appDir]                                Leftover hand-built UI, off-brand colours and fonts in the code
   verify <url> --app <appDir> [--pages /,/a]    Open the running app and check every colour and font on screen
@@ -66,6 +72,16 @@ try {
         errs.forEach((e) => console.log(`✗ ${e}`))
         process.exitCode = 1
       } else console.log("✓ brand.json is valid")
+      break
+    }
+    case "pack": {
+      const { runPack } = await import("./lib/pack.mjs")
+      process.exitCode = await runPack(a)
+      break
+    }
+    case "studio": {
+      const { studio } = await import("./lib/studio.mjs")
+      await studio(a, PKG)
       break
     }
     case "extract": {

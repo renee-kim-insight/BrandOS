@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BrandOS Studio</title>
+<style>
+/* Layout: a working tool. Sources on top, then a two-column review (form left, live preview right), then export. */
+:root {
+  --bg: #f6f5f3; --panel: #ffffff; --line: #e4e1dc; --ink: #1d1b19; --soft: #67625c; --faint: #9a948d;
+  --accent: #1d1b19; --accent-ink: #ffffff; --ok: #1f7a4d; --warn: #9a5b00; --bad: #b42318; --focus: #3b6ef5;
+  --shadow: 0 1px 2px rgb(29 27 25 / .06), 0 8px 24px rgb(29 27 25 / .06);
+  --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #151413; --panel: #1e1d1b; --line: #33302d; --ink: #f2f0ed; --soft: #b0aaa3; --faint: #7d776f; --accent: #f2f0ed; --accent-ink: #151413; --ok: #5cc48f; --warn: #e3a64a; --bad: #f2867a; --focus: #7ea2ff; --shadow: 0 8px 24px rgb(0 0 0 / .35); color-scheme: dark; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.55 var(--font); -webkit-font-smoothing: antialiased; }
+button, input, select { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.wrap { max-width: 1320px; margin: 0 auto; padding: 24px max(16px, env(safe-area-inset-left)) 64px; }
+header.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
+.logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 17px; }
+.logo i { width: 22px; height: 22px; border-radius: 60% 60% 60% 8%; background: linear-gradient(135deg, #5b5bd6, #d6409f); display: block; }
+.muted { color: var(--soft); }
+.small { font-size: 13px; }
+h2 { font-size: 20px; margin: 0; letter-spacing: -.01em; }
+h3 { font-size: 14px; margin: 0 0 10px; text-transform: uppercase; letter-spacing: .06em; color: var(--soft); }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 24px; box-shadow: var(--shadow); }
+.step { display: grid; gap: 16px; margin-bottom: 24px; }
+.step-head { display: flex; align-items: baseline; gap: 12px; }
+.step-head b { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 99px; background: var(--ink); color: var(--bg); font-size: 13px; flex: none; }
+.btn { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 18px; border-radius: 99px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); cursor: pointer; font-weight: 600; text-decoration: none; }
+.btn:hover:not(:disabled) { border-color: var(--soft); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn.primary:hover:not(:disabled) { opacity: .88; }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn.sm { min-height: 32px; padding: 0 12px; font-size: 13px; }
+.row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+/* Sources */
+.drop { display: grid; place-items: center; gap: 6px; text-align: center; padding: 32px 16px; border: 2px dashed var(--line); border-radius: 14px; cursor: pointer; transition: border-color .15s, background-color .15s; }
+.drop:hover, .drop.over { border-color: var(--soft); background: color-mix(in oklab, var(--ink) 3%, transparent); }
+.drop strong { font-size: 16px; }
+.url { display: flex; gap: 8px; }
+.url input { flex: 1; min-width: 0; min-height: 40px; padding: 0 14px; border: 1px solid var(--line); border-radius: 99px; background: var(--panel); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { display: inline-flex; align-items: center; gap: 8px; padding: 4px 6px 4px 12px; border: 1px solid var(--line); border-radius: 99px; font-size: 13px; background: var(--bg); max-width: 100%; }
+.chip span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.chip em { font-style: normal; color: var(--faint); }
+.chip button { border: 0; background: transparent; cursor: pointer; width: 22px; height: 22px; border-radius: 99px; color: var(--soft); }
+.chip button:hover { background: var(--line); }
+.accepts { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 8px 16px; }
+.accepts div { font-size: 13px; color: var(--soft); }
+.accepts b { color: var(--ink); font-weight: 600; display: block; }
+
+/* Review */
+.review { display: grid; grid-template-columns: minmax(0, 440px) minmax(0, 1fr); gap: 24px; align-items: start; }
+.form { display: grid; gap: 22px; }
+.field { display: grid; gap: 6px; }
+.field label, .lbl { font-size: 13px; font-weight: 600; }
+.field input[type=text], .field select { min-height: 38px; padding: 0 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); width: 100%; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.colour { display: grid; grid-template-columns: 38px minmax(0, 1fr) auto; gap: 8px; align-items: center; }
+.colour input[type=color] { width: 38px; height: 38px; padding: 0; border: 1px solid var(--line); border-radius: 10px; background: none; cursor: pointer; }
+.colour input[type=color]::-webkit-color-swatch-wrapper { padding: 3px; }
+.colour input[type=color]::-webkit-color-swatch { border: 0; border-radius: 7px; }
+.colour input[type=text] { font-family: var(--mono); font-size: 13px; }
+.colour .x { border: 0; background: transparent; color: var(--faint); cursor: pointer; width: 28px; height: 28px; border-radius: 99px; }
+.colour .x:hover { background: var(--line); color: var(--ink); }
+.role-hint { font-size: 12px; color: var(--faint); margin-top: -2px; }
+.found { display: flex; flex-wrap: wrap; gap: 6px; }
+.found button { width: 30px; height: 30px; border-radius: 9px; border: 1px solid rgb(0 0 0 / .08); cursor: pointer; padding: 0; }
+.found button[aria-pressed=true] { outline: 2px solid var(--focus); outline-offset: 2px; }
+.assign { display: none; flex-wrap: wrap; gap: 6px; align-items: center; }
+.assign.on { display: flex; }
+.font-row { display: grid; grid-template-columns: minmax(0, 1fr) 140px; gap: 8px; }
+.picks { display: flex; flex-wrap: wrap; gap: 6px; }
+.notes { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.notes li { font-size: 13px; padding: 10px 12px; border-radius: 10px; background: var(--bg); border: 1px solid var(--line); }
+.notes li.decide { border-color: color-mix(in oklab, var(--warn) 45%, var(--line)); background: color-mix(in oklab, var(--warn) 8%, var(--panel)); }
+.notes li.err { border-color: color-mix(in oklab, var(--bad) 45%, var(--line)); background: color-mix(in oklab, var(--bad) 8%, var(--panel)); }
+.stage { position: sticky; top: 16px; display: grid; gap: 10px; }
+.stage-bar { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.status { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; }
+.status i { width: 9px; height: 9px; border-radius: 99px; background: var(--faint); }
+.status.ok i { background: var(--ok); } .status.bad i { background: var(--bad); }
+.seg { display: inline-flex; padding: 3px; border: 1px solid var(--line); border-radius: 99px; background: var(--bg); }
+.seg button { border: 0; background: transparent; padding: 4px 12px; border-radius: 99px; cursor: pointer; font-size: 13px; color: var(--soft); }
+.seg button[aria-pressed=true] { background: var(--panel); color: var(--ink); box-shadow: 0 1px 2px rgb(0 0 0 / .08); }
+iframe { width: 100%; height: min(78vh, 900px); border: 1px solid var(--line); border-radius: 16px; background: #fff; }
+
+/* Export */
+.result { display: grid; gap: 12px; }
+code.cmd { display: block; padding: 12px 14px; border-radius: 10px; background: var(--bg); border: 1px solid var(--line); font: 13px var(--mono); overflow-x: auto; white-space: nowrap; }
+.warn { padding: 12px 14px; border-radius: 10px; font-size: 13px; background: color-mix(in oklab, var(--warn) 10%, var(--panel)); border: 1px solid color-mix(in oklab, var(--warn) 40%, var(--line)); }
+.projects { display: flex; flex-wrap: wrap; gap: 8px; }
+.proj { display: inline-flex; align-items: center; gap: 8px; }
+.proj i { width: 12px; height: 12px; border-radius: 4px; display: block; }
+[hidden] { display: none !important; }
+.spin { width: 14px; height: 14px; border-radius: 99px; border: 2px solid currentColor; border-right-color: transparent; animation: spin .7s linear infinite; display: inline-block; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (max-width: 980px) { .review { grid-template-columns: 1fr; } .stage { position: static; } iframe { height: 70vh; } }
+@media (prefers-reduced-motion: reduce) { .spin { animation: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="logo"><i aria-hidden="true"></i>BrandOS Studio</div>
+    <div class="row">
+      <span class="muted small">Runs on this computer. Nothing is uploaded and no AI is used.</span>
+      <button class="btn sm" id="newBtn" type="button">New brand</button>
+    </div>
+  </header>
+
+  <section class="step" id="projectsStep" hidden>
+    <div class="panel">
+      <h3>Your brands</h3>
+      <div class="projects" id="projects"></div>
+    </div>
+  </section>
+
+  <section class="step">
+    <div class="step-head"><b>1</b><div><h2>Add the brand</h2><div class="muted small">Add as many sources as you have. Design-system files are read exactly; guides and websites are read for colours and fonts.</div></div></div>
+    <div class="panel step">
+      <label class="drop" id="drop" for="file">
+        <strong>Drop files here, or choose them</strong>
+        <span class="muted small">Brand guide (PDF, PowerPoint), design tokens, CSS, Tailwind config, brand.json, logos, font files</span>
+        <input id="file" type="file" multiple hidden>
+      </label>
+      <form class="url" id="urlForm">
+        <label class="small" for="url" hidden>Website or document link</label>
+        <input id="url" type="url" placeholder="Or paste a link: the brand's website, an online guide, a PDF link">
+        <button class="btn" type="submit">Add link</button>
+      </form>
+      <div class="chips" id="sources"></div>
+      <details>
+        <summary class="small muted">What can I add?</summary>
+        <div class="accepts" style="margin-top:12px">
+          <div><b>Brand guide</b>PDF or PowerPoint (.pdf, .pptx, .potx)</div>
+          <div><b>Website or link</b>The brand's site or an online guide</div>
+          <div><b>Design tokens</b>W3C tokens, Figma variables export, Tokens Studio, Style Dictionary (.json)</div>
+          <div><b>Code</b>CSS or SCSS variables, a Tailwind config (.css, .scss, .js, .ts)</div>
+          <div><b>Existing BrandOS brand</b>brand.json, to edit and re-pack</div>
+          <div><b>Licensed fonts</b>.woff2, .woff, .otf, .ttf (stay on this computer)</div>
+        </div>
+      </details>
+      <div class="row">
+        <button class="btn primary" id="readBtn" type="button" disabled>Read the brand</button>
+        <span class="muted small" id="readMsg"></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="step" id="reviewStep" hidden>
+    <div class="step-head"><b>2</b><div><h2>Check and adjust</h2><div class="muted small">Fix anything that isn't right. The preview and the contrast checks update as you go.</div></div></div>
+    <div class="review">
+      <div class="panel form" id="form">
+        <div class="two">
+          <div class="field"><label for="f-name">Brand name</label><input type="text" id="f-name"></div>
+          <div class="field"><label for="f-version">Version</label><input type="text" id="f-version" placeholder="1.0.0"></div>
+        </div>
+
+        <div class="field">
+          <span class="lbl">Colours found</span>
+          <div class="found" id="found"></div>
+          <div class="assign" id="assign"><span class="small muted">Use as</span></div>
+          <div class="role-hint">Click a colour, then choose what it's for.</div>
+        </div>
+
+        <div class="field"><span class="lbl">Brand colours</span><div id="colours" class="form" style="gap:10px"></div>
+          <button class="btn sm" type="button" id="addAccent">Add an accent colour</button>
+        </div>
+
+        <div class="field">
+          <span class="lbl">Fonts</span>
+          <div class="field"><label for="f-sans">Body and UI</label>
+            <div class="font-row"><input type="text" id="f-sans"><select id="f-sans-src" aria-label="Where the body font comes from"><option value="google">Google Fonts</option><option value="self-hosted">Licensed files</option><option value="system">System</option></select></div>
+          </div>
+          <div class="field"><label for="f-display">Headings (optional)</label>
+            <div class="font-row"><input type="text" id="f-display" placeholder="Same as body"><select id="f-display-src" aria-label="Where the heading font comes from"><option value="google">Google Fonts</option><option value="self-hosted">Licensed files</option><option value="system">System</option></select></div>
+          </div>
+          <div class="picks" id="fontPicks"></div>
+          <div class="role-hint" id="fontNote"></div>
+        </div>
+
+        <div class="two">
+          <div class="field"><label for="f-radius">Corners</label>
+            <select id="f-radius"><option value="sharp">Sharp</option><option value="soft">Soft</option><option value="rounded">Rounded</option><option value="pill">Pill</option></select>
+          </div>
+          <div class="field"><label for="f-dark">Dark mode</label>
+            <select id="f-dark"><option value="on">Included</option><option value="off">Light only</option></select>
+          </div>
+        </div>
+
+        <div class="field"><span class="lbl">Notes</span><ul class="notes" id="notes"></ul></div>
+      </div>
+
+      <div class="stage">
+        <div class="stage-bar">
+          <span class="status" id="status"><i></i><span>Checking</span></span>
+          <div class="seg" role="group" aria-label="Preview mode">
+            <button type="button" data-mode="light" aria-pressed="true">Light</button>
+            <button type="button" data-mode="dark" aria-pressed="false">Dark</button>
+          </div>
+        </div>
+        <iframe id="preview" title="Brand preview"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section class="step" id="exportStep" hidden>
+    <div class="step-head"><b>3</b><div><h2>Export the brand pack</h2><div class="muted small">Build it once. Every project installs the pack instead of reading the brand again.</div></div></div>
+    <div class="panel result">
+      <div class="row"><button class="btn primary" id="packBtn" type="button">Build brand pack</button><span class="muted small" id="packMsg"></span></div>
+      <div id="packOut" class="result" hidden></div>
+    </div>
+  </section>
+</div>
+
+<script>
+const $ = (s) => document.querySelector(s)
+const api = async (p, body) => {
+  const r = await fetch(p, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body ?? {}) })
+  const j = await r.json()
+  if (j.error) throw new Error(j.error)
+  return j
+}
+const ROLES = [
+  ["primary", "Primary", "Buttons, links, focus, the user's own status"],
+  ["secondary", "Secondary", "Gradient band, charts, backdrop"],
+  ["neutral", "Neutral", "Tints every grey, text and border"],
+  ["background", "Background", "Page colour, if the brand has an off-white"],
+  ["danger", "Error", "Errors only"],
+]
+let id = null
+let brand = null
+let state = { candidates: [], families: [], notes: [] }
+let urls = []
+let picked = null
+let mode = "light"
+
+/* ---------- projects ---------- */
+async function loadProjects() {
+  const list = await (await fetch("/api/projects")).json()
+  $("#projectsStep").hidden = !list.length
+  $("#projects").replaceChildren(...list.map((p) => {
+    const b = document.createElement("button")
+    b.className = "btn sm proj"; b.type = "button"
+    b.innerHTML = `<i style="background:${p.primary}"></i>${esc(p.name)} <span class="muted">${esc(p.version ?? "")}</span>`
+    b.onclick = () => openProject(p.id)
+    return b
+  }))
+}
+async function openProject(pid) {
+  id = pid
+  const s = await api("/api/open", { id })
+  urls = s.urls ?? []
+  renderSources(s.sources)
+  if (s.brand) { brand = s.brand; state = { candidates: s.candidates ?? [], families: s.families ?? [], notes: s.notes ?? [] }; showReview() }
+}
+async function ensureProject() {
+  if (!id) id = (await api("/api/new", {})).id
+}
+
+/* ---------- sources ---------- */
+function renderSources(list) {
+  const chips = [...list.map((s) => ({ label: s.name.replace(/^fonts\//, ""), kind: s.kind, remove: () => removeSource(s.name) })), ...urls.map((u) => ({ label: u, kind: "link", remove: () => { urls = urls.filter((x) => x !== u); renderSources(list) } }))]
+  $("#sources").replaceChildren(...chips.map((c) => {
+    const el = document.createElement("span")
+    el.className = "chip"
+    el.innerHTML = `<span>${esc(c.label)}</span><em>${esc(c.kind)}</em><button type="button" aria-label="Remove ${esc(c.label)}">×</button>`
+    el.querySelector("button").onclick = c.remove
+    return el
+  }))
+  $("#readBtn").disabled = !chips.length
+  lastSources = list
+}
+let lastSources = []
+async function addFiles(files) {
+  await ensureProject()
+  $("#readMsg").textContent = `Adding ${files.length} file${files.length > 1 ? "s" : ""}…`
+  let list = lastSources
+  for (const f of files) list = await (await fetch(`/api/upload?id=${id}&name=${encodeURIComponent(f.name)}`, { method: "POST", body: f })).json()
+  $("#readMsg").textContent = ""
+  renderSources(list)
+}
+async function removeSource(name) { renderSources(await api("/api/remove", { id, name })) }
+$("#file").onchange = (e) => addFiles([...e.target.files])
+const drop = $("#drop")
+drop.ondragover = (e) => { e.preventDefault(); drop.classList.add("over") }
+drop.ondragleave = () => drop.classList.remove("over")
+drop.ondrop = (e) => { e.preventDefault(); drop.classList.remove("over"); addFiles([...e.dataTransfer.files]) }
+$("#urlForm").onsubmit = async (e) => {
+  e.preventDefault()
+  const u = $("#url").value.trim()
+  if (!/^https?:\/\//.test(u)) { $("#readMsg").textContent = "Links start with https://"; return }
+  await ensureProject()
+  if (!urls.includes(u)) urls.push(u)
+  $("#url").value = ""
+  renderSources(lastSources)
+}
+$("#readBtn").onclick = async () => {
+  $("#readBtn").disabled = true
+  $("#readMsg").innerHTML = `<span class="spin"></span> Reading. Large guides take a few seconds.`
+  try {
+    const r = await api("/api/read", { id, urls })
+    brand = r.brand; state = r
+    const failed = r.results.filter((x) => !x.ok)
+    $("#readMsg").textContent = failed.length ? `Couldn't read ${failed.map((f) => f.source).join(", ")}: ${failed[0].error}` : `Read ${r.results.length} source${r.results.length > 1 ? "s" : ""}.`
+    showReview()
+    $("#reviewStep").scrollIntoView({ behavior: "smooth" })
+  } catch (e) { $("#readMsg").textContent = e.message }
+  $("#readBtn").disabled = false
+}
+$("#newBtn").onclick = () => { id = null; brand = null; urls = []; renderSources([]); $("#reviewStep").hidden = $("#exportStep").hidden = true; $("#packOut").hidden = true; window.scrollTo({ top: 0 }) }
+
+/* ---------- review ---------- */
+function showReview() {
+  $("#reviewStep").hidden = false
+  $("#exportStep").hidden = false
+  $("#f-name").value = brand.name ?? ""
+  $("#f-version").value = brand.version ?? "1.0.0"
+  $("#f-radius").value = typeof brand.radius === "string" ? brand.radius : "rounded"
+  $("#f-dark").value = brand.darkMode === false ? "off" : "on"
+  $("#f-sans").value = brand.fonts?.sans?.family ?? ""
+  $("#f-sans-src").value = brand.fonts?.sans?.source ?? "google"
+  $("#f-display").value = brand.fonts?.display?.family ?? ""
+  $("#f-display-src").value = brand.fonts?.display?.source ?? "google"
+  renderColours(); renderFound(); renderFontPicks(); renderNotes([])
+  refresh()
+}
+function renderColours() {
+  const rows = ROLES.map(([k, label, hint]) => colourRow(k, label, hint, brand.colors[k]))
+  ;(brand.colors.accents ?? []).forEach((c, i) => rows.push(colourRow(`accent-${i}`, `Accent ${i + 1}`, "Charts, illustrations, the band", c)))
+  $("#colours").replaceChildren(...rows)
+}
+function colourRow(key, label, hint, value) {
+  const wrap = document.createElement("div")
+  wrap.className = "field"
+  const idf = `c-${key}`
+  wrap.innerHTML = `<label for="${idf}">${label}</label><div class="colour"><input type="color" aria-label="${label} colour" value="${toHex(value) ?? "#ffffff"}"><input type="text" id="${idf}" value="${value ?? ""}" placeholder="${key === "primary" ? "required" : "not set"}"><button class="x" type="button" aria-label="Clear ${label}">×</button></div><div class="role-hint">${hint}</div>`
+  const [pick, text, clear] = wrap.querySelectorAll("input, button")
+  const set = (v) => { setColour(key, v); text.value = v ?? ""; if (toHex(v)) pick.value = toHex(v); refresh() }
+  pick.oninput = () => set(pick.value)
+  text.onchange = () => set(text.value.trim() || null)
+  clear.onclick = () => { setColour(key, null); renderColours(); refresh() }
+  if (key === "primary") clear.hidden = true
+  return wrap
+}
+function setColour(key, v) {
+  if (key.startsWith("accent-")) {
+    const i = Number(key.split("-")[1])
+    const list = [...(brand.colors.accents ?? [])]
+    if (v) list[i] = v; else list.splice(i, 1)
+    brand.colors.accents = list
+  } else if (v) brand.colors[key] = v
+  else delete brand.colors[key]
+}
+$("#addAccent").onclick = () => { brand.colors.accents = [...(brand.colors.accents ?? []), picked ?? "#888888"]; renderColours(); refresh() }
+function renderFound() {
+  const list = state.candidates ?? []
+  $("#found").replaceChildren(...list.map((c) => {
+    const b = document.createElement("button")
+    b.type = "button"; b.style.background = c.hex; b.title = `${c.hex}${c.name ? ` · ${c.name}` : ""}`; b.setAttribute("aria-label", b.title); b.setAttribute("aria-pressed", "false")
+    b.onclick = () => {
+      picked = c.hex
+      $("#found").querySelectorAll("button").forEach((x) => x.setAttribute("aria-pressed", String(x === b)))
+      renderAssign()
+    }
+    return b
+  }))
+  if (!list.length) $("#found").innerHTML = `<span class="small muted">No colours found yet. Type them in below.</span>`
+  $("#assign").classList.remove("on")
+}
+function renderAssign() {
+  const box = $("#assign")
+  box.classList.add("on")
+  box.replaceChildren(Object.assign(document.createElement("span"), { className: "small muted", textContent: `Use ${picked} as` }), ...[...ROLES.map(([k, l]) => [k, l]), ["accent", "Accent"]].map(([k, l]) => {
+    const b = document.createElement("button")
+    b.type = "button"; b.className = "btn sm"; b.textContent = l
+    b.onclick = () => {
+      if (k === "accent") brand.colors.accents = [...(brand.colors.accents ?? []), picked].slice(0, 6)
+      else brand.colors[k] = picked
+      renderColours(); refresh()
+    }
+    return b
+  }))
+}
+function renderFontPicks() {
+  const fams = state.families ?? []
+  $("#fontPicks").replaceChildren(...fams.map((f) => {
+    const wrap = document.createElement("span")
+    wrap.className = "row"
+    wrap.innerHTML = `<span class="small">${esc(f.family)} <span class="muted">(${f.files} files)</span></span>`
+    for (const [slot, label] of [["sans", "Body"], ["display", "Headings"]]) {
+      const b = document.createElement("button")
+      b.type = "button"; b.className = "btn sm"; b.textContent = label
+      b.onclick = () => { $(`#f-${slot}`).value = f.family; $(`#f-${slot}-src`).value = "self-hosted"; readFonts(); refresh() }
+      wrap.append(b)
+    }
+    return wrap
+  }))
+  const missing = Object.values(brand.fonts ?? {}).filter((f) => f?.source === "self-hosted" && !f.files?.length)
+  $("#fontNote").textContent = missing.length ? `${missing.map((f) => f.family).join(" and ")}: no font files added, so ${missing.map((f) => f.fallback).join(" and ")} stands in. Drop the licensed files in step 1 and read again.` : fams.length ? "Licensed font files stay on this computer and go into the pack." : ""
+}
+function readFonts() {
+  const fonts = {}
+  const sans = $("#f-sans").value.trim()
+  const disp = $("#f-display").value.trim()
+  const keep = (slot, fam, src) => {
+    const prev = brand.fonts?.[slot]
+    const f = { family: fam, source: src }
+    if (prev?.family === fam && prev.files) f.files = prev.files
+    if (src === "self-hosted") f.fallback = prev?.family === fam && prev.fallback ? prev.fallback : undefined
+    return f
+  }
+  if (sans) fonts.sans = keep("sans", sans, $("#f-sans-src").value)
+  if (disp) fonts.display = keep("display", disp, $("#f-display-src").value)
+  if (brand.fonts?.mono) fonts.mono = brand.fonts.mono
+  brand.fonts = fonts
+}
+for (const el of ["#f-sans", "#f-sans-src", "#f-display", "#f-display-src"]) $(el).onchange = () => { readFonts(); refresh() }
+$("#f-name").onchange = () => { brand.name = $("#f-name").value; refresh() }
+$("#f-version").onchange = () => { brand.version = $("#f-version").value.trim() || "1.0.0"; refresh() }
+$("#f-radius").onchange = () => { brand.radius = $("#f-radius").value; refresh() }
+$("#f-dark").onchange = () => { if ($("#f-dark").value === "off") brand.darkMode = false; else delete brand.darkMode; refresh() }
+
+function renderNotes(extra) {
+  const items = [...extra, ...(state.notes ?? []).map((n) => ({ text: n.text, kind: /DECISION/.test(n.text) ? "decide" : "" }))]
+  $("#notes").replaceChildren(...items.slice(0, 14).map((n) => Object.assign(document.createElement("li"), { className: n.kind ?? "", textContent: n.text.replace(/^DECISION( NEEDED)?:\s*/, "Check: ") })))
+  if (!items.length) $("#notes").innerHTML = `<li>Nothing to flag.</li>`
+}
+
+let timer
+function refresh() {
+  clearTimeout(timer)
+  timer = setTimeout(check, 350)
+}
+async function check() {
+  const st = $("#status")
+  st.className = "status"; st.querySelector("span").textContent = "Checking"
+  const r = await api("/api/check", { id, brand })
+  if (!r.ok && r.errors?.length) {
+    st.className = "status bad"; st.querySelector("span").textContent = "Fix the highlighted fields"
+    renderNotes(r.errors.map((e) => ({ text: e, kind: "err" })))
+    $("#packBtn").disabled = true
+    return
+  }
+  if (r.fonts) brand.fonts = r.fonts
+  const fails = r.fails ?? []
+  st.className = `status ${fails.length ? "bad" : "ok"}`
+  st.querySelector("span").textContent = fails.length ? `${fails.length} of ${r.checks} contrast checks fail` : `All ${r.checks} contrast checks pass (WCAG 2.2 AA)`
+  renderNotes([...fails.slice(0, 4).map((f) => ({ text: `[${f.mode}] ${f.pair}: ${f.ratio}:1, needs ${f.min}:1`, kind: "err" })), ...(r.changes ?? []).filter((c) => /DECISION/.test(c)).map((c) => ({ text: c, kind: "decide" }))])
+  $("#packBtn").disabled = !!fails.length
+  renderFontPicks()
+  const frame = $("#preview")
+  const y = frame.contentWindow?.scrollY ?? 0
+  frame.onload = () => { applyMode(); frame.contentWindow.scrollTo(0, y) }
+  frame.src = `/preview/${id}?embed=1&t=${Date.now()}`
+}
+function applyMode() {
+  const doc = $("#preview").contentDocument
+  if (doc) doc.documentElement.classList.toggle("dark", mode === "dark")
+}
+document.querySelectorAll(".seg button").forEach((b) => b.onclick = () => {
+  mode = b.dataset.mode
+  document.querySelectorAll(".seg button").forEach((x) => x.setAttribute("aria-pressed", String(x === b)))
+  applyMode()
+})
+
+/* ---------- export ---------- */
+$("#packBtn").onclick = async () => {
+  $("#packBtn").disabled = true
+  $("#packMsg").innerHTML = `<span class="spin"></span> Building`
+  try {
+    const r = await api("/api/pack", { id, brand })
+    if (!r.ok) throw new Error((r.errors ?? []).join(" "))
+    $("#packMsg").textContent = ""
+    const out = $("#packOut")
+    out.hidden = false
+    out.innerHTML = `
+      <div class="row"><a class="btn primary" href="${r.zip}" download>Download ${esc(r.name)}.zip</a><a class="btn" href="${r.preview}" target="_blank" rel="noopener">Open preview</a><a class="btn" href="${r.rules}" target="_blank" rel="noopener">Brand rules for AI tools</a></div>
+      <div class="small muted">Also saved in ${esc(r.folder)}</div>
+      <div class="lbl">Use it in a project</div>
+      <code class="cmd">npx brandos install path/to/app --pack ${esc(r.name)}.zip</code>
+      ${r.licensed ? `<div class="warn">This pack contains licensed font files. Share it privately (an internal registry, a private repo or a shared drive), never publicly.</div>` : ""}`
+    loadProjects()
+  } catch (e) { $("#packMsg").textContent = e.message }
+  $("#packBtn").disabled = false
+}
+
+/* ---------- helpers ---------- */
+function esc(s) { return String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]) }
+function toHex(v) {
+  if (!v) return null
+  if (/^#[0-9a-f]{6}$/i.test(v)) return v.toLowerCase()
+  if (/^#[0-9a-f]{3}$/i.test(v)) return "#" + v.slice(1).split("").map((c) => c + c).join("").toLowerCase()
+  const c = document.createElement("canvas").getContext("2d")
+  c.fillStyle = "#000"; c.fillStyle = v
+  return /^#[0-9a-f]{6}$/i.test(c.fillStyle) ? c.fillStyle : null
+}
+loadProjects()
+</script>
+</body>
+</html>

@@ -10,15 +10,13 @@ import { unzipSync, strFromU8 } from "fflate"
 import { hex, isNeutral, oklch } from "./color.mjs"
 
 const PKG_DIR = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..", "..")
-import { FONT_EXT, familyOf, fontFamiliesIn, classify, standIn } from "./fontfiles.mjs"
+import { FONT_EXT, familyOf, fontFamiliesIn, classify, standIn, fontEntry } from "./fontfiles.mjs"
+import { importDesignSystem, isDesignSystemFile } from "./importers.mjs"
 
-export async function runExtract(a) {
-  const input = a._[0]
-  if (!input) throw new Error("Give a file or URL: brandos extract brand-guide.pdf")
-  const outDir = path.dirname(a.out ?? "brand-extract/draft.brand.json")
+/** Read one source (file or URL) and return a draft brand plus what was found. No files outside outDir are written. */
+export async function extractDraft(input, outDir) {
   fs.mkdirSync(path.join(outDir, "assets"), { recursive: true })
   const ev = newEvidence(input)
-
   if (/^https?:\/\//.test(input)) await fromUrl(input, ev, outDir)
   else {
     const ext = path.extname(input).toLowerCase()
@@ -28,11 +26,24 @@ export async function runExtract(a) {
     else if ([".png", ".jpg", ".jpeg", ".webp", ".svg", ".gif"].includes(ext)) {
       fs.copyFileSync(input, path.join(outDir, "assets", path.basename(input)))
       ev.assets.push(path.join("assets", path.basename(input)))
-      ev.notes.push("Image input: colours and fonts must be read visually by the agent. Open the image and fill in draft.brand.json.")
-    } else throw new Error(`Unsupported file type ${ext}. Use .pdf, .pptx, an image, or a URL.`)
+      ev.notes.push("Image input: colours and fonts must be read visually. Check the colours below against the image.")
+    } else if (isDesignSystemFile(input)) {
+      // Design-system files state their values exactly, so they are read, not guessed.
+      const imp = importDesignSystem(input)
+      for (const f of Object.values(imp.draft.fonts)) if (f?.source === "self-hosted" && !f.files?.length) f.files = findFontFiles(f.family, input)
+      return { draft: imp.draft, ev, candidates: imp.candidates, notes: imp.notes, report: imp.report, exact: true }
+    } else throw new Error(`Unsupported file type ${ext}. Use .pdf, .pptx, an image, a URL, or a tokens, CSS or Tailwind file.`)
   }
-
   const draft = buildDraft(ev, input)
+  const candidates = ranked(ev).slice(0, 24).map((c) => ({ hex: c.hex, count: Math.round(c.count), neutral: !!c.neutral }))
+  return { draft, ev, candidates, notes: ev.notes, report: report(ev, draft) }
+}
+
+export async function runExtract(a) {
+  const input = a._[0]
+  if (!input) throw new Error("Give a file or URL: brandos extract brand-guide.pdf")
+  const outDir = path.dirname(a.out ?? "brand-extract/draft.brand.json")
+  const { draft, ev } = await extractDraft(input, outDir)
   fs.writeFileSync(path.join(outDir, "draft.brand.json"), JSON.stringify(draft, null, 2) + "\n")
   fs.writeFileSync(path.join(outDir, "extract-report.md"), report(ev, draft))
   if (ev.text) fs.writeFileSync(path.join(outDir, "brand-text.txt"), ev.text)
@@ -368,17 +379,6 @@ function dist(a, b) {
   return Math.hypot(x.l - y.l, x.c - y.c, dh * (x.c + y.c))
 }
 
-// Where a font comes from decides how the theme loads it. Only claim Google Fonts when we know it is there.
-const GOOGLE = /^(Inter|Roboto|Open Sans|Lato|Montserrat|Poppins|Nunito|Nunito Sans|Raleway|Work Sans|DM Sans|Manrope|Source Sans 3|Source Sans Pro|Noto Sans|IBM Plex Sans|IBM Plex Mono|Geist|Geist Mono|Plus Jakarta Sans|Outfit|Figtree|Lexend|Space Grotesk|Playfair Display|Merriweather|Lora|Rubik|Karla|Mulish|Barlow|Oswald|PT Sans|Fira Sans|Fira Code|JetBrains Mono|Archivo|Sora|Urbanist|Instrument Sans|Instrument Serif|Libre Franklin|Libre Baskerville|Cormorant Garamond|EB Garamond|Crimson Pro|Quicksand|Josefin Sans|Cabin|Heebo|Hind|Titillium Web|Ubuntu|Bebas Neue|Anton|Space Mono)$/i
-const SYSTEM = /^(Arial|Helvetica|Helvetica Neue|Calibri|Cambria|Segoe UI|Georgia|Times|Times New Roman|Verdana|Tahoma|Trebuchet MS|Courier New|SF Pro|San Francisco|system-ui|Aptos)/i
-function fontEntry(f) {
-  const google = [...(f.sources ?? [])].some((s) => /Google Fonts link/.test(s)) || GOOGLE.test(f.family)
-  if (google) return { family: f.family, source: "google" }
-  if (SYSTEM.test(f.family)) return { family: f.family, source: "system" }
-  // Licensed or unknown face: the client must supply web font files. Fall back to a close free face until then.
-  return { family: f.family, source: "self-hosted", files: [], fallback: standIn(f.family) }
-}
-
 function buildDraft(ev, input) {
   const colors = ranked(ev)
   // A primary is saturated and mid-lightness; pale tints and near-blacks belong elsewhere.
@@ -447,7 +447,7 @@ function buildDraft(ev, input) {
       .sort((a, b) => (classify(a.family) === "sans") - (classify(b.family) === "sans") || b.files.length - a.files.length)
     if (supplied[0]) {
       draft.fonts.display = { family: supplied[0].family, source: "self-hosted", files: [], fallback: standIn(supplied[0].family) }
-      ev.notes.push(`Heading font: found ${supplied[0].family} files in the brand folder and used it for display text and headings. Remove fonts.display from brand.json if it is not a heading face.`)
+      ev.notes.push(`Heading font: found ${supplied[0].family} font files, so it is suggested for headings. Change or remove it if that's not what it's for.`)
     }
   }
   for (const f of Object.values(draft.fonts)) if (f.source === "self-hosted") f.files = findFontFiles(f.family, input)
@@ -473,7 +473,7 @@ function guessName(input) {
 const fontRoots = (input) => [...new Set([path.dirname(input), "brand-source", "brand-source/fonts", "fonts"])].filter((d) => fs.existsSync(d))
 
 // Licensed fonts: look for the files next to the source (brand-source/, brand-source/fonts/ and so on).
-function findFontFiles(family, input) {
+export function findFontFiles(family, input) {
   if (/^https?:/.test(input)) return []
   const key = family.toLowerCase().replace(/[^a-z0-9]/g, "")
   const roots = fontRoots(input)

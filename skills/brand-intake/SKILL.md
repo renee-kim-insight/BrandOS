@@ -19,6 +19,11 @@ Ask what they have. Any of these work, and more than one is better:
 
 ## 2. Extract
 
+If the person already has a brand pack, stop here: intake is done. Go to brand-apply and install with `--pack`.
+
+If a person can do the checking themselves, the quickest route is `brandos studio`: a local dashboard that reads every source (guides, links, token files, CSS, Tailwind configs, font files), lets them fix values with a live preview, and exports a brand pack. No AI is needed for that path.
+
+
 Put the material in `brand-source/` in the app's root (licensed font files in `brand-source/fonts/`), then run:
 
 ```

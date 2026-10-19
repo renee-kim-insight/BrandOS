@@ -13,7 +13,8 @@ export async function install(a, PKG) {
   const app = path.resolve(a._[0] ?? ".")
   const d = detect(app)
   const kit = a.kit ?? d.kit
-  const brandDir = path.resolve(a.brand ?? findBrandDir(app))
+  // A brand pack (zip or folder) is a ready-made brand: no extract or theme step needed.
+  const brandDir = a.pack ? (await import("./pack.mjs")).openPack(String(a.pack), app) : path.resolve(a.brand ?? findBrandDir(app))
   const dry = !!a["dry-run"]
   const force = !!a.force
   if (!fs.existsSync(path.join(brandDir, "theme.css")))

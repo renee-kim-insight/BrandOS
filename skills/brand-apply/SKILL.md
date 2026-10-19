@@ -7,6 +7,10 @@ description: Generate a contrast-checked theme from a confirmed brand.json, prev
 
 Goal: the app has the component kit and the client's theme installed, and the person has approved how the components look in their brand.
 
+## 0. With a brand pack
+
+If there is a brand pack, skip generating the theme: `brandos install <app> --pack <brand>-brand-<version>.zip` does it all and copies `brand-rules.md` to the app root. Read that file before migrating.
+
 ## 1. Generate the theme
 
 ```
