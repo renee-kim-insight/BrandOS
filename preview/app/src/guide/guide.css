@@ -978,3 +978,26 @@ code {
   .gd-mini-app { grid-template-columns: 1fr; }
   .gd-mini-app .bos-sidebar { display: none; }
 }
+.gd-shell-demo { padding: 20px 28px 32px; }
+.gd-shell-demo .bos-shell { position: relative; z-index: 5; }
+.gd-layout-spec {
+  display: grid;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  background: var(--card);
+}
+.gd-layout-row {
+  display: grid;
+  grid-template-columns: 180px 120px minmax(0, 1fr);
+  gap: 16px;
+  align-items: baseline;
+  padding: 12px 20px;
+  font-size: 14px;
+}
+.gd-layout-row + .gd-layout-row { border-top: 1px solid var(--border); }
+.gd-layout-row span { color: var(--muted-foreground); }
+@media (max-width: 640px) {
+  .gd-layout-row { grid-template-columns: 1fr auto; }
+  .gd-layout-row span { grid-column: 1 / -1; }
+}

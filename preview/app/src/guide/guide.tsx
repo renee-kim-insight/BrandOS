@@ -1,12 +1,8 @@
 import * as React from "react"
 import {
   ArrowRight,
-  Bell,
-  FolderKanban,
-  LayoutDashboard,
   Search,
   Send,
-  Users,
   Check,
   ChevronRight,
   FileText,
@@ -211,7 +207,7 @@ function Hero({ current }: { current?: Brand }) {
     <header className="bos-hero" id="top">
       <div className="bos-hero-grid">
         <div>
-          <span className="bos-kicker">Component guide · BrandOS 1.4</span>
+          <span className="bos-kicker">Component guide · BrandOS 1.5</span>
           <h1 className="bos-display" style={{ marginTop: 10 }}>
             One component library. Any brand.
           </h1>
@@ -515,14 +511,14 @@ function Surfaces() {
             </div>
             <ArrowRight className="gd-arrow" aria-hidden="true" />
             <div>
-              <button className="bos-btn-glass gd-force-hover" tabIndex={-1}>
+              <button className="bos-btn-glass gd-force-hover" tabIndex={-1} data-bos-static>
                 Save draft
               </button>
               <small>Hover: solid</small>
             </div>
             <ArrowRight className="gd-arrow" aria-hidden="true" />
             <div>
-              <button className="bos-btn-glass gd-force-press" tabIndex={-1}>
+              <button className="bos-btn-glass gd-force-press" tabIndex={-1} data-bos-static>
                 Save draft
               </button>
               <small>Pressed</small>
@@ -537,7 +533,7 @@ function Surfaces() {
             </div>
             <ArrowRight className="gd-arrow" aria-hidden="true" />
             <div>
-              <button className="bos-btn-glass gd-force-hover-band" tabIndex={-1}>
+              <button className="bos-btn-glass gd-force-hover-band" tabIndex={-1} data-bos-static>
                 Get started
               </button>
               <small>Hover: solid white</small>
@@ -990,7 +986,7 @@ function Heroes() {
       id="heroes"
       kicker="Page tops"
       title="Pick the top of a page by what it's for"
-      intro="Ask what a person does first on the page, then start from the matching pattern. Every pattern uses the same title size and sits in the same shell, so apps match where it matters and differ where the job differs."
+      intro="Ask what a person does first on the page, then start from the matching pattern. Every pattern uses the same title size, width and shell, so apps match where it matters and differ where the job differs."
     >
       <div className="gd-heroes">
         {HEROES.map((h) => (
@@ -1010,44 +1006,101 @@ function Heroes() {
 
       <h3 className="bos-h2 gd-sub">The shared app shell</h3>
       <p className="bos-lead gd-intro" style={{ marginBottom: 20 }}>
-        The same in every app: neutral glass sidebar, brand block, labelled sections, one active style, user and theme switch at the bottom, and a top bar with the page name and search.
+        The same in every app: a glass pill nav at the top with the brand block, up to six main pages, a More menu grouped by section for everything else, then search, the one Create action and the user menu (settings, admin, theme, sign out). The page below it uses the same width and margins.
       </p>
       <div className="gd-browser">
         <div className="gd-browser-bar" aria-hidden="true"><span /><span /><span /></div>
-        <div className="bos-app gd-mini-app">
-          <aside className="bos-sidebar">
-            <a className="bos-sidebar-brand" href="#heroes">
+        <div className="gd-browser-page gd-shell-demo">
+          <div className="gd-browser-glow" aria-hidden="true" />
+          <header className="bos-shell bos-glass">
+            <a className="bos-brand" href="#heroes">
               <span className="bos-charm bos-charm-sm" aria-hidden="true" />
-              <span><strong>Watchtower</strong><small>Delivery</small></span>
+              <span>Watchtower<small>Delivery</small></span>
             </a>
-            <nav className="bos-sidebar-section" aria-label="Example main">
-              <span className="bos-sidebar-label">Work</span>
-              <a className="bos-sidebar-item" href="#heroes" aria-current="page"><LayoutDashboard /> Dashboard</a>
-              <a className="bos-sidebar-item" href="#heroes"><FolderKanban /> Projects</a>
-              <a className="bos-sidebar-item" href="#heroes"><Users /> People</a>
+            <nav className="bos-nav" aria-label="Example main">
+              <ul className="bos-nav-list">
+                <li><a href="#heroes" aria-current="page">Dashboard</a></li>
+                <li><a href="#heroes">Projects</a></li>
+                <li><a href="#heroes">Customers</a></li>
+                <li><a href="#heroes">RFPs</a></li>
+              </ul>
+              <details className="bos-menu-wrap bos-nav-more">
+                <summary>More</summary>
+                <div className="bos-menu bos-menu-cols">
+                  <div className="bos-menu-group" data-mobile>
+                    <span className="bos-menu-label">Main</span>
+                    <a href="#heroes" aria-current="page">Dashboard</a>
+                    <a href="#heroes">Projects</a>
+                    <a href="#heroes">Customers</a>
+                    <a href="#heroes">RFPs</a>
+                  </div>
+                  <div className="bos-menu-group">
+                    <span className="bos-menu-label">Work</span>
+                    <a href="#heroes">People</a>
+                    <a href="#heroes">Funding</a>
+                  </div>
+                  <div className="bos-menu-group">
+                    <span className="bos-menu-label">Resources</span>
+                    <a href="#heroes">Documents</a>
+                    <a href="#heroes">Content library</a>
+                  </div>
+                </div>
+              </details>
             </nav>
-            <div className="bos-sidebar-footer">
-              <span className="row-user"><span className="bos-avatar">SR</span> Sam Rivera</span>
+            <div className="bos-actions">
+              <button className="bos-btn-glass bos-btn-sm" type="button" aria-label="Search"><Search size={16} /></button>
+              <button className="bos-btn-primary bos-btn-sm" type="button">Create</button>
+              <details className="bos-menu-wrap bos-menu-end">
+                <summary aria-label="Account"><span className="bos-avatar" style={{ width: 32, height: 32, fontSize: 13 }}>SR</span></summary>
+                <div className="bos-menu">
+                  <span className="bos-menu-label">Sam Rivera</span>
+                  <a href="#heroes">Settings</a>
+                  <a href="#heroes">Administration</a>
+                  <a href="#heroes">AI models</a>
+                  <hr />
+                  <button type="button">Sign out</button>
+                </div>
+              </details>
             </div>
-          </aside>
-          <div className="bos-main">
-            <div className="bos-topbar">
-              <span className="bos-topbar-title">Dashboard</span>
-              <button className="bos-btn-glass bos-btn-sm" type="button"><Search size={16} /> Search</button>
-              <button className="bos-btn-glass bos-btn-sm" type="button" aria-label="Notifications"><Bell size={16} /></button>
+          </header>
+          <div className="bos-page" style={{ paddingTop: 40, paddingBottom: 8 }}>
+            <div className="bos-hero-compact">
+              <h3 className="bos-h1">Good afternoon, Sam</h3>
+              <p className="bos-lead">Three things need you. Start with the first.</p>
             </div>
-            <div className="bos-content">
-              <div className="bos-hero-compact">
-                <h3 className="bos-h1">Good morning, Sam</h3>
-                <p className="bos-lead">Two things need you today.</p>
-              </div>
-              <ol className="bos-queue">
-                <li><div><div className="bos-h3">Confirm the cutover plan</div><p>Atlas migration · 2 days late</p></div><button className="bos-btn-primary bos-btn-sm">Open task</button></li>
-                <li><div><div className="bos-h3" style={{ fontSize: 16 }}>Review the data model</div><p>Due today</p></div><button className="bos-btn-glass bos-btn-sm">Open task</button></li>
-              </ol>
-            </div>
+            <ol className="bos-queue">
+              <li><div><div className="bos-h3">Confirm the cutover plan</div><p>Atlas migration · 2 days late</p></div><button className="bos-btn-primary bos-btn-sm">Open task</button></li>
+              <li><div><div className="bos-h3" style={{ fontSize: 16 }}>Review the data model</div><p>Due today</p></div><button className="bos-btn-glass bos-btn-sm">Open task</button></li>
+            </ol>
           </div>
         </div>
+      </div>
+
+      <h3 className="bos-h2 gd-sub">The layout system</h3>
+      <p className="bos-lead gd-intro" style={{ marginBottom: 20 }}>
+        Every page uses the same width, margins, gaps, padding and corners. What goes inside changes from page to page; these never do.
+      </p>
+      <div className="gd-layout-spec">
+        {[
+          ["--page-max", "1200px", "Width of every page and the nav bar"],
+          ["--page-gutter", "16 to 40px", "Left and right page margin"],
+          ["--page-top", "48px", "Nav bar to the page title"],
+          ["--section-gap", "64px", "Between sections"],
+          ["--block-gap", "24px", "Section title to content, and between cards"],
+          ["--pad-card", "28px", "Inside solid surfaces"],
+          ["--pad-tile", "24px", "Inside tiles and glass panels"],
+          ["--pad-row", "16px 20px", "Inside rows and queue items"],
+          ["--radius-control", "pill", "Buttons, inputs, chips, nav"],
+          ["--radius-card", "24px", "Surfaces, tiles, tables"],
+          ["--radius-row", "18px", "Rows and queue items"],
+          ["--radius-inner", "14px", "Anything inside a card"],
+        ].map(([k, v, d]) => (
+          <div key={k} className="gd-layout-row">
+            <code>{k}</code>
+            <strong>{v}</strong>
+            <span>{d}</span>
+          </div>
+        ))}
       </div>
     </Section>
   )

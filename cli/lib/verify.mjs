@@ -22,9 +22,20 @@ export async function verify(a, PKG) {
   const browser = await pw.chromium.launch(launchOpts)
   const page = await browser.newPage({ viewport: { width: Number(a.width ?? 1280), height: 900 } })
   const problems = []
+  // Loading: failed requests and script errors mean a page isn't working, whatever it looks like.
+  const loadIssues = []
+  let current = null
+  page.on("response", (r) => {
+    if (r.status() >= 400 && current) loadIssues.push({ page: current, detail: `${r.status()} ${r.request().method()} ${short(r.url())}` })
+  })
+  page.on("requestfailed", (r) => current && loadIssues.push({ page: current, detail: `failed ${r.request ? "" : ""}${short(r.url())} (${r.failure()?.errorText ?? "no response"})` }))
+  page.on("pageerror", (e) => current && loadIssues.push({ page: current, detail: `script error: ${String(e.message).slice(0, 140)}` }))
+  page.on("console", (m) => m.type() === "error" && current && loadIssues.push({ page: current, detail: `console error: ${m.text().slice(0, 140)}` }))
+  const checks = []
   for (const mode of modes) {
     for (const p of pages) {
       const url = new URL(p, base).href
+      current = mode === modes[0] ? p : null
       try {
         await page.goto(url, { waitUntil: "networkidle", timeout: 30000 })
       } catch {
@@ -36,6 +47,10 @@ export async function verify(a, PKG) {
       }, [mode === "dark", darkClass])
       await page.waitForTimeout(Number(a.wait ?? 600))
       const found = await page.evaluate(collect)
+      if (!a["no-checks"]) {
+        for (const c of await page.evaluate(visibility)) checks.push({ mode, page: p, ...c })
+        if (mode === modes[0]) for (const c of await hoverCheck(page, Number(a["hover-limit"] ?? 80))) checks.push({ mode, page: p, ...c })
+      }
       const seen = new Set()
       for (const f of found) {
         const bad = f.kind === "font" ? (checkFont(f.value, palette).ok ? null : checkFont(f.value, palette).bad.join(", ")) : (checkColour(f.value, palette).ok ? null : checkColour(f.value, palette))
@@ -50,9 +65,36 @@ export async function verify(a, PKG) {
   await browser.close()
 
   console.log(`BrandOS verify: ${base}  (${pages.length} pages × ${modes.join(" and ")})\n`)
+  const seenLoad = new Set()
+  const loads = loadIssues.filter((l) => !seenLoad.has(l.page + l.detail) && seenLoad.add(l.page + l.detail))
+  if (loads.length) {
+    console.log(`✗ Loading: ${loads.length} failed requests or errors. Pages may be missing data; fix these first.`)
+    for (const l of loads.slice(0, 20)) console.log(`   ${l.page}  ${l.detail}`)
+    console.log("")
+  } else console.log("✓ Every page loaded without failed requests or script errors.")
+  if (!a["no-checks"]) {
+    const byKind = {}
+    for (const c of checks) (byKind[c.kind] ??= []).push(c)
+    const label = { hover: "Clickable but no hover change", clipped: "Content cut off by its container", overflow: "Page scrolls sideways", image: "Broken image", hidden: "Text you can't see" }
+    for (const k of Object.keys(label)) {
+      const list = byKind[k] ?? []
+      if (!list.length) console.log(`✓ ${label[k]}: none`)
+      else {
+        console.log(`✗ ${label[k]}: ${list.length}`)
+        for (const c of list.slice(0, Number(a.limit ?? 12))) console.log(`   ${c.page} (${c.mode})  ${c.selector}${c.text ? `  "${c.text}"` : ""}${c.detail ? `  ${c.detail}` : ""}`)
+        if (list.length > Number(a.limit ?? 12)) console.log(`   …and ${list.length - Number(a.limit ?? 12)} more`)
+      }
+    }
+    console.log("")
+  }
+  const failing = problems.length + loads.length + (a["no-checks"] ? 0 : checks.length)
+  const out = path.join(app, ".brandos", "verify.json")
+  fs.mkdirSync(path.dirname(out), { recursive: true })
+  fs.writeFileSync(out, JSON.stringify({ colours: problems, loading: loads, checks }, null, 2))
   if (!problems.length) {
     console.log("✓ Every colour on screen is a brand colour or a neutral, and every font is a brand font.")
-    return 0
+    if (failing) console.log(`\n${failing} problems. Full list: ${path.relative(process.cwd(), out)}`)
+    return failing ? 1 : 0
   }
   const byPage = {}
   for (const pr of problems) (byPage[`${pr.page} (${pr.mode})`] ??= []).push(pr)
@@ -61,10 +103,7 @@ export async function verify(a, PKG) {
     for (const pr of list.slice(0, Number(a.limit ?? 12))) console.log(`   ${pr.prop.padEnd(18)} ${pr.detail}\n     on ${pr.selector}${pr.text ? `  "${pr.text}"` : ""}`)
     if (list.length > Number(a.limit ?? 12)) console.log(`   …and ${list.length - Number(a.limit ?? 12)} more`)
   }
-  const out = path.join(app, ".brandos", "verify.json")
-  fs.mkdirSync(path.dirname(out), { recursive: true })
-  fs.writeFileSync(out, JSON.stringify(problems, null, 2))
-  console.log(`\n${problems.length} problems. Full list: ${path.relative(process.cwd(), out)}`)
+  console.log(`\n${failing} problems. Full list: ${path.relative(process.cwd(), out)}`)
   return 1
 }
 
@@ -152,4 +191,129 @@ async function loadPlaywright(app, PKG) {
 
 function fail(msg) {
   throw new Error(msg)
+}
+
+const short = (u) => {
+  try {
+    const x = new URL(u)
+    return (x.pathname + x.search).slice(0, 120)
+  } catch {
+    return String(u).slice(0, 120)
+  }
+}
+
+/** Runs in the page: things that are on the page but can't be seen or used properly. */
+function visibility() {
+  const out = []
+  const sel = (el) => {
+    const parts = []
+    for (let e = el; e && e.nodeType === 1 && parts.length < 3; e = e.parentElement) {
+      let s = e.tagName.toLowerCase()
+      if (e.id) s += `#${e.id}`
+      const cls = [...e.classList].filter((c) => !/^(p-|v-|data-v)/.test(c)).slice(0, 2)
+      if (cls.length) s += "." + cls.join(".")
+      parts.unshift(s)
+      if (e.id) break
+    }
+    return parts.join(" > ")
+  }
+  const doc = document.documentElement
+  if (doc.scrollWidth > window.innerWidth + 1) {
+    const wide = [...document.querySelectorAll("body *")].filter((e) => e.getBoundingClientRect().right > window.innerWidth + 1 && e.getClientRects().length).slice(-1)[0]
+    out.push({ kind: "overflow", selector: wide ? sel(wide) : "page", detail: `${doc.scrollWidth}px wide in a ${window.innerWidth}px window` })
+  }
+  for (const img of document.images) if (img.complete && img.naturalWidth === 0 && img.getClientRects().length) out.push({ kind: "image", selector: sel(img), detail: img.getAttribute("src")?.slice(0, 80) ?? "" })
+  const clips = (cs) => /hidden|clip/.test(cs.overflowX + cs.overflowY)
+  // One style lookup per element, reused for ancestors, so long pages stay quick.
+  const styles = new Map()
+  const style = (e) => {
+    let s = styles.get(e)
+    if (!s) styles.set(e, (s = getComputedStyle(e)))
+    return s
+  }
+  const all = [...document.querySelectorAll("body *")].slice(0, 6000)
+  for (const el of all) {
+    const cs = style(el)
+    if (cs.visibility === "hidden" || cs.display === "none" || !el.getClientRects().length) continue
+    const ownText = [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim().length > 1)
+    if (!ownText) continue
+    const text = el.textContent.trim().slice(0, 40)
+    const r = el.getBoundingClientRect()
+    // Screen-reader-only text is clipped on purpose.
+    if (r.width <= 2 || r.height <= 2 || el.closest(".sr-only, [data-bos-static]")) continue
+    // Text cut off inside its own box (ellipsis counts: whole words should show).
+    if ((el.scrollWidth > el.clientWidth + 1 && clips(cs) && el.clientWidth > 0) || (el.scrollHeight > el.clientHeight + 2 && clips(cs) && cs.webkitLineClamp === "none" && el.clientHeight > 0 && !/auto|scroll/.test(cs.overflowY)))
+      out.push({ kind: "clipped", selector: sel(el), text, detail: cs.textOverflow === "ellipsis" ? "truncated with …" : "" })
+    // Text cut off by a rounded or clipping ancestor.
+    else
+      for (let p = el.parentElement, n = 0; p && p !== document.body && n < 6; p = p.parentElement, n++) {
+        const ps = style(p)
+        // Inside something that scrolls, being partly out of view is expected.
+        if (/auto|scroll/.test(ps.overflowX + ps.overflowY)) break
+        if (!clips(ps)) continue
+        const pr = p.getBoundingClientRect()
+        // Entirely outside (a carousel slide, a closed panel) is hidden on purpose; partly outside is cut off.
+        const outside = r.right <= pr.left || r.left >= pr.right || r.bottom <= pr.top || r.top >= pr.bottom
+        if (!outside && (r.left < pr.left - 2 || r.right > pr.right + 2 || r.top < pr.top - 2 || r.bottom > pr.bottom + 2)) {
+          out.push({ kind: "clipped", selector: sel(el), text, detail: `cut off by ${sel(p)}` })
+          break
+        }
+      }
+    // Text drawn in the same colour as what's behind it, or fully transparent.
+    if (cs.opacity === "0" || /rgba\(0, 0, 0, 0\)/.test(cs.color)) out.push({ kind: "hidden", selector: sel(el), text, detail: "transparent text" })
+  }
+  return out
+}
+
+/** Hover each clickable thing and check something visibly changes. */
+async function hoverCheck(page, limit) {
+  const targets = await page.evaluate((limit) => {
+    const q = 'a[href], button, [role="button"], [role="tab"], [role="menuitem"], [role="link"], summary, input[type="submit"], input[type="button"], [onclick]'
+    const els = [...document.querySelectorAll(q)].filter((e) => {
+      const r = e.getBoundingClientRect()
+      const cs = getComputedStyle(e)
+      return r.width > 4 && r.height > 4 && cs.visibility !== "hidden" && cs.display !== "none" && !e.disabled && e.getAttribute("aria-disabled") !== "true" && !e.closest("[inert], [data-bos-static]")
+    })
+    // Skip duplicates of the same component (same classes and text length) so long lists stay quick.
+    const seen = new Set()
+    const pick = []
+    for (const e of els) {
+      const key = e.tagName + "|" + e.className + "|" + (e.getAttribute("role") ?? "")
+      if (seen.has(key)) continue
+      seen.add(key)
+      e.setAttribute("data-bos-hover", String(pick.length))
+      pick.push({ i: pick.length, text: (e.textContent || e.getAttribute("aria-label") || "").trim().slice(0, 30) })
+      if (pick.length >= limit) break
+    }
+    return pick
+  }, limit)
+  const snap = (i) =>
+    page.evaluate((i) => {
+      const e = document.querySelector(`[data-bos-hover="${i}"]`)
+      if (!e) return null
+      const parts = [e, ...e.querySelectorAll("svg, span, div")].slice(0, 6)
+      return parts.map((x) => { const s = getComputedStyle(x); return [s.backgroundColor, s.backgroundImage, s.color, s.borderColor, s.boxShadow, s.textDecorationLine, s.transform, s.opacity, s.filter, s.outlineStyle].join("|") }).join("~")
+    }, i)
+  const out = []
+  await page.mouse.move(-20, -20)
+  for (const t of targets) {
+    try {
+      const loc = page.locator(`[data-bos-hover="${t.i}"]`)
+      await loc.scrollIntoViewIfNeeded({ timeout: 1500 })
+      const before = await snap(t.i)
+      await loc.hover({ timeout: 1500, force: true })
+      await page.waitForTimeout(220)
+      const after = await snap(t.i)
+      if (before && before === after) {
+        const selector = await page.evaluate((i) => {
+          const e = document.querySelector(`[data-bos-hover="${i}"]`)
+          const cls = [...e.classList].slice(0, 2)
+          return e.tagName.toLowerCase() + (cls.length ? "." + cls.join(".") : "")
+        }, t.i)
+        out.push({ kind: "hover", selector, text: t.text })
+      }
+      await page.mouse.move(-20, -20)
+    } catch {}
+  }
+  return out
 }

@@ -8,7 +8,7 @@ import { hex, isNeutral, oklch } from "./color.mjs"
 export const NEUTRAL_CHROMA = 0.04
 export const HUE_TOLERANCE = 14
 
-const GENERIC_FONTS = /^(ui-sans-serif|ui-serif|ui-monospace|system-ui|-apple-system|blinkmacsystemfont|sans-serif|serif|monospace|cursive|fantasy|emoji|math|inherit|initial|unset|revert|var\(.*|segoe ui|helvetica|helvetica neue|arial|apple color emoji|segoe ui emoji|segoe ui symbol|noto color emoji|sfmono-regular|menlo|monaco|consolas|courier new|roboto mono|liberation mono)$/i
+const GENERIC_FONTS = /^(rockwell|georgia|ui-sans-serif|ui-serif|ui-monospace|system-ui|-apple-system|blinkmacsystemfont|sans-serif|serif|monospace|cursive|fantasy|emoji|math|inherit|initial|unset|revert|var\(.*|segoe ui|helvetica|helvetica neue|arial|apple color emoji|segoe ui emoji|segoe ui symbol|noto color emoji|sfmono-regular|menlo|monaco|consolas|courier new|roboto mono|liberation mono)$/i
 
 /** Build palette.json from a brand and its generated theme. */
 export function buildPalette(brand, theme) {

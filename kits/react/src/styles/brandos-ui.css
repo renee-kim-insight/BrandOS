@@ -12,6 +12,55 @@
  * - Hover only on things you can click.
  */
 
+/* ---------- Layout system: one width, one spacing scale, one set of corners, in every app ----------
+ * Pages differ in what they contain, never in these. Set them here; never by hand in a page.
+ */
+:root {
+  --page-max: 1200px;                         /* every page, the nav bar included, uses this width */
+  --page-gutter: clamp(16px, 3.5vw, 40px);     /* left and right page margin */
+  --page-top: 48px;                            /* nav bar to page title */
+  --section-gap: 64px;                         /* between sections */
+  --block-gap: 24px;                           /* between a section title and its content, and between cards */
+  --pad-card: 28px;                            /* inside solid surfaces */
+  --pad-tile: 24px;                            /* inside tiles and glass panels */
+  --pad-row: 16px 20px;                        /* inside rows and queue items */
+  --radius-control: 999px;                     /* buttons, inputs, chips, nav */
+  --radius-card: 24px;                         /* surfaces, tiles, tables, panels */
+  --radius-row: 18px;                          /* rows and queue items */
+  --radius-inner: 14px;                        /* anything inside a card: inner boxes, images, code */
+  --radius-band: 28px;
+  /* Glass needs a visible edge on white as well as on colour. */
+  --edge: color-mix(in oklab, var(--foreground) 12%, transparent);
+  --edge-strong: color-mix(in oklab, var(--foreground) 20%, transparent);
+}
+.bos-container,
+.bos-content {
+  width: 100%;
+  max-width: calc(var(--page-max) + 2 * var(--page-gutter));
+  margin-inline: auto;
+  padding-inline: var(--page-gutter);
+}
+/* A page: title block, then sections, all the same width, spaced by the same steps. */
+.bos-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--section-gap);
+  padding-top: var(--page-top);
+  padding-bottom: var(--section-gap);
+}
+.bos-page > * { margin-block: 0; min-width: 0; }
+.bos-page > section,
+.bos-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--block-gap);
+}
+/* Anything clipped by a rounded container keeps room for focus rings. */
+.bos-clip {
+  overflow: clip;
+  overflow-clip-margin: 4px;
+}
+
 /* ---------- Backdrop: the page, with one fixed glow of brand colour at the top edge ---------- */
 /*
  * The glow is fixed to the viewport, so it stays put while content scrolls. Glass (the nav, rows,
@@ -74,7 +123,7 @@
 .bos-frost,
 .bos-frost-light,
 .bos-overlay {
-  border: 1px solid var(--frost-border);
+  border: 1px solid var(--edge);
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(160%);
   backdrop-filter: blur(var(--glass-blur)) saturate(160%);
 }
@@ -113,10 +162,6 @@
 }
 
 /* ---------- Page structure ---------- */
-.bos-page {
-  padding-inline: var(--space-6);
-  padding-bottom: var(--space-8);
-}
 .bos-page-header {
   display: flex;
   flex-wrap: wrap;
@@ -160,7 +205,7 @@
   padding: 4px;
   border-radius: 999px;
   background: var(--frost-light);
-  border: 1px solid var(--frost-border);
+  border: 1px solid var(--edge);
 }
 .bos-segmented > * {
   display: inline-flex;
@@ -182,6 +227,9 @@
   background: var(--frost-strong);
   color: var(--foreground);
   box-shadow: 0 1px 3px oklch(0 0 0 / 8%);
+}
+.bos-segmented > :is([aria-selected="true"], [aria-pressed="true"], [aria-current="page"], [data-active], .is-active):hover {
+  box-shadow: 0 2px 8px oklch(0 0 0 / 12%);
 }
 .bos-count {
   padding: 0 var(--space-2);
@@ -224,7 +272,7 @@
 }
 .bos-btn-glass {
   background: var(--frost-medium);
-  border-color: var(--frost-border);
+  border-color: var(--edge);
   color: var(--foreground);
   -webkit-backdrop-filter: blur(16px) saturate(170%);
   backdrop-filter: blur(16px) saturate(170%);
@@ -260,7 +308,7 @@
 /* Component-library buttons follow the same rule: secondary and glass variants are glass, solid on hover. */
 :where(.bos-backdrop) :is(.cn-button-variant-secondary, .cn-button-variant-glass) {
   background: var(--frost-medium);
-  border-color: var(--frost-border);
+  border-color: var(--edge);
   color: var(--foreground);
   -webkit-backdrop-filter: blur(16px) saturate(170%);
   backdrop-filter: blur(16px) saturate(170%);
@@ -388,8 +436,9 @@
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   gap: var(--space-5);
-  padding: var(--space-3) var(--space-5);
-  border-radius: 999px;
+  min-height: 64px;
+  padding: var(--space-2) var(--space-2) var(--space-2) var(--space-5);
+  border-radius: var(--radius-control);
 }
 .bos-shell > * {
   min-width: 0;
@@ -440,9 +489,101 @@
   background: var(--primary);
   color: var(--primary-foreground);
 }
-.bos-nav-more {
-  display: none;
+/* "More" and the user menu: a <details> element, so it opens and closes without any script.
+   <details class="bos-menu-wrap bos-nav-more"><summary>More</summary><div class="bos-menu">
+     <span class="bos-menu-label">Resources</span><a href="/documents">Documents</a> ...</div></details> */
+.bos-menu-wrap {
+  position: relative;
+  display: inline-flex;
 }
+.bos-menu-wrap > summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-control);
+  color: var(--foreground);
+  cursor: pointer;
+  list-style: none;
+  white-space: nowrap;
+  transition: background-color 150ms;
+}
+.bos-menu-wrap > summary::-webkit-details-marker { display: none; }
+.bos-menu-wrap > summary::after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  margin-left: 2px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  opacity: 0.6;
+}
+.bos-menu-wrap > summary:hover,
+.bos-menu-wrap[open] > summary { background: color-mix(in oklab, var(--foreground) 6%, transparent); }
+.bos-menu-wrap > summary:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+.bos-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  z-index: 70;
+  display: grid;
+  grid-auto-flow: row;
+  min-width: 220px;
+  padding: var(--space-2);
+  border-radius: var(--radius-row);
+  border: 1px solid var(--edge);
+  background: var(--overlay);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  backdrop-filter: blur(24px) saturate(160%);
+  box-shadow: var(--shadow-lg);
+  transform: translateX(-50%);
+  animation: bos-pop var(--motion-base, 200ms) var(--ease-out, ease-out) both;
+}
+.bos-actions .bos-menu,
+.bos-menu-end .bos-menu { left: auto; right: 0; transform: none; }
+.bos-menu-cols { grid-auto-flow: column; grid-template-rows: auto; gap: var(--space-2); }
+.bos-menu-group { display: flex; flex-direction: column; min-width: 200px; }
+.bos-menu-label {
+  padding: var(--space-2) var(--space-3) var(--space-1);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+.bos-menu a,
+.bos-menu button {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 38px;
+  padding: 0 var(--space-3);
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--foreground);
+  font: inherit;
+  font-size: 0.9375rem;
+  text-align: left;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 150ms;
+}
+.bos-menu a:hover,
+.bos-menu button:hover { background: color-mix(in oklab, var(--foreground) 6%, transparent); }
+.bos-menu [aria-current="page"] { color: color-mix(in oklab, var(--primary), var(--foreground) 20%); font-weight: 600; }
+.bos-menu svg { width: 18px; height: 18px; color: var(--muted-foreground); flex: none; }
+.bos-menu hr { margin: var(--space-2) 0; border: 0; border-top: 1px solid var(--border); }
+/* Brand block in the bar: logo, name and (optionally) a one-line subtitle, always the same size. */
+.bos-brand { color: var(--foreground); text-decoration: none; font-weight: 700; transition: opacity 150ms; }
+a.bos-brand:hover { opacity: 0.75; }
+.bos-brand img,
+.bos-brand svg,
+.bos-brand > .bos-charm { width: 32px; height: 32px; flex: none; }
+.bos-brand small { display: block; font-size: 0.75rem; font-weight: 500; color: var(--muted-foreground); line-height: 1.2; }
 .bos-actions {
   display: inline-flex;
   align-items: center;
@@ -454,26 +595,34 @@
   .bos-nav-list [data-priority="low"] {
     display: none;
   }
-  .bos-nav-more {
-    display: inline-flex;
-  }
 }
 /* Small screens: the nav becomes a menu button; only brand, menu and user stay in the bar. */
 .bos-nav-toggle {
   display: none;
 }
+/* Small screens: the main pages move into the More menu (repeat them in a
+   <div class="bos-menu-group" data-mobile> group, which only shows here). */
+.bos-menu-group[data-mobile] { display: none; }
 @media (max-width: 767px) {
   .bos-shell {
-    grid-template-columns: auto 1fr auto;
-    border-radius: calc(var(--radius) * 1.5);
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    gap: var(--space-2);
+    padding-left: var(--space-4);
   }
-  .bos-nav {
-    display: none;
-  }
-  .bos-nav-toggle {
-    display: inline-flex;
-    justify-self: end;
-  }
+  .bos-brand { min-width: 0; overflow: hidden; }
+  .bos-nav-list { display: none; }
+  .bos-nav { justify-content: flex-end; }
+  .bos-menu-group[data-mobile] { display: flex; }
+  .bos-menu-cols { grid-auto-flow: row; }
+  .bos-nav-more .bos-menu { left: auto; right: -120px; transform: none; max-width: calc(100vw - 32px); }
+  .bos-brand small { display: none; }
+  .bos-actions { gap: var(--space-1); }
+  .bos-actions > :not(.bos-btn-primary):not(.bos-menu-wrap) { display: none; }
+  .bos-nav-toggle { display: inline-flex; justify-self: end; }
+}
+/* Very narrow screens: the logo stands for the brand, so nothing in the bar is squeezed. */
+@media (max-width: 440px) {
+  .bos-brand:has(img, svg, .bos-charm) > :not(img):not(svg):not(.bos-charm) { display: none; }
 }
 
 /* ---------- Motion: small, quick and purposeful ---------- */
@@ -687,15 +836,14 @@
 .bos-label { font-size: 0.875rem; font-weight: 600; }
 .bos-caption { font-size: 0.8125rem; color: var(--muted-foreground); }
 .bos-num { font-variant-numeric: tabular-nums; }
-.bos-container { max-width: 1200px; margin-inline: auto; padding-inline: var(--space-5); }
 
 /* ---------- Surfaces ---------- */
 /* Solid: the one featured thing in a section (the next step, the user's level, a key form). */
 .bos-surface {
   background: var(--card);
   color: var(--card-foreground, var(--foreground));
-  border-radius: 24px;
-  padding: var(--space-6);
+  border-radius: var(--radius-card);
+  padding: var(--pad-card);
   box-shadow: var(--shadow-md);
 }
 .bos-surface-lg { box-shadow: var(--shadow-lg); }
@@ -704,7 +852,7 @@
   background: var(--frost-medium);
   -webkit-backdrop-filter: blur(16px) saturate(170%);
   backdrop-filter: blur(16px) saturate(170%);
-  box-shadow: inset 0 1px 0 var(--glass-highlight), inset 0 0 0 1px var(--frost-border), 0 8px 28px -6px color-mix(in oklab, var(--foreground) 14%, transparent);
+  box-shadow: inset 0 1px 0 var(--glass-highlight), inset 0 0 0 1px var(--edge), 0 8px 28px -6px color-mix(in oklab, var(--foreground) 14%, transparent);
 }
 /* The app bar is the most frosted glass, so content passing under it stays a soft blur. */
 .bos-shell.bos-glass {
@@ -717,8 +865,8 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  padding: var(--space-5);
-  border-radius: 24px;
+  padding: var(--pad-tile);
+  border-radius: var(--radius-card);
   border: 1px solid var(--border);
   background: var(--frost-medium);
   -webkit-backdrop-filter: blur(12px);
@@ -843,14 +991,14 @@ button.bos-tile:hover {
   grid-template-columns: minmax(0, 1fr) auto;
   gap: var(--space-4);
   align-items: center;
-  padding: 16px 18px;
-  border-radius: 18px;
+  padding: var(--pad-row);
+  border-radius: var(--radius-row);
   color: inherit;
   text-decoration: none;
   background: var(--frost-medium);
   -webkit-backdrop-filter: blur(16px) saturate(170%);
   backdrop-filter: blur(16px) saturate(170%);
-  box-shadow: inset 0 1px 0 var(--glass-highlight), inset 0 0 0 1px var(--frost-border);
+  box-shadow: inset 0 1px 0 var(--glass-highlight), inset 0 0 0 1px var(--edge);
 }
 /* With a leading charm or icon: <span class="bos-row-lead">…</span> first. */
 .bos-row:has(> .bos-row-lead) {
@@ -961,7 +1109,7 @@ button.bos-row:hover {
   align-items: center;
   margin-top: var(--space-8);
   padding: 56px;
-  border-radius: 28px;
+  border-radius: var(--radius-band);
   background: var(--gradient-brand);
   color: var(--band-foreground, white);
 }
@@ -989,7 +1137,8 @@ button.bos-row:hover {
 /* ---------- Data table: ranked lists and leaderboards ---------- */
 .bos-table-wrap {
   padding: var(--space-2) var(--space-5);
-  border-radius: 24px;
+  border-radius: var(--radius-card);
+  overflow-x: auto;
   border: 1px solid var(--border);
   background: var(--card);
 }
@@ -1204,21 +1353,20 @@ button.bos-row:hover {
 }
 .bos-topbar-title { font-weight: 600; margin-right: auto; }
 .bos-main { min-width: 0; }
-.bos-content { max-width: 1200px; margin-inline: auto; padding: 0 var(--space-6) var(--space-8); }
 @media (max-width: 900px) {
   .bos-app { grid-template-columns: 1fr; }
   .bos-sidebar { display: none; }
   .bos-app[data-nav-open] .bos-sidebar { display: flex; position: fixed; inset: 0 auto 0 0; width: min(300px, 86vw); z-index: 60; box-shadow: var(--shadow-lg); }
-  .bos-topbar, .bos-content { padding-inline: var(--space-4); }
+  .bos-topbar { padding-inline: var(--space-4); }
 }
 
 /* ---------- Heroes: choose by what the page is for. All start with the same h1 size. ---------- */
-.bos-hero-compact,
-.bos-hero-overview,
-.bos-hero-search,
-.bos-hero-chat,
-.bos-hero-split {
-  padding-block: var(--space-7) var(--space-5);
+/* Inside .bos-page the page sets the spacing; on their own, heroes keep the same top gap. */
+:is(.bos-hero-compact, .bos-hero-overview, .bos-hero-search, .bos-hero-chat, .bos-hero-split, .bos-record-header) {
+  padding-block: var(--page-top) 0;
+}
+.bos-page > :is(.bos-hero-compact, .bos-hero-overview, .bos-hero-search, .bos-hero-chat, .bos-hero-split, .bos-record-header) {
+  padding-top: 0;
 }
 .bos-hero-compact > * + *,
 .bos-hero-overview .bos-lead,
@@ -1227,7 +1375,7 @@ button.bos-row:hover {
   margin-top: var(--space-3);
 }
 /* Work queue and app home: title, one line, then the content does the work. */
-.bos-hero-compact { max-width: 760px; }
+.bos-hero-compact .bos-lead { max-width: 60ch; }
 .bos-hero-compact .bos-btns { margin-top: var(--space-5); }
 /* Overview: title and summary on the left, the page's actions on the right; the stats follow directly. */
 .bos-hero-overview {
@@ -1246,8 +1394,6 @@ button.bos-row:hover {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  max-width: 820px;
-  margin-inline: auto;
 }
 .bos-hero-search .bos-lead,
 .bos-hero-chat .bos-lead { margin-inline: auto; }
@@ -1297,7 +1443,7 @@ button.bos-row:hover {
   min-height: 36px;
   padding: 0 14px;
   border-radius: 999px;
-  border: 1px solid var(--frost-border);
+  border: 1px solid var(--edge);
   background: var(--frost-medium);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
@@ -1307,7 +1453,7 @@ button.bos-row:hover {
   cursor: pointer;
   transition: background-color 150ms, box-shadow 150ms;
 }
-.bos-suggestions > :hover { background: var(--card); box-shadow: var(--shadow-sm); }
+.bos-suggestions > :hover { background: var(--card); border-color: var(--edge-strong); box-shadow: var(--shadow-sm); }
 
 /* Work queue: numbered next actions, the first one solid and prominent */
 .bos-queue { display: flex; flex-direction: column; gap: var(--space-2); margin: 0; padding: 0; list-style: none; counter-reset: q; }
@@ -1317,12 +1463,12 @@ button.bos-row:hover {
   grid-template-columns: 32px minmax(0, 1fr) auto;
   gap: var(--space-4);
   align-items: center;
-  padding: var(--space-4) var(--space-5);
-  border-radius: 18px;
+  padding: var(--pad-row);
+  border-radius: var(--radius-row);
   background: var(--frost-medium);
   -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
-  box-shadow: inset 0 0 0 1px var(--frost-border);
+  box-shadow: inset 0 0 0 1px var(--edge);
 }
 .bos-queue > li::before {
   content: counter(q);
@@ -1336,7 +1482,7 @@ button.bos-row:hover {
   font-weight: 700;
 }
 .bos-queue > li:first-child {
-  padding: var(--space-5);
+  padding: var(--pad-card);
   background: var(--card);
   box-shadow: var(--shadow-md);
 }
@@ -1350,13 +1496,29 @@ button.bos-row:hover {
   align-items: flex-end;
   justify-content: space-between;
   gap: var(--space-4);
-  padding-block: var(--space-6) var(--space-5);
+  padding-bottom: var(--block-gap);
   border-bottom: 1px solid var(--border);
-  margin-bottom: var(--space-6);
 }
 
 @media (max-width: 960px) {
   .bos-hero-split { grid-template-columns: 1fr; }
   .bos-queue > li { grid-template-columns: 32px minmax(0, 1fr); }
   .bos-queue > li > :last-child { grid-column: 2; justify-self: start; }
+}
+
+/* ---------- Hover baseline for kit components: everything clickable responds, the selected one too ---------- */
+:where(.bos-backdrop) .cn-select-trigger:hover,
+:where(.bos-backdrop) .cn-combobox-trigger:hover {
+  border-color: var(--edge-strong);
+  background-color: var(--card);
+}
+:where(.bos-backdrop) :is(.cn-tabs-trigger, .cn-toggle, .cn-toggle-group-item):is([data-active], [aria-selected="true"], [aria-pressed="true"], [data-state="on"]):hover {
+  box-shadow: 0 2px 8px oklch(0 0 0 / 12%);
+}
+:where(.bos-backdrop) .cn-sidebar-menu-button:is([data-active], [aria-current="page"]):hover {
+  box-shadow: inset 0 0 0 1px var(--edge-strong);
+}
+:where(.bos-backdrop) a:not([class]):hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }

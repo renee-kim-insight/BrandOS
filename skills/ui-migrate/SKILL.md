@@ -46,7 +46,8 @@ Every kit installs `brandos-ui.css`. Use its classes and the theme variables ins
 | Card padding and radius | `bos-card`, `bos-card-compact` |
 | App bar (brand, nav, actions) | `bos-shell` with `bos-brand`, `bos-nav` > `bos-nav-list`, `bos-actions`; `data-priority="low"` on items that may move into `bos-nav-more`; `bos-nav-toggle` for small screens |
 | Page title block (app screens) | `bos-page-header` with `bos-title` and `bos-subtitle` |
-| App shell (every app, same anatomy) | `bos-app` > `bos-sidebar` (`bos-sidebar-brand`, `bos-sidebar-section` with `bos-sidebar-label` and `bos-sidebar-item`, `aria-current="page"` on the active one, `bos-sidebar-footer` for the user and theme switch) and `bos-main` > `bos-topbar` + `bos-content`. Apps with a top nav instead use `bos-shell-wrap` > `bos-shell bos-glass` |
+| App shell (every app, same anatomy) | The glass pill nav: `bos-shell-wrap` > `bos-container` > `bos-shell bos-glass` with `bos-brand` (logo, name, optional `<small>` subtitle), `bos-nav` > `bos-nav-list` (up to 6 main pages, `aria-current="page"` on the active one) followed by `<details class="bos-menu-wrap bos-nav-more">` (More, grouped with `bos-menu-group` and `bos-menu-label`), then `bos-actions`: search, the one Create action (`bos-btn-primary`), and the user menu (`<details class="bos-menu-wrap bos-menu-end">`: settings, admin, theme, sign out). The sidebar shell (`bos-app`, `bos-sidebar`) is only for an app the person explicitly wants it for |
+| Page layout | `bos-container` (or `bos-content`) for width and margins, `bos-page` for the stack of title block and sections, `bos-stack` inside a section. Never set page width, margins or section spacing by hand |
 | The top of a page | One of the heroes in "Choosing the top of a page" below: `bos-hero-compact`, `bos-hero-overview`, `bos-hero-search`, `bos-hero-chat`, `bos-hero-split`, or `bos-record-header` |
 | Type sizes | `bos-display` (landing and welcome only), `bos-h1` (every page title, home included), `bos-h2`, `bos-h3`, `bos-lead`, `bos-stat`. Sizes come from `--text-*`; never set a heading size by hand |
 | Work queues, big search, chat | `bos-queue` (numbered next actions, the first is solid), `bos-search-xl`, `bos-composer`, `bos-suggestions` |
@@ -109,7 +110,7 @@ For small swaps, proceed. For restructures that change layout or how something i
 
 ### c. Show
 
-Run `brandos audit` and `brandos verify` for the page; both must report nothing off-brand. Mark the item `[~]` in `MIGRATION.md`. Run the app (or reload it) and give the person the URL of the page, plus a short summary: what changed, and anything you chose not to change and why. A before-and-after screenshot helps when you can take one.
+Run `brandos audit` and `brandos verify` for the page. Verify must report nothing off-brand, no failed requests or script errors, no clickable thing without a hover change, no content cut off by its container, no sideways scrolling and no broken images. Also look at the page yourself at 1440 and 390px wide, in light and dark: everything visible, nothing overlapping, every menu and dialog opening in full. Mark the item `[~]` in `MIGRATION.md`. Run the app (or reload it) and give the person the URL of the page, plus a short summary: what changed, and anything you chose not to change and why. A before-and-after screenshot helps when you can take one.
 
 ### d. Wait
 
@@ -119,6 +120,27 @@ Do not start the next item. The person either:
 - **asks for tweaks**: make them, note them under _Review_, show again, and wait again.
 
 Then go to the next item.
+
+## The layout system
+
+Every app uses the same measurements, set once in `brandos-ui.css`. Pages change what's inside them, never these.
+
+| Token | Value | Used for |
+|---|---|---|
+| `--page-max` | 1200px | The width of every page and of the nav bar, so their edges line up |
+| `--page-gutter` | 16 to 40px | Left and right page margin |
+| `--page-top` | 48px | Nav bar to page title |
+| `--section-gap` | 64px | Between sections (`bos-page` sets it) |
+| `--block-gap` | 24px | Section title to its content, and between cards |
+| `--pad-card` / `--pad-tile` / `--pad-row` | 28px / 24px / 16px 20px | Inside surfaces, tiles and glass panels, rows and queue items |
+| `--radius-control` / `--radius-card` / `--radius-row` / `--radius-inner` | pill / 24px / 18px / 14px | Buttons and inputs, cards and tables, rows, anything inside a card |
+
+Rules:
+- Every block on a page spans the same width: the page container. Heroes, queues, lists, grids and tables all line up with the page title on the left and the nav bar on the right. Only text gets a narrower measure (`bos-lead` stops at 60ch), and it stays aligned to the same left edge, or centred in a centred hero.
+- No hand-set widths, margins, paddings, gaps or radii on page-level blocks. If something needs a size that isn't a token, ask the person.
+- Corners: anything inside a rounded container uses `--radius-inner`. Don't put `overflow: hidden` on a rounded container that holds menus, popovers, focus rings or tooltips; round the container and let its children sit inside the padding, or use `bos-clip`, which keeps room for focus rings. Tables go inside `bos-table-wrap`, which rounds the frame, never the cells.
+- Glass needs a visible edge everywhere, on white as much as on colour: use the BrandOS classes, which draw it with `--edge`.
+- Every clickable thing has a hover state, and nothing else does: links, buttons, menu items, chips that act, rows and cards that are links. `brandos verify` hovers every clickable thing and lists the ones that don't change. Mark a deliberately static demo or preview with `data-bos-static`.
 
 ## Choosing the top of a page
 
@@ -140,7 +162,8 @@ Stats belong only where the numbers are the point and someone would act on them.
 When several apps carry the same brand, the important things must match exactly and only the page content may differ.
 
 Must match in every app:
-- The shell: sidebar or top bar anatomy, its background (neutral glass, never a tinted panel), brand block (logo, name, one-line subtitle), section label style, item height and icon size, the active item style, and where the user, sign out and theme switch live.
+- The shell: the glass pill nav, its height and width (the page width), brand block (logo, name and, unless the app is white-label, a one-line subtitle, always the same size), the active item style, the More menu, the Create action and the user menu with settings, admin, theme and sign out.
+- The layout system: page width, margins, the gap above the page title, section and block gaps, card and row padding, corner radii.
 - Type: the same classes and sizes for page titles (`bos-h1`), section titles (`bos-h2`), leads and stats. No custom heading sizes.
 - Colour: primary only for the main action, the active nav item, focus and the user's own status. Inputs, focus rings and selected states look the same everywhere.
 - Buttons, chips, pills, cards, rows and their hover states.

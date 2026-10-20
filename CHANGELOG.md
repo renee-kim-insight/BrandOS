@@ -2,6 +2,19 @@
 
 BrandOS uses semantic versioning: patch (1.0.x) for fixes and rule changes, minor (1.x.0) for new features, major (x.0.0) for breaking changes.
 
+## 1.5.0
+
+One layout system, the glass pill nav as the standard, and verify checks that pages actually work.
+
+- Layout system in `brandos-ui.css`: `--page-max` (1200px, the nav bar and every page share it), `--page-gutter`, `--page-top`, `--section-gap`, `--block-gap`, `--pad-card`, `--pad-tile`, `--pad-row`, and radii `--radius-control`, `--radius-card`, `--radius-row`, `--radius-inner`. New `bos-page` (title block and sections, evenly spaced) and `bos-stack`; `bos-container` and `bos-content` share the width and margins. Every block now spans the page width; centred heroes keep a readable line length for text only.
+- Fix: an old `bos-page` rule added its own side padding, so pages using it sat 32px in from the nav bar and from pages that didn't.
+- The glass pill nav is the standard app nav again: brand block, up to six main pages, a More menu grouped by section (`details.bos-menu-wrap.bos-nav-more`, no script needed), then search, the one Create action and a user menu. On phones the main pages move into the More menu. The sidebar shell stays available only when someone asks for it.
+- Glass has a visible edge on white as well as on colour (`--edge`): suggestion chips, glass rows, glass buttons, queue items, frost panels and the segmented control no longer read as plain text.
+- Hover on everything clickable: brand links, the selected tab or segment, select triggers, the active sidebar item and plain links now respond.
+- `brandos verify` also checks that each page works: failed requests and script errors, clickable things with no hover change, text cut off by its container (including rounded corners), sideways scrolling and broken images. `--no-checks` skips them; `data-bos-static` marks deliberate static previews.
+- Rules for corners: `--radius-inner` inside cards, no `overflow: hidden` on rounded containers that hold menus or focus rings (`bos-clip` keeps room for them).
+- Guide: the shell demo shows the pill nav with More and user menus, plus a table of the layout system.
+
 ## 1.4.0
 
 Page tops chosen by purpose, one shared app shell, one type scale.
