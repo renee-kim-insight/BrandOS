@@ -559,7 +559,7 @@ $("#packBtn").onclick = async () => {
       <div class="small muted">Also saved in ${esc(r.folder)}</div>
       ${r.fonts?.length ? `<div class="included"><span class="lbl">Fonts in this pack</span>${r.fonts.map((f) => `<span>${esc(f.family)} <span class="muted">(${esc(f.role)}, ${f.files ? `${f.files} files included` : f.source === "google" ? "loads from Google Fonts" : f.source === "system" ? "system font" : `no files, ${esc(f.fallback)} stands in`})</span></span>`).join("")}</div>` : ""}
       <div class="lbl">Use it in a project</div>
-      <code class="cmd">npx brandos install path/to/app --pack ${esc(r.name)}.zip</code>
+      <code class="cmd">node path/to/brandos/cli/brandos.mjs install path/to/app --pack ${esc(r.name)}.zip</code>
       ${r.licensed ? `<div class="warn">This pack contains licensed font files. Share it privately (an internal registry, a private repo or a shared drive), never publicly.</div>` : ""}`
     loadProjects()
   } catch (e) { $("#packMsg").textContent = e.message }

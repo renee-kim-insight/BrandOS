@@ -2,6 +2,10 @@
 
 BrandOS uses semantic versioning: patch (1.0.x) for fixes and rule changes, minor (1.x.0) for new features, major (x.0.0) for breaking changes.
 
+## 1.3.3
+
+- Docs, the studio and pack READMEs now show the real command (`node path/to/brandos/cli/brandos.mjs ...`). BrandOS is not published on npm, so `npx brandos` did not work.
+
 ## 1.3.2
 
 - Studio: font files get their own drop area next to the brand guide, with a list of each family and its weights. Every font in step 2 shows whether its files are in (and so in the pack) or a stand-in is showing, with an "Add font files" button right there. The download lists every font in the pack and how it loads.

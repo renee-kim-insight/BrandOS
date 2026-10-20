@@ -227,7 +227,7 @@ The ${brand.name} brand, packed by BrandOS ${version()}. Built once from the bra
 
 With BrandOS (any app; it detects React, PrimeVue or plain CSS):
 
-    npx brandos install path/to/app --pack ${name}.zip
+    node path/to/brandos/cli/brandos.mjs install path/to/app --pack ${name}.zip
 
 Without BrandOS, load these in the page, in this order:
 
