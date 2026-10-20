@@ -2,72 +2,50 @@
 
 BrandOS uses semantic versioning: patch (1.0.x) for fixes and rule changes, minor (1.x.0) for new features, major (x.0.0) for breaking changes.
 
-## 1.5.0
+## 1.2.0
 
-One layout system, the glass pill nav as the standard, and verify checks that pages actually work.
+Brand packs and BrandOS Studio, design-system import, page tops chosen by purpose, one layout system for every app, and checks that pages actually work.
 
-- Layout system in `brandos-ui.css`: `--page-max` (1200px, the nav bar and every page share it), `--page-gutter`, `--page-top`, `--section-gap`, `--block-gap`, `--pad-card`, `--pad-tile`, `--pad-row`, and radii `--radius-control`, `--radius-card`, `--radius-row`, `--radius-inner`. New `bos-page` (title block and sections, evenly spaced) and `bos-stack`; `bos-container` and `bos-content` share the width and margins. Every block now spans the page width; centred heroes keep a readable line length for text only.
-- Fix: an old `bos-page` rule added its own side padding, so pages using it sat 32px in from the nav bar and from pages that didn't.
-- The glass pill nav is the standard app nav again: brand block, up to six main pages, a More menu grouped by section (`details.bos-menu-wrap.bos-nav-more`, no script needed), then search, the one Create action and a user menu. On phones the main pages move into the More menu. The sidebar shell stays available only when someone asks for it.
-- Glass has a visible edge on white as well as on colour (`--edge`): suggestion chips, glass rows, glass buttons, queue items, frost panels and the segmented control no longer read as plain text.
-- Hover on everything clickable: brand links, the selected tab or segment, select triggers, the active sidebar item and plain links now respond.
-- `brandos verify` also checks that each page works: failed requests and script errors, clickable things with no hover change, text cut off by its container (including rounded corners), sideways scrolling and broken images. `--no-checks` skips them; `data-bos-static` marks deliberate static previews.
-- Rules for corners: `--radius-inner` inside cards, no `overflow: hidden` on rounded containers that hold menus or focus rings (`bos-clip` keeps room for them).
-- Guide: the shell demo shows the pill nav with More and user menus, plus a table of the layout system.
-
-## 1.4.0
-
-Page tops chosen by purpose, one shared app shell, one type scale.
-
-- Six patterns for the top of a page, each tied to what the page is for: work queue (`bos-hero-compact` + `bos-queue`), overview (`bos-hero-overview` + `bos-stats`), search (`bos-hero-search` + `bos-search-xl` + `bos-suggestions`), ask an assistant (`bos-hero-chat` + `bos-composer`), welcome or landing (`bos-hero-split`), and record pages (`bos-record-header`). They are starting points: the migrate skill says to compose something else from the same parts when a page needs it.
-- The migrate skill and `brand-rules.md` now say how to choose (by the first thing a person does on the page), when stats belong (only numbers someone acts on, never counts of static things), and what must match across apps (shell, type sizes, colour use, buttons, spacing) versus what may differ (which hero, what follows).
-- Shared app shell: `bos-app`, `bos-sidebar` (brand block, labelled sections, one active style, footer for user and theme switch; neutral glass, never tinted), `bos-topbar`, `bos-main`, `bos-content`.
-- One type scale for every app: `--text-display`, `--text-h1`, `--text-h2`, `--text-h3`, `--text-lead`, `--text-stat`. Page titles use `bos-h1`, home included; `bos-display` is for landing and welcome pages only.
-- Stat strips wrap cleanly at any width and any number of stats.
-- Top nav: items that still don't fit can no longer overlap the brand or actions.
-- `brandos install --pack` writes `brand-rules.md` fresh from the current BrandOS, so older packs get the latest rules.
-- Guide: new "Page tops" section with every pattern live, when to use it and what to avoid, plus the shared shell.
-
-## 1.3.3
-
-- Docs, the studio and pack READMEs now show the real command (`node path/to/brandos/cli/brandos.mjs ...`). BrandOS is not published on npm, so `npx brandos` did not work.
-
-## 1.3.2
-
-- Studio: font files get their own drop area next to the brand guide, with a list of each family and its weights. Every font in step 2 shows whether its files are in (and so in the pack) or a stand-in is showing, with an "Add font files" button right there. The download lists every font in the pack and how it loads.
-
-## 1.3.1
-
-- `brandos detect` finds the frontend when it isn't at the repo root (monorepos and full-stack repos: `app/frontend`, `web`, `client` and so on), lists every candidate with its framework (React, Vue, Angular, Svelte, Next.js and others, plus PrimeVue, MUI or Tailwind), and also spots .NET Razor views and server-rendered templates.
-- `brandos install` on a repo root whose UI lives in a subfolder now stops and names the right folder, instead of installing in the wrong place (`--here` overrides).
-
-## 1.3.0
-
-Brand packs and BrandOS Studio: make a brand once, reuse it everywhere, with no AI in the loop.
-
-- New `brandos studio`: a local dashboard. Drop in brand guides (PDF, PowerPoint), website links, design-system files and licensed fonts; check and fix the colours, fonts, corners and dark mode with a live preview and live contrast checks; export a brand pack. Runs on the person's computer only; projects are saved in `brand-studio/` and kept out of git.
+### Make a brand once, reuse it everywhere
+- New `brandos studio`: a local dashboard (nothing is uploaded, no AI is used). Add brand guides (PDF, PowerPoint), website links and design-system files, plus licensed font files in their own drop area. Check and fix the colours, roles, fonts, corners and dark mode with a live preview and live contrast checks, then export a brand pack. Saved brands can be reopened, changed and re-exported with a new version.
+- Each font shows whether its files are in the pack or a free stand-in is showing, with an "Add font files" button right there. The download lists every font in the pack and how it loads.
 - New `brandos pack brand.json`: builds `<brand>-brand-<version>.zip` with the theme, fonts, tokens, palette, `brandos-ui.css`, adapters (Tailwind v4, Tailwind v3, PrimeVue), `brand-rules.md` (a one-page brief for AI tools), a contrast report and `preview.html`.
-- `brandos install --pack <zip|folder>`: installs straight from a pack and copies `brand-rules.md` to the app root. The unpacked copy is kept out of git.
-- `brandos extract` now reads design-system files exactly: W3C design tokens, Figma variables exports, Tokens Studio and Style Dictionary JSON, CSS, SCSS and Less variables (including shadcn-style HSL channels), Tailwind configs (read as text, never run), and existing brand.json files. Roles come from token names (primary, brand, secondary, accent, error, neutral, background), and heading and body fonts from font tokens.
+- `brandos install --pack <zip|folder>` installs straight from a pack, keeps the unpacked copy out of git, and writes `brand-rules.md` into the app fresh from the current BrandOS, so older packs get the latest rules.
+
+### Read existing design systems exactly
+- `brandos extract` and the studio read design-system files directly: W3C design tokens, Figma variables exports, Tokens Studio and Style Dictionary JSON, CSS, SCSS and Less variables (including shadcn-style HSL channels), Tailwind configs (read as text, never run) and existing brand.json files. Roles come from token names (primary, brand, secondary, accent, error, neutral, background), fonts from font tokens. When several sources are added, design-system files win over guides.
 - More free stand-ins recognised for licensed slab and serif faces.
 
-## 1.2.3
+### Find the app, wherever it lives
+- `brandos detect` finds the frontend when it isn't at the repo root (monorepos and full-stack repos), lists each candidate with its framework, and spots .NET Razor views and server-rendered templates.
+- `brandos install` on a repo root whose UI lives in a subfolder stops and names the right folder (`--here` overrides).
 
-- Attachment chips without a remove button have even padding on both sides, so the file name no longer runs to the right edge, and small chips have a tighter gap between icon and name.
+### Page tops chosen by what the page is for
+- Six patterns: work queue (`bos-hero-compact` + `bos-queue`), overview (`bos-hero-overview` + `bos-stats`), search (`bos-hero-search` + `bos-search-xl` + `bos-suggestions`), ask an assistant (`bos-hero-chat` + `bos-composer`), welcome or landing (`bos-hero-split`), and record pages (`bos-record-header`). They are starting points; the AI composes something else from the same parts when a page needs it and says why.
+- Stats only where someone would act on the numbers, never counts of static things.
 
-## 1.2.2
+### One layout system and one shell for every app
+- Layout tokens: `--page-max` (1200px, shared by the nav bar and every page, so their edges line up), `--page-gutter`, `--page-top`, `--section-gap`, `--block-gap`, `--pad-card`, `--pad-tile`, `--pad-row`, and radii `--radius-control`, `--radius-card`, `--radius-row`, `--radius-inner`. New `bos-page` and `bos-stack`. Every block spans the page width; only text gets a narrower measure.
+- One type scale: `--text-display` to `--text-stat`. Every page title uses `bos-h1`, home included; `bos-display` is for landing pages only.
+- The glass pill nav is the standard: brand block, up to six main pages, a More menu grouped by section (no script needed), search, one Create action and a user menu with settings, admin, theme and sign out. On phones the main pages move into More, and nothing in the bar overlaps. A sidebar shell exists for apps that ask for it.
+- The migrate skill and `brand-rules.md` spell out what must match across apps (shell, layout, type, colour use, buttons, spacing) and what may differ (which page top, what follows).
 
-- Command menus rest cleanly: the panel clips instead of scrolling, so the search field can't be pushed out of place, and the pre-selected first item only shows its highlight once the menu is in use.
-- Guide: demos that grab focus on load no longer scroll the page or their own panels.
+### Visible glass, hover everywhere, safe corners
+- Glass has a visible edge on white as well as on colour: suggestion chips, glass rows, glass buttons, queue items, panels and the segmented control no longer read as plain text.
+- Every clickable thing responds on hover, including the selected tab or segment, select triggers, the active sidebar item, brand links and plain links.
+- Rules for corners: `--radius-inner` inside cards, no `overflow: hidden` on rounded containers that hold menus or focus rings (`bos-clip` keeps room for them). Stat strips wrap cleanly at any width.
 
-## 1.2.1
+### Checks that pages work
+- `brandos verify` now also reports failed requests and script errors, clickable things with no hover change, text cut off by its container (including rounded corners), sideways scrolling and broken images. `--no-checks` skips them; `data-bos-static` marks deliberate static previews.
 
-- Hover only on things you can click: table rows (including header and footer rows) and plain ghost badges no longer change on hover.
-- Input groups and comboboxes keep the field's inner padding when there is no icon or prefix on that side, so text no longer touches the edge.
-- File inputs show a real browse button.
-- Guide: the light and dark switch works inside sandboxed pages and follows the host's theme; demos that are hard to read at a glance (right-to-left direction, combobox) have a short note.
+### Fixes
+- An old `bos-page` rule added its own side padding, so some pages sat 32px in from the nav bar and from other pages.
+- Docs, the studio and pack READMEs show the real command (`node path/to/brandos/cli/brandos.mjs ...`); BrandOS isn't on npm, so `npx brandos` did not work.
 
-## 1.2.0
+### Guide
+- The component guide gains a "Page tops" section with every pattern live, when to use it and what to avoid, the pill nav shell with its menus, and a table of the layout system.
+
+## 1.1.2
 
 Editorial layout, heading fonts and a visual guide.
 
@@ -80,6 +58,16 @@ Editorial layout, heading fonts and a visual guide.
 - Fix: tints mixed with white or the text colour now use OKLab, so a pale tint keeps its hue. Before, pale tints of green, teal and blue brands drifted towards pink (PrimeVue `primary.50` to `300`, and several `color-mix` tints).
 - Fix: chat bubbles in the glass style put the glass on the bubble, not on a rectangle behind it. Native selects from the kit no longer show two arrows. Grids no longer widen the page when a child has wide content.
 - New visual guide: `node scripts/build-guide.mjs` builds a page with every component (live), the layout patterns, tokens, diagrams and rules, in any set of brands.
+
+- Hover only on things you can click: table rows (including header and footer rows) and plain ghost badges no longer change on hover.
+- Input groups and comboboxes keep the field's inner padding when there is no icon or prefix on that side, so text no longer touches the edge.
+- File inputs show a real browse button.
+- Guide: the light and dark switch works inside sandboxed pages and follows the host's theme; demos that are hard to read at a glance (right-to-left direction, combobox) have a short note.
+
+- Command menus rest cleanly: the panel clips instead of scrolling, so the search field can't be pushed out of place, and the pre-selected first item only shows its highlight once the menu is in use.
+- Guide: demos that grab focus on load no longer scroll the page or their own panels.
+
+- Attachment chips without a remove button have even padding on both sides, so the file name no longer runs to the right edge, and small chips have a tighter gap between icon and name.
 
 ## 1.1.0
 
