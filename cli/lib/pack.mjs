@@ -81,9 +81,12 @@ export function openPack(p, app) {
   const abs = path.resolve(p)
   const dir = fs.statSync(abs).isDirectory() ? abs : unpack(abs, p, app)
   // AI tools working on the app read the short rules file instead of the brand guide.
+  // Written fresh from the pack's brand.json, so the rules always match the BrandOS version doing the install.
   const rules = path.join(app, "brand-rules.md")
-  if (fs.existsSync(path.join(dir, "brand-rules.md")) && (!fs.existsSync(rules) || /brand rules \(BrandOS/.test(fs.readFileSync(rules, "utf8"))))
-    fs.copyFileSync(path.join(dir, "brand-rules.md"), rules)
+  if (fs.existsSync(path.join(dir, "brand.json")) && (!fs.existsSync(rules) || /brand rules \(BrandOS/.test(fs.readFileSync(rules, "utf8")))) {
+    const brand = JSON.parse(fs.readFileSync(path.join(dir, "brand.json"), "utf8"))
+    fs.writeFileSync(rules, rulesMd(brand, generateTheme(brand)))
+  }
   return dir
 }
 
@@ -196,12 +199,23 @@ function rulesMd(brand, theme) {
     line("Code", fam(f.mono)),
     `Heading font only for display, h1, h2 and big numbers (\`bos-display\`, \`bos-h1\`, \`bos-h2\`, \`bos-stat\`). Everything else uses the body font.`,
     ``,
-    `## Layout and surfaces (classes from brandos-ui.css)`,
-    `- Root: \`bos-backdrop\`. App bar: \`bos-shell-wrap\` > \`bos-shell bos-glass\`.`,
-    `- Home pages: \`bos-hero\` > \`bos-hero-grid\` with \`bos-display\`, \`bos-lead\`, \`bos-btns\`, and a \`bos-surface\` card; then \`bos-stats\`.`,
+    `## Shell and type (must match in every app)`,
+    `- Shell: \`bos-app\` > \`bos-sidebar\` (brand block, labelled sections, \`bos-sidebar-item\` with \`aria-current="page"\`, footer with user and theme switch) + \`bos-main\` > \`bos-topbar\` + \`bos-content\`. Sidebar is neutral glass, never tinted. Top-nav apps: \`bos-shell-wrap\` > \`bos-shell bos-glass\`.`,
+    `- Type: \`bos-h1\` for every page title (home included), \`bos-h2\` sections, \`bos-h3\` items, \`bos-lead\`, \`bos-stat\`. \`bos-display\` only on landing and welcome pages. Never set heading sizes by hand.`,
+    ``,
+    `## The top of a page: pick by what the page is for`,
+    `- Acting on what needs attention: \`bos-hero-compact\` then \`bos-queue\`.`,
+    `- Seeing how things stand: \`bos-hero-overview\` then \`bos-stats\` (only numbers someone acts on).`,
+    `- Finding something: \`bos-hero-search\` with \`bos-search-xl\` and \`bos-suggestions\`, centred.`,
+    `- Asking an assistant: \`bos-hero-chat\` with \`bos-composer\` and wrapping \`bos-suggestions\`, centred.`,
+    `- Explaining the product (landing, welcome): \`bos-hero-split\` with \`bos-display\` and one \`bos-surface\`.`,
+    `- One record: \`bos-record-header\`, no hero.`,
+    `These are starting points; compose something else from the same parts when a page needs it. Never add stats, side cards or bands just to match another page.`,
+    ``,
+    `## Surfaces and components`,
     `- Each section: one solid \`bos-surface\` for the most important thing; secondary items as glass \`bos-row\` in \`bos-rows\`; repeating cards as \`bos-tile\`.`,
     `- Buttons: one \`bos-btn-primary\` per view; every other action \`bos-btn-glass\` (glass, solid on hover).`,
-    `- Closing call to action: one \`bos-band\` per page with a \`bos-btn-glass\`.`,
+    `- Closing call to action, where a page has one: \`bos-band\` with a \`bos-btn-glass\`.`,
     `- Badges and avatars: \`bos-charm\` (+ shape: petal, leaf, arch, bloom, pebble, tab), \`bos-avatar\`. User's own status: \`bos-pill\`.`,
     `- Tabs and filters: \`bos-segmented\`. Progress: \`bos-progress\` (muted), \`bos-progress-primary\` for the user's one main bar. Tables: \`bos-table\`.`,
     ``,

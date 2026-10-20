@@ -2,6 +2,19 @@
 
 BrandOS uses semantic versioning: patch (1.0.x) for fixes and rule changes, minor (1.x.0) for new features, major (x.0.0) for breaking changes.
 
+## 1.4.0
+
+Page tops chosen by purpose, one shared app shell, one type scale.
+
+- Six patterns for the top of a page, each tied to what the page is for: work queue (`bos-hero-compact` + `bos-queue`), overview (`bos-hero-overview` + `bos-stats`), search (`bos-hero-search` + `bos-search-xl` + `bos-suggestions`), ask an assistant (`bos-hero-chat` + `bos-composer`), welcome or landing (`bos-hero-split`), and record pages (`bos-record-header`). They are starting points: the migrate skill says to compose something else from the same parts when a page needs it.
+- The migrate skill and `brand-rules.md` now say how to choose (by the first thing a person does on the page), when stats belong (only numbers someone acts on, never counts of static things), and what must match across apps (shell, type sizes, colour use, buttons, spacing) versus what may differ (which hero, what follows).
+- Shared app shell: `bos-app`, `bos-sidebar` (brand block, labelled sections, one active style, footer for user and theme switch; neutral glass, never tinted), `bos-topbar`, `bos-main`, `bos-content`.
+- One type scale for every app: `--text-display`, `--text-h1`, `--text-h2`, `--text-h3`, `--text-lead`, `--text-stat`. Page titles use `bos-h1`, home included; `bos-display` is for landing and welcome pages only.
+- Stat strips wrap cleanly at any width and any number of stats.
+- Top nav: items that still don't fit can no longer overlap the brand or actions.
+- `brandos install --pack` writes `brand-rules.md` fresh from the current BrandOS, so older packs get the latest rules.
+- Guide: new "Page tops" section with every pattern live, when to use it and what to avoid, plus the shared shell.
+
 ## 1.3.3
 
 - Docs, the studio and pack READMEs now show the real command (`node path/to/brandos/cli/brandos.mjs ...`). BrandOS is not published on npm, so `npx brandos` did not work.

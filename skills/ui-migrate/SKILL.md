@@ -46,7 +46,10 @@ Every kit installs `brandos-ui.css`. Use its classes and the theme variables ins
 | Card padding and radius | `bos-card`, `bos-card-compact` |
 | App bar (brand, nav, actions) | `bos-shell` with `bos-brand`, `bos-nav` > `bos-nav-list`, `bos-actions`; `data-priority="low"` on items that may move into `bos-nav-more`; `bos-nav-toggle` for small screens |
 | Page title block (app screens) | `bos-page-header` with `bos-title` and `bos-subtitle` |
-| Home and landing pages | `bos-hero` > `bos-hero-grid` (text left, a `bos-surface` card right), `bos-display` heading, `bos-lead`, `bos-btns`; then `bos-stats` (numbers in `bos-stat`, label in `small`) |
+| App shell (every app, same anatomy) | `bos-app` > `bos-sidebar` (`bos-sidebar-brand`, `bos-sidebar-section` with `bos-sidebar-label` and `bos-sidebar-item`, `aria-current="page"` on the active one, `bos-sidebar-footer` for the user and theme switch) and `bos-main` > `bos-topbar` + `bos-content`. Apps with a top nav instead use `bos-shell-wrap` > `bos-shell bos-glass` |
+| The top of a page | One of the heroes in "Choosing the top of a page" below: `bos-hero-compact`, `bos-hero-overview`, `bos-hero-search`, `bos-hero-chat`, `bos-hero-split`, or `bos-record-header` |
+| Type sizes | `bos-display` (landing and welcome only), `bos-h1` (every page title, home included), `bos-h2`, `bos-h3`, `bos-lead`, `bos-stat`. Sizes come from `--text-*`; never set a heading size by hand |
+| Work queues, big search, chat | `bos-queue` (numbered next actions, the first is solid), `bos-search-xl`, `bos-composer`, `bos-suggestions` |
 | Type scale | `bos-display`, `bos-h1`, `bos-h2`, `bos-stat` use the brand's heading font; `bos-h3`, `bos-lead`, `bos-label`, `bos-caption`, `bos-kicker` use the body font |
 | Section with a featured item and a list | `bos-block` > `bos-sec-head` (title plus `bos-text-link`), then `bos-feature-grid` with a `bos-surface bos-feature` and a `bos-rows` list |
 | The closing call to action | `bos-band` (the brand gradient, once per page) with a `bos-btn-glass` on it |
@@ -117,6 +120,36 @@ Do not start the next item. The person either:
 
 Then go to the next item.
 
+## Choosing the top of a page
+
+Ask: what is the first thing a person does on this page? Then pick the pattern that serves that. These are starting points, not the only options: if a page needs something else, compose it from the same parts, keep the shared type sizes and shell, and say why in `MIGRATION.md`.
+
+| The page is for | Pattern | Looks like | Avoid |
+|---|---|---|---|
+| Acting on what needs attention (a work queue, "up next", approvals) | `bos-hero-compact` then `bos-queue` | Greeting or title in `bos-h1`, one line saying how many things need them, then the queue full width with the first item solid | A giant greeting beside the queue with empty space; a stat strip |
+| Seeing how things stand (metrics, an estate, a portfolio) | `bos-hero-overview` then `bos-stats` | Title and one-sentence summary left, the page's actions right, then 3 to 5 numbers that change what someone does | Numbers that are just counts of static things |
+| Finding something (a library, a knowledge base, a directory) | `bos-hero-search` | Centred title and lead, a wide `bos-search-xl`, ways in as `bos-suggestions` (stages, categories, recent searches) | Putting the search in a side card; stats about how much content exists |
+| Asking an assistant | `bos-hero-chat` | Centred greeting, a full-width `bos-composer`, suggested prompts as `bos-suggestions` that wrap to show the whole question | Side-by-side greeting and composer; truncated suggestions; counts of assistants or prompts |
+| Explaining the product (landing, welcome, first run) | `bos-hero-split` | `bos-display` title and story left, one featured `bos-surface` or visual right, optional `bos-stats` that support the story | Using this on everyday app pages |
+| One record (a project, customer, agent, document) | `bos-record-header` | Title in `bos-h1`, key facts as chips, actions right; content starts straight after | A hero of any kind |
+
+Stats belong only where the numbers are the point and someone would act on them. Never show counts of things that rarely change (number of assistants, prompts, published entries, stages).
+
+## Consistency across apps
+
+When several apps carry the same brand, the important things must match exactly and only the page content may differ.
+
+Must match in every app:
+- The shell: sidebar or top bar anatomy, its background (neutral glass, never a tinted panel), brand block (logo, name, one-line subtitle), section label style, item height and icon size, the active item style, and where the user, sign out and theme switch live.
+- Type: the same classes and sizes for page titles (`bos-h1`), section titles (`bos-h2`), leads and stats. No custom heading sizes.
+- Colour: primary only for the main action, the active nav item, focus and the user's own status. Inputs, focus rings and selected states look the same everywhere.
+- Buttons, chips, pills, cards, rows and their hover states.
+- Spacing: the same gap above the page title and between sections.
+
+May differ: which hero a page uses, what sections follow, and how many columns the content needs.
+
+Before showing a page, compare it with the same page in the other apps (if there are any) and fix any difference in the must-match list.
+
 ## Restructure catalogue
 
 Use these when a page part matches. They are the most common improvements, not a checklist to force.
@@ -144,7 +177,7 @@ Use these when a page part matches. They are the most common improvements, not a
 - One primary button per view. Everything else is secondary, outline, ghost or glass.
 - Colour budget: about 90% neutrals (the brand's greys and text colours), brand colour for the few things that need attention: the one primary button, the active nav item, the focus ring, and the user's own status (current level, main progress). Progress bars, secondary buttons, links, icons, tags and chips stay neutral. The backdrop and shell are neutral with only faint brand colour. Squint test: on any page the eye should land on one coloured thing first.
 - Solid for what matters, glass for the rest. In each section, the single most important thing (the next step, the user's level, a key form) is a solid `bos-surface` with a soft shadow. Secondary items next to it (lists of rows, the nav, floating controls, secondary buttons) are glass and turn solid when hovered if they are clickable. Repeating cards in a grid are outlined `bos-tile`s. Dense app screens with many panels can use the frost tiers instead. Floating menus and dialogs are the most opaque surfaces so text behind never shows through. Text must pass contrast on every surface.
-- Page order: glass app bar, hero (display heading, lead, one primary and one glass button, a solid card on the right), stat strip, then sections, each with a featured surface and secondary glass items, and the brand band last. App screens without a hero start with `bos-page-header`.
+- Choose the top of each page by what it is for (see "Choosing the top of a page"). Do not give every home page the same hero, and do not add a stat strip, a side card or a band just because another page has one.
 - Type: the brand's heading font is for big type only: display, h1, h2 and stat numbers. Everything else (h3, lists, tiles, tables, forms, menus) uses the body font. When the brand has no heading font, headings use the body font at a heavier weight.
 - Brand colour in small doses beyond the colour budget: one `bos-band` per page for the closing call to action, and charms for badges, avatars and icon frames. No other gradients.
 - Hover only on things you can click: buttons, links, nav and menu items, and cards that are links as a whole. Static cards and rows get no hover lift, shadow, colour change or pointer cursor. A card that is clickable as a whole must be a real link or button so it works with the keyboard.

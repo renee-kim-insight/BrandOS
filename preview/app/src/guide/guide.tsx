@@ -1,6 +1,12 @@
 import * as React from "react"
 import {
   ArrowRight,
+  Bell,
+  FolderKanban,
+  LayoutDashboard,
+  Search,
+  Send,
+  Users,
   Check,
   ChevronRight,
   FileText,
@@ -85,6 +91,7 @@ export function Guide() {
           <Surfaces />
           <Foundations current={current} />
           <Patterns />
+          <Heroes />
           <ComponentLibrary />
           <ExamplePage />
           <Rules />
@@ -102,11 +109,11 @@ export function Guide() {
 
 const SECTIONS: [string, string, boolean][] = [
   ["how", "How it works", true],
-  ["surfaces", "Surfaces", false],
+  ["surfaces", "Surfaces", true],
   ["foundations", "Foundations", false],
   ["patterns", "Patterns", true],
+  ["heroes", "Page tops", false],
   ["components", "Components", false],
-  ["example", "Example", true],
   ["rules", "Rules", true],
 ]
 
@@ -204,7 +211,7 @@ function Hero({ current }: { current?: Brand }) {
     <header className="bos-hero" id="top">
       <div className="bos-hero-grid">
         <div>
-          <span className="bos-kicker">Component guide · BrandOS 1.2</span>
+          <span className="bos-kicker">Component guide · BrandOS 1.4</span>
           <h1 className="bos-display" style={{ marginTop: 10 }}>
             One component library. Any brand.
           </h1>
@@ -823,6 +830,224 @@ function Patterns() {
             </table>
           </div>
         </Specimen>
+      </div>
+    </Section>
+  )
+}
+
+/* ------------------------------------------------------------------ heroes */
+
+const HEROES: { id: string; name: string; cls: string; when: string; avoid: string; demo: React.ReactNode }[] = [
+  {
+    id: "compact",
+    name: "Work queue",
+    cls: "bos-hero-compact + bos-queue",
+    when: "The page is for acting on what needs attention: tasks, approvals, what's up next.",
+    avoid: "A giant greeting beside the queue with empty space, or a stat strip.",
+    demo: (
+      <>
+        <div className="bos-hero-compact" style={{ paddingTop: 8 }}>
+          <h3 className="bos-h1">Good morning, Sam</h3>
+          <p className="bos-lead">Three things need you. Start with the first.</p>
+        </div>
+        <ol className="bos-queue">
+          <li>
+            <div>
+              <div className="bos-h3">Confirm the cutover plan</div>
+              <p>Atlas migration · 2 days late</p>
+            </div>
+            <button className="bos-btn-primary bos-btn-sm">Open task</button>
+          </li>
+          <li>
+            <div>
+              <div className="bos-h3" style={{ fontSize: 16 }}>Review the data model</div>
+              <p>Atlas migration · due today</p>
+            </div>
+            <button className="bos-btn-glass bos-btn-sm">Open task</button>
+          </li>
+        </ol>
+      </>
+    ),
+  },
+  {
+    id: "overview",
+    name: "Overview",
+    cls: "bos-hero-overview + bos-stats",
+    when: "The page is for seeing how things stand, and the numbers change what someone does next.",
+    avoid: "Counts of things that rarely change, or more than five numbers.",
+    demo: (
+      <>
+        <div className="bos-hero-overview" style={{ paddingTop: 8 }}>
+          <div>
+            <h3 className="bos-h1">How the estate is doing</h3>
+            <p className="bos-lead">4 decisions opened and 2 were resolved this week.</p>
+          </div>
+          <div className="bos-btns">
+            <button className="bos-btn-glass bos-btn-sm">Export</button>
+            <button className="bos-btn-primary bos-btn-sm">Review decisions</button>
+          </div>
+        </div>
+        <div className="bos-stats">
+          <div><div className="bos-stat">24</div><small>agents live</small></div>
+          <div><div className="bos-stat">5</div><small>open decisions</small></div>
+          <div><div className="bos-stat">12.5 d</div><small>brief to production</small></div>
+        </div>
+      </>
+    ),
+  },
+  {
+    id: "search",
+    name: "Search",
+    cls: "bos-hero-search + bos-search-xl + bos-suggestions",
+    when: "The page is for finding something: a library, knowledge base or directory.",
+    avoid: "Tucking the search into a side card, or stats about how much content exists.",
+    demo: (
+      <div className="bos-hero-search" style={{ paddingTop: 8 }}>
+        <h3 className="bos-h1">Find how we deliver</h3>
+        <p className="bos-lead">Search every procedure and guide, or ask and get an answer with sources.</p>
+        <label className="bos-search-xl">
+          <Search aria-hidden="true" />
+          <input aria-label="Search procedures" placeholder="Search procedures, guides and templates" />
+          <button className="bos-btn-primary bos-btn-sm" type="button">Search</button>
+        </label>
+        <div className="bos-suggestions">
+          <a href="#heroes">Pursuit</a>
+          <a href="#heroes">Setup</a>
+          <a href="#heroes">Delivery</a>
+          <a href="#heroes">Close out</a>
+        </div>
+      </div>
+    ),
+  },
+  {
+    id: "chat",
+    name: "Ask an assistant",
+    cls: "bos-hero-chat + bos-composer + bos-suggestions",
+    when: "The page is for asking an assistant a question.",
+    avoid: "Greeting and composer side by side, or suggestions cut off mid-sentence.",
+    demo: (
+      <div className="bos-hero-chat" style={{ paddingTop: 8 }}>
+        <h3 className="bos-h1">Welcome back, Sam</h3>
+        <p className="bos-lead">Ask a question or describe what you need.</p>
+        <div className="bos-composer">
+          <textarea aria-label="Your question" placeholder="Ask a question or describe what you need" />
+          <div className="bos-composer-bar">
+            <span className="bos-chip">Policy Helper will answer</span>
+            <button className="bos-btn-primary bos-btn-sm" type="button"><Send size={16} /> Send</button>
+          </div>
+        </div>
+        <div className="bos-suggestions">
+          <button type="button">What is our travel policy?</button>
+          <button type="button">Reset my VPN</button>
+          <button type="button">Draft a renewal email</button>
+        </div>
+      </div>
+    ),
+  },
+  {
+    id: "split",
+    name: "Welcome or landing",
+    cls: "bos-hero-split + bos-display + bos-surface",
+    when: "The page explains the product: a landing page, welcome or first run.",
+    avoid: "Using it on everyday app pages, where it pushes the work down the screen.",
+    demo: (
+      <div className="bos-hero-split" style={{ paddingTop: 8 }}>
+        <div>
+          <h3 className="bos-display" style={{ fontSize: "clamp(2rem, 2.4vw + 1rem, 3rem)" }}>Agents that do the work</h3>
+          <p className="bos-lead" style={{ margin: "12px 0 20px" }}>Build, test and run agents your whole team can trust.</p>
+          <div className="bos-btns"><button className="bos-btn-primary">Get started</button><button className="bos-btn-glass">See how it works</button></div>
+        </div>
+        <div className="bos-surface">
+          <span className="bos-charm bos-charm-md" aria-hidden="true"><Sparkles /></span>
+          <div className="bos-h3" style={{ marginTop: 12 }}>12 agents ready to use</div>
+          <p className="bos-caption" style={{ margin: "4px 0 0" }}>Start from a template and change what you need.</p>
+        </div>
+      </div>
+    ),
+  },
+  {
+    id: "record",
+    name: "Record page",
+    cls: "bos-record-header",
+    when: "The page is about one thing: a project, customer, agent or document.",
+    avoid: "Any hero. The record's content should start right away.",
+    demo: (
+      <div className="bos-record-header" style={{ paddingTop: 8, marginBottom: 0 }}>
+        <div>
+          <span className="bos-caption">Projects</span>
+          <h3 className="bos-h1">Atlas migration</h3>
+          <div className="bos-meta"><span className="bos-pill">On track</span><span className="bos-chip">Due Nov 14</span><span className="bos-chip">Owner: Sam Rivera</span></div>
+        </div>
+        <div className="bos-btns"><button className="bos-btn-glass bos-btn-sm">Share</button><button className="bos-btn-primary bos-btn-sm">Add task</button></div>
+      </div>
+    ),
+  },
+]
+
+function Heroes() {
+  return (
+    <Section
+      id="heroes"
+      kicker="Page tops"
+      title="Pick the top of a page by what it's for"
+      intro="Ask what a person does first on the page, then start from the matching pattern. Every pattern uses the same title size and sits in the same shell, so apps match where it matters and differ where the job differs."
+    >
+      <div className="gd-heroes">
+        {HEROES.map((h) => (
+          <article key={h.id} className="gd-hero-card">
+            <header>
+              <h3 className="bos-h3">{h.name}</h3>
+              <code>{h.cls}</code>
+            </header>
+            <div className="gd-hero-stage">{h.demo}</div>
+            <dl className="gd-hero-rules">
+              <div><dt>Use when</dt><dd>{h.when}</dd></div>
+              <div><dt>Avoid</dt><dd>{h.avoid}</dd></div>
+            </dl>
+          </article>
+        ))}
+      </div>
+
+      <h3 className="bos-h2 gd-sub">The shared app shell</h3>
+      <p className="bos-lead gd-intro" style={{ marginBottom: 20 }}>
+        The same in every app: neutral glass sidebar, brand block, labelled sections, one active style, user and theme switch at the bottom, and a top bar with the page name and search.
+      </p>
+      <div className="gd-browser">
+        <div className="gd-browser-bar" aria-hidden="true"><span /><span /><span /></div>
+        <div className="bos-app gd-mini-app">
+          <aside className="bos-sidebar">
+            <a className="bos-sidebar-brand" href="#heroes">
+              <span className="bos-charm bos-charm-sm" aria-hidden="true" />
+              <span><strong>Watchtower</strong><small>Delivery</small></span>
+            </a>
+            <nav className="bos-sidebar-section" aria-label="Example main">
+              <span className="bos-sidebar-label">Work</span>
+              <a className="bos-sidebar-item" href="#heroes" aria-current="page"><LayoutDashboard /> Dashboard</a>
+              <a className="bos-sidebar-item" href="#heroes"><FolderKanban /> Projects</a>
+              <a className="bos-sidebar-item" href="#heroes"><Users /> People</a>
+            </nav>
+            <div className="bos-sidebar-footer">
+              <span className="row-user"><span className="bos-avatar">SR</span> Sam Rivera</span>
+            </div>
+          </aside>
+          <div className="bos-main">
+            <div className="bos-topbar">
+              <span className="bos-topbar-title">Dashboard</span>
+              <button className="bos-btn-glass bos-btn-sm" type="button"><Search size={16} /> Search</button>
+              <button className="bos-btn-glass bos-btn-sm" type="button" aria-label="Notifications"><Bell size={16} /></button>
+            </div>
+            <div className="bos-content">
+              <div className="bos-hero-compact">
+                <h3 className="bos-h1">Good morning, Sam</h3>
+                <p className="bos-lead">Two things need you today.</p>
+              </div>
+              <ol className="bos-queue">
+                <li><div><div className="bos-h3">Confirm the cutover plan</div><p>Atlas migration · 2 days late</p></div><button className="bos-btn-primary bos-btn-sm">Open task</button></li>
+                <li><div><div className="bos-h3" style={{ fontSize: 16 }}>Review the data model</div><p>Due today</p></div><button className="bos-btn-glass bos-btn-sm">Open task</button></li>
+              </ol>
+            </div>
+          </div>
+        </div>
       </div>
     </Section>
   )
