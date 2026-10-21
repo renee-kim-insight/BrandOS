@@ -30,6 +30,7 @@
   --radius-row: 18px;                          /* rows and queue items */
   --radius-inner: 14px;                        /* anything inside a card: inner boxes, images, code */
   --radius-band: 28px;
+  --font-heading: var(--font-sans);            /* the theme may override this; headings are sans by default */
   --shell-space: 96px;                         /* height the nav bar takes at the top of the screen */
   --chat-measure: 840px;                       /* width of a conversation and its composer */
   /* Glass needs a visible edge on white as well as on colour. */
@@ -176,7 +177,7 @@
 }
 .bos-title {
   margin: 0;
-  font-family: var(--font-display, var(--font-sans));
+  font-family: var(--font-heading, var(--font-sans));
   font-size: var(--text-h1, clamp(2rem, 1.6vw + 1.25rem, 2.75rem));
   font-weight: var(--display-weight, 600);
   line-height: 1.05;
@@ -823,7 +824,7 @@ a.bos-brand:hover { opacity: 0.75; }
   font-family: var(--font-sans);
 }
 :where(.bos-backdrop) :is(h1, h2, .bos-title, .bos-section-title) {
-  font-family: var(--font-display, var(--font-sans));
+  font-family: var(--font-heading, var(--font-sans));
   font-weight: var(--display-weight, 600);
 }
 :where(.bos-backdrop) :is(code, kbd, pre, samp) {
@@ -843,7 +844,7 @@ a.bos-brand:hover { opacity: 0.75; }
 .bos-h2,
 .bos-stat {
   margin: 0;
-  font-family: var(--font-display, var(--font-sans));
+  font-family: var(--font-heading, var(--font-sans));
   font-weight: var(--display-weight, 650);
   text-wrap: balance;
 }
@@ -1288,44 +1289,82 @@ button.bos-row:hover {
    on the page; see skills/ui-migrate/SKILL.md, "Choosing the top of a page".
    ========================================================================== */
 
-/* ---------- App shell: sidebar + top bar. Same anatomy, colours and spacing in every app ---------- */
+/* ---------- Sidebar shell: for apps with one main job ----------
+ * Choose the shell by what the app is for (skills/ui-migrate/SKILL.md, "Choosing the navigation"):
+ *   top bar (bos-shell)  people come to look around and find things: browse, search, explore.
+ *   sidebar (bos-app)    people come to get one job done, and the rest is there when needed.
+ * The sidebar is a quiet floating glass panel so the work, not the navigation, draws the eye. It
+ * collapses to icons: put data-collapsed on .bos-app (toggle it with a .bos-sidebar-toggle button and
+ * remember the choice). Give every item an icon, a plain <span> label (no class) and a title for the
+ * collapsed state.
+ *
+ *   <div class="bos-app">
+ *     <aside class="bos-sidebar">
+ *       <div class="bos-sidebar-head"><a class="bos-sidebar-brand">logo <span><strong>Name</strong></span></a>
+ *         <button class="bos-sidebar-toggle" aria-label="Collapse menu">icon</button></div>
+ *       <nav class="bos-sidebar-section"><a class="bos-sidebar-item" aria-current="page" title="Home">icon <span>Home</span></a>...</nav>
+ *       <div class="bos-sidebar-footer">user menu</div>
+ *     </aside>
+ *     <main class="bos-main"><div class="bos-container"><div class="bos-page">...</div></div></main>
+ *   </div>
+ */
 .bos-app {
+  --sidebar-w: 268px;
   display: grid;
-  grid-template-columns: 264px minmax(0, 1fr);
+  grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
   min-height: 100dvh;
+  transition: grid-template-columns 220ms var(--ease-out, ease-out);
 }
+.bos-app[data-collapsed] { --sidebar-w: 88px; }
 .bos-sidebar {
   position: sticky;
-  top: 0;
+  top: var(--space-3);
   display: flex;
   flex-direction: column;
   gap: var(--space-5);
-  height: 100dvh;
+  height: calc(100dvh - 2 * var(--space-3));
+  margin: var(--space-3) 0 var(--space-3) var(--space-3);
+  overflow-x: hidden;
   overflow-y: auto;
-  padding: var(--space-5) var(--space-3) var(--space-4);
-  border-right: 1px solid var(--border);
-  /* Neutral glass over the page, never a tinted panel of its own. */
-  background: color-mix(in oklab, var(--card) 72%, transparent);
-  -webkit-backdrop-filter: blur(16px) saturate(160%);
-  backdrop-filter: blur(16px) saturate(160%);
+  padding: var(--space-4) var(--space-3);
+  border-radius: var(--radius-card);
+  background: var(--frost-medium);
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+  backdrop-filter: blur(20px) saturate(170%);
+  box-shadow: inset 0 1px 0 var(--glass-highlight), inset 0 0 0 1px var(--edge), var(--shadow-sm);
 }
+.bos-sidebar-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); min-height: 40px; }
 .bos-sidebar-brand {
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  padding: 0 var(--space-3);
+  min-width: 0;
+  padding: 0 var(--space-2);
   color: var(--foreground);
   text-decoration: none;
+  white-space: nowrap;
 }
+a.bos-sidebar-brand:hover { opacity: 0.75; }
 .bos-sidebar-brand img,
 .bos-sidebar-brand svg,
-.bos-sidebar-brand .bos-charm {
-  width: 32px;
-  height: 32px;
-  flex: none;
-}
+.bos-sidebar-brand .bos-charm { width: 32px; height: 32px; flex: none; }
 .bos-sidebar-brand strong { display: block; font-size: 1rem; font-weight: 700; line-height: 1.2; }
 .bos-sidebar-brand small { display: block; font-size: 0.8125rem; color: var(--muted-foreground); }
+.bos-sidebar-toggle {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex: none;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: var(--muted-foreground);
+  cursor: pointer;
+  transition: background-color 150ms, color 150ms;
+}
+.bos-sidebar-toggle:hover { background: color-mix(in oklab, var(--foreground) 6%, transparent); color: var(--foreground); }
+.bos-sidebar-toggle svg { width: 18px; height: 18px; }
 .bos-sidebar-section { display: flex; flex-direction: column; gap: 2px; }
 .bos-sidebar-label {
   padding: 0 var(--space-3) var(--space-1);
@@ -1334,60 +1373,85 @@ button.bos-row:hover {
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--muted-foreground);
+  white-space: nowrap;
 }
 .bos-sidebar-item {
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  min-height: 40px;
+  min-height: 42px;
   padding: 0 var(--space-3);
-  border-radius: 12px;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: transparent;
   color: var(--foreground);
+  font: inherit;
   font-size: 0.9375rem;
+  text-align: left;
   text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
   transition: background-color 150ms;
 }
 .bos-sidebar-item svg { width: 18px; height: 18px; flex: none; color: var(--muted-foreground); }
-.bos-sidebar-item:hover { background: color-mix(in oklab, var(--foreground) 5%, transparent); }
-.bos-sidebar-item[aria-current="page"] {
-  background: color-mix(in oklab, var(--primary) 10%, var(--card));
-  color: color-mix(in oklab, var(--primary), var(--foreground) 20%);
-  font-weight: 600;
-}
+.bos-sidebar-item:hover { background: color-mix(in oklab, var(--foreground) 6%, transparent); }
+/* The current page: the same filled primary pill as the top bar, so both shells read the same. */
+.bos-sidebar-item[aria-current="page"] { background: var(--primary); color: var(--primary-foreground); font-weight: 600; }
 .bos-sidebar-item[aria-current="page"] svg { color: currentColor; }
-.dark .bos-sidebar-item[aria-current="page"] {
-  background: color-mix(in oklab, var(--primary) 18%, var(--card));
-  color: color-mix(in oklab, var(--primary), white 45%);
-}
+.bos-sidebar-item[aria-current="page"]:hover { background: color-mix(in oklab, var(--primary), var(--foreground) 10%); }
+.bos-sidebar-item .bos-count { margin-left: auto; }
 .bos-sidebar-footer {
   margin-top: auto;
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
-  padding: var(--space-3) var(--space-3) 0;
-  border-top: 1px solid var(--border);
+  gap: var(--space-2);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--edge);
 }
+/* Collapsed: icons only. Labels stay in the markup for screen readers and come back on hover via title. */
+.bos-app[data-collapsed] .bos-sidebar { padding-inline: var(--space-2); }
+.bos-app[data-collapsed] .bos-sidebar-head { flex-direction: column; }
+.bos-app[data-collapsed] .bos-sidebar-brand { padding: 0; }
+.bos-app[data-collapsed] :is(.bos-sidebar-brand > span:not([class]), .bos-sidebar-item > span:not([class]), .bos-sidebar-item .bos-count, .bos-sidebar-label) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.bos-app[data-collapsed] .bos-sidebar-item { justify-content: center; padding: 0; }
 .bos-topbar {
   position: sticky;
   top: 0;
   z-index: 30;
   display: flex;
   align-items: center;
-  gap: var(--space-4);
+  gap: var(--space-3);
   min-height: 64px;
-  padding: var(--space-2) var(--space-6);
-  border-bottom: 1px solid var(--border);
-  background: color-mix(in oklab, var(--background) 78%, transparent);
-  -webkit-backdrop-filter: blur(16px) saturate(160%);
-  backdrop-filter: blur(16px) saturate(160%);
+  padding: var(--space-2) var(--page-gutter);
+  background: linear-gradient(to bottom, var(--background) 40%, transparent);
 }
 .bos-topbar-title { font-weight: 600; margin-right: auto; }
 .bos-main { min-width: 0; }
+/* Small screens: the sidebar becomes a sheet opened from a menu button in the top bar (data-nav-open). */
+.bos-nav-toggle-side { display: none; }
 @media (max-width: 900px) {
-  .bos-app { grid-template-columns: 1fr; }
+  .bos-app, .bos-app[data-collapsed] { grid-template-columns: minmax(0, 1fr); }
   .bos-sidebar { display: none; }
-  .bos-app[data-nav-open] .bos-sidebar { display: flex; position: fixed; inset: 0 auto 0 0; width: min(300px, 86vw); z-index: 60; box-shadow: var(--shadow-lg); }
-  .bos-topbar { padding-inline: var(--space-4); }
+  .bos-nav-toggle-side { display: inline-grid; }
+  .bos-app[data-nav-open] .bos-sidebar {
+    display: flex;
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 60;
+    width: min(300px, 86vw);
+    height: auto;
+    margin: var(--space-2);
+    background: var(--popover, var(--card));
+    box-shadow: var(--shadow-lg);
+  }
+  .bos-app[data-nav-open] .bos-sidebar-toggle { display: none; }
 }
 
 /* ---------- Heroes: choose by what the page is for. All start with the same h1 size. ---------- */
@@ -1669,3 +1733,359 @@ button.bos-row:hover {
   .bos-chat-rail { display: none; }
 }
 .bos-avatar-sm { width: 28px; height: 28px; font-size: 0.75rem; flex: none; }
+
+/* ==========================================================================
+   Interactive and learning patterns (1.3.0)
+   Quizzes, exams and challenges, answer feedback, score tallies, progress, timers, counters,
+   AI-graded answers, lesson lists and video. Logic lives in the app; these are the states.
+   ========================================================================== */
+:root {
+  /* Outcome colours. Text never uses them alone: it stays in the foreground colour beside an icon. */
+  --correct: oklch(0.56 0.14 152);
+  --incorrect: var(--destructive, oklch(0.58 0.2 27));
+  --caution: oklch(0.68 0.15 65);
+}
+.dark {
+  --correct: oklch(0.74 0.15 152);
+  --caution: oklch(0.8 0.14 75);
+}
+.bos-correct-text { color: color-mix(in oklab, var(--correct), var(--foreground) 35%); }
+.bos-incorrect-text { color: color-mix(in oklab, var(--incorrect), var(--foreground) 30%); }
+
+/* ---------- Quiz, exam or challenge question ----------
+ * <section class="bos-quiz">
+ *   <header class="bos-quiz-head"><span>Question 3 of 10</span><span class="bos-timer">4:12</span></header>
+ *   <ol class="bos-track"><li data-state="correct"></li><li data-state="current"></li><li></li></ol>
+ *   <h2 class="bos-quiz-prompt">...</h2>
+ *   <div class="bos-options" role="radiogroup">
+ *     <label class="bos-option"><input type="radio" name="q3"><span class="bos-option-key">A</span><span>Answer</span></label>
+ *   </div>
+ *   <div class="bos-feedback" data-state="correct" role="status"><strong>Correct</strong><p>Why</p></div>
+ *   <footer class="bos-quiz-foot"><button class="bos-btn-primary">Check answer</button></footer>
+ * </section>
+ * After checking, put data-locked on .bos-options and data-state on each option: correct (the right
+ * one they picked), incorrect (a wrong one they picked), missed (the right one they didn't pick).
+ */
+.bos-quiz {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--pad-card);
+  border-radius: var(--radius-card);
+  background: var(--card);
+  color: var(--card-foreground, var(--foreground));
+  box-shadow: inset 0 0 0 1px var(--edge), var(--shadow-md);
+}
+.bos-quiz-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); font-size: 0.875rem; font-weight: 600; color: var(--muted-foreground); }
+.bos-quiz-prompt { margin: 0; font-family: var(--font-heading, var(--font-sans)); font-size: var(--text-h3); font-weight: var(--display-weight, 600); line-height: 1.35; text-wrap: pretty; }
+.bos-quiz-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-3); }
+.bos-quiz-foot > :last-child { margin-left: auto; }
+/* Question track: one segment per question, showing where you are and how each went. */
+.bos-track { display: flex; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.bos-track > * { flex: 1; height: 6px; min-width: 6px; border-radius: 999px; background: var(--progress-track, color-mix(in oklab, var(--foreground) 10%, transparent)); }
+.bos-track > [data-state="current"] { background: color-mix(in oklab, var(--primary) 45%, transparent); box-shadow: 0 0 0 2px color-mix(in oklab, var(--primary) 25%, transparent); }
+.bos-track > [data-state="correct"] { background: var(--correct); }
+.bos-track > [data-state="incorrect"] { background: var(--incorrect); }
+.bos-track > [data-state="skipped"] { background: repeating-linear-gradient(90deg, var(--muted-foreground) 0 4px, transparent 4px 7px); opacity: 0.5; }
+/* Answer options */
+.bos-options { display: flex; flex-direction: column; gap: var(--space-2); }
+.bos-option {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 52px;
+  padding: 10px var(--space-4) 10px 10px;
+  border-radius: var(--radius-row);
+  background: var(--frost-light);
+  box-shadow: inset 0 0 0 1px var(--edge);
+  cursor: pointer;
+  transition: background-color 150ms, box-shadow 150ms;
+}
+.bos-option > input { position: absolute; opacity: 0; pointer-events: none; }
+.bos-option-key {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-control);
+  background: var(--card);
+  box-shadow: inset 0 0 0 1px var(--edge-strong);
+  font-size: 0.875rem;
+  font-weight: 700;
+  transition: background-color 150ms, color 150ms;
+}
+.bos-option::after { content: ""; width: 20px; height: 20px; }
+.bos-option:hover { background: color-mix(in oklab, var(--foreground) 6%, var(--frost-light)); }
+.bos-option:has(input:focus-visible) { outline: 2px solid var(--ring); outline-offset: 2px; }
+.bos-option:not([data-state]):has(input:checked) { background: color-mix(in oklab, var(--primary) 8%, var(--card)); box-shadow: inset 0 0 0 2px var(--primary); }
+.bos-option:not([data-state]):has(input:checked) .bos-option-key { background: var(--primary); color: var(--primary-foreground); box-shadow: none; }
+.bos-options[data-locked] .bos-option { cursor: default; }
+.bos-options[data-locked] .bos-option:not([data-state]) { color: var(--muted-foreground); background: transparent; }
+.bos-options[data-locked] .bos-option:not([data-state]):hover { background: transparent; }
+.bos-option[data-state="correct"],
+.bos-options[data-locked] .bos-option[data-state="correct"]:hover { background: color-mix(in oklab, var(--correct) 12%, var(--card)); box-shadow: inset 0 0 0 2px var(--correct); }
+.bos-option[data-state="incorrect"],
+.bos-options[data-locked] .bos-option[data-state="incorrect"]:hover { background: color-mix(in oklab, var(--incorrect) 10%, var(--card)); box-shadow: inset 0 0 0 2px var(--incorrect); }
+.bos-option[data-state="missed"] { box-shadow: inset 0 0 0 2px color-mix(in oklab, var(--correct) 60%, transparent); }
+.bos-option[data-state="correct"] .bos-option-key { background: var(--correct); color: #fff; box-shadow: none; }
+.bos-option[data-state="incorrect"] .bos-option-key { background: var(--incorrect); color: #fff; box-shadow: none; }
+.bos-option[data-state]::after {
+  background: currentColor;
+  -webkit-mask: var(--mark) center / contain no-repeat;
+  mask: var(--mark) center / contain no-repeat;
+}
+.bos-option[data-state="correct"]::after,
+.bos-option[data-state="missed"]::after { color: var(--correct); --mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E"); }
+.bos-option[data-state="incorrect"]::after { color: var(--incorrect); --mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M18 6 6 18M6 6l12 12'/%3E%3C/svg%3E"); }
+/* Feedback after an answer */
+.bos-feedback {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 2px var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-inner);
+  background: var(--frost-light);
+  box-shadow: inset 0 0 0 1px var(--edge);
+  animation: bos-pop var(--motion-base, 200ms) var(--ease-out, ease-out) both;
+}
+.bos-feedback > svg { grid-row: span 2; width: 22px; height: 22px; margin-top: 1px; }
+.bos-feedback strong { font-weight: 700; }
+.bos-feedback p { margin: 0; color: var(--muted-foreground); line-height: 1.55; }
+.bos-feedback[data-state="correct"] { background: color-mix(in oklab, var(--correct) 10%, var(--card)); box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--correct) 35%, transparent); }
+.bos-feedback[data-state="correct"] > svg { color: var(--correct); }
+.bos-feedback[data-state="incorrect"] { background: color-mix(in oklab, var(--incorrect) 8%, var(--card)); box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--incorrect) 30%, transparent); }
+.bos-feedback[data-state="incorrect"] > svg { color: var(--incorrect); }
+
+/* ---------- Score tally: correct, incorrect, skipped ---------- */
+.bos-tally { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+.bos-tally > * {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 36px;
+  padding: 0 var(--space-3) 0 var(--space-2);
+  border-radius: var(--radius-control);
+  background: var(--frost-light);
+  box-shadow: inset 0 0 0 1px var(--edge);
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+}
+.bos-tally b { font-size: 1rem; font-weight: 700; color: var(--foreground); font-variant-numeric: tabular-nums; }
+.bos-tally svg { width: 18px; height: 18px; }
+.bos-tally [data-kind="correct"] svg { color: var(--correct); }
+.bos-tally [data-kind="incorrect"] svg { color: var(--incorrect); }
+.bos-tally [data-kind="streak"] svg { color: var(--caution); }
+
+/* ---------- Progress ring: a single percentage, with the number inside ---------- */
+.bos-ring {
+  --value: 0;
+  --size: 96px;
+  --thickness: 10px;
+  --ring-colour: var(--primary);
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: var(--size);
+  height: var(--size);
+  flex: none;
+  border-radius: 50%;
+  background: conic-gradient(var(--ring-colour) calc(var(--value) * 1%), var(--progress-track, color-mix(in oklab, var(--foreground) 10%, transparent)) 0);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - var(--thickness)), #000 calc(100% - var(--thickness) + 1px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - var(--thickness)), #000 calc(100% - var(--thickness) + 1px));
+  transition: --value 400ms;
+}
+.bos-ring-wrap { position: relative; display: inline-grid; place-items: center; flex: none; }
+.bos-ring-wrap > :not(.bos-ring) { position: absolute; display: flex; flex-direction: column; align-items: center; line-height: 1.1; text-align: center; }
+.bos-ring-wrap b { font-size: calc(var(--size, 96px) * 0.24); font-weight: 700; font-variant-numeric: tabular-nums; }
+.bos-ring-wrap small { font-size: 0.75rem; color: var(--muted-foreground); }
+.bos-ring-sm { --size: 44px; --thickness: 5px; }
+.bos-ring-lg { --size: 140px; --thickness: 12px; }
+.bos-ring[data-state="pass"] { --ring-colour: var(--correct); }
+.bos-ring[data-state="fail"] { --ring-colour: var(--incorrect); }
+
+/* ---------- Counter: step a number up or down ---------- */
+.bos-counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border-radius: var(--radius-control);
+  background: var(--frost-light);
+  box-shadow: inset 0 0 0 1px var(--edge);
+}
+.bos-counter button {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: var(--foreground);
+  cursor: pointer;
+  transition: background-color 150ms;
+}
+.bos-counter button:hover:not(:disabled) { background: color-mix(in oklab, var(--foreground) 8%, transparent); }
+.bos-counter button:disabled { opacity: 0.35; cursor: default; }
+.bos-counter svg { width: 16px; height: 16px; }
+.bos-counter output,
+.bos-counter input { min-width: 3ch; padding: 0 var(--space-2); border: 0; background: transparent; color: inherit; font: inherit; font-weight: 700; text-align: center; font-variant-numeric: tabular-nums; }
+.bos-counter input { width: 5ch; -moz-appearance: textfield; }
+.bos-counter input::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+/* ---------- Timer: time left on an exam or challenge ---------- */
+.bos-timer {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 30px;
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-control);
+  background: var(--frost-light);
+  box-shadow: inset 0 0 0 1px var(--edge);
+  color: var(--foreground);
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.bos-timer svg { width: 15px; height: 15px; color: var(--muted-foreground); }
+.bos-timer[data-state="warning"] { background: color-mix(in oklab, var(--caution) 16%, var(--card)); box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--caution) 45%, transparent); }
+.bos-timer[data-state="warning"] svg { color: var(--caution); }
+.bos-timer[data-state="over"] { background: color-mix(in oklab, var(--incorrect) 12%, var(--card)); box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--incorrect) 40%, transparent); }
+.bos-timer[data-state="over"] svg { color: var(--incorrect); }
+
+/* ---------- Result: the end of a quiz, exam or challenge ---------- */
+.bos-result {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-5) var(--space-6);
+  padding: var(--pad-card);
+  border-radius: var(--radius-card);
+  background: var(--card);
+  box-shadow: inset 0 0 0 1px var(--edge), var(--shadow-md);
+}
+.bos-result > div:last-child { display: flex; flex-direction: column; gap: var(--space-3); min-width: 0; }
+.bos-result h2, .bos-result h3 { margin: 0; }
+@media (max-width: 560px) { .bos-result { grid-template-columns: minmax(0, 1fr); justify-items: center; text-align: center; } .bos-result .bos-tally, .bos-result .bos-btns { justify-content: center; } }
+
+/* ---------- AI-graded answer: the person writes, an assistant grades against a rubric ---------- */
+.bos-graded { display: flex; flex-direction: column; gap: var(--space-4); }
+.bos-graded textarea {
+  min-height: 132px;
+  padding: var(--space-4);
+  border: 0;
+  border-radius: var(--radius-inner);
+  background: var(--frost-light);
+  box-shadow: inset 0 0 0 1px var(--input);
+  color: var(--foreground);
+  font: inherit;
+  line-height: 1.55;
+  resize: vertical;
+}
+.bos-graded textarea:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+.bos-grading { display: inline-flex; align-items: center; gap: var(--space-2); font-size: 0.9375rem; color: var(--muted-foreground); }
+.bos-grading svg { width: 18px; height: 18px; animation: bos-spin 0.9s linear infinite; }
+@keyframes bos-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .bos-grading svg { animation: none; } }
+.bos-score {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  padding: 4px var(--space-3);
+  border-radius: var(--radius-control);
+  background: color-mix(in oklab, var(--primary) 12%, var(--card));
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.bos-score small { font-weight: 500; color: var(--muted-foreground); }
+.bos-rubric { display: flex; flex-direction: column; gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+.bos-rubric > li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px var(--space-3); padding: var(--space-3) var(--space-4); border-radius: var(--radius-inner); background: var(--frost-light); box-shadow: inset 0 0 0 1px var(--edge); }
+.bos-rubric > li > svg { grid-row: span 2; width: 20px; height: 20px; margin-top: 1px; }
+.bos-rubric > li > span { font-weight: 600; }
+.bos-rubric > li > p { margin: 0; font-size: 0.9375rem; color: var(--muted-foreground); }
+.bos-rubric [data-state="met"] > svg { color: var(--correct); }
+.bos-rubric [data-state="partial"] > svg { color: var(--caution); }
+.bos-rubric [data-state="missed"] > svg { color: var(--incorrect); }
+
+/* ---------- Lessons: a course or module, with where you are ---------- */
+.bos-module { display: flex; flex-direction: column; gap: var(--space-3); }
+.bos-module-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); }
+.bos-lessons { display: flex; flex-direction: column; gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+.bos-lesson {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--pad-row);
+  border-radius: var(--radius-row);
+  background: var(--frost-medium);
+  box-shadow: inset 0 1px 0 var(--glass-highlight), inset 0 0 0 1px var(--edge), var(--shadow-sm);
+  color: inherit;
+  text-decoration: none;
+}
+a.bos-lesson { transition: background-color 150ms, transform 150ms var(--ease-out, ease-out); }
+a.bos-lesson:hover { background: var(--frost-strong); }
+.bos-lesson-status {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--card);
+  box-shadow: inset 0 0 0 1px var(--edge-strong);
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+.bos-lesson-status svg { width: 18px; height: 18px; }
+.bos-lesson[data-state="done"] .bos-lesson-status { background: var(--correct); color: #fff; box-shadow: none; }
+.bos-lesson[data-state="current"] { background: var(--card); box-shadow: inset 0 0 0 2px var(--primary), var(--shadow-md); }
+.bos-lesson[data-state="current"] .bos-lesson-status { background: var(--primary); color: var(--primary-foreground); box-shadow: none; }
+.bos-lesson[data-state="locked"] { color: var(--muted-foreground); background: transparent; box-shadow: inset 0 0 0 1px var(--edge); }
+.bos-lesson-title { font-weight: 600; }
+.bos-lesson .bos-meta { margin-top: 2px; font-size: 0.875rem; color: var(--muted-foreground); }
+.bos-lesson .bos-meta svg { width: 15px; height: 15px; vertical-align: -2px; }
+
+/* ---------- Video lesson ---------- */
+.bos-video {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: var(--radius-card);
+  background: var(--gradient-brand, var(--primary));
+  color: #fff;
+}
+.bos-video > img,
+.bos-video > video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.bos-video-play {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  border: 0;
+  border-radius: 50%;
+  background: oklch(1 0 0 / 22%);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  box-shadow: inset 0 0 0 1px oklch(1 0 0 / 40%);
+  color: #fff;
+  cursor: pointer;
+  transition: transform 150ms var(--ease-out, ease-out), background-color 150ms;
+}
+.bos-video-play:hover { transform: scale(1.06); background: oklch(1 0 0 / 30%); }
+.bos-video-play svg { width: 28px; height: 28px; margin-left: 3px; }
+.bos-video-meta { position: absolute; left: var(--space-4); bottom: var(--space-4); display: flex; gap: var(--space-2); }
+.bos-video-meta > * { padding: 4px 10px; border-radius: var(--radius-control); background: oklch(0 0 0 / 45%); font-size: 0.8125rem; font-weight: 600; }
+.bos-video-progress { position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: oklch(1 0 0 / 25%); }
+.bos-video-progress > span { display: block; height: 100%; background: #fff; }
+
+/* ---------- Lesson page: content with the course beside it ---------- */
+.bos-learn { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: var(--space-6); align-items: start; }
+.bos-learn > aside { position: sticky; top: var(--space-5); display: flex; flex-direction: column; gap: var(--space-4); }
+@media (max-width: 1023px) { .bos-learn { grid-template-columns: minmax(0, 1fr); } .bos-learn > aside { position: static; } }

@@ -320,7 +320,10 @@ export function themeCss(brand, theme, { scope } = {}) {
   out.push(line("radius", `${radius}rem`))
   if (fonts.sans) out.push(line("font-sans", fonts.sans))
   if (fonts.display) out.push(line("font-display", fonts.display))
-  out.push(line("display-weight", brand.fonts.display ? (brand.fonts.display.weight ?? 500) : 650))
+  // Headings use the body font unless the brand opts in to its display font (typography.headings: "display").
+  const displayHeadings = brand.typography?.headings === "display" && fonts.display
+  out.push(line("font-heading", displayHeadings ? "var(--font-display)" : "var(--font-sans)"))
+  out.push(line("display-weight", displayHeadings ? (brand.fonts.display.weight ?? 500) : (brand.typography?.headingWeight ?? 600)))
   if (fonts.mono) out.push(line("font-mono", fonts.mono))
   for (const k of ORDER) if (modes.light[k]) out.push(line(k, css(modes.light[k])))
   out.push(`  --glass-shadow: 0 8px 32px oklch(0.3 0.06 300 / 10%), 0 1px 2px oklch(0.3 0.06 300 / 6%);`)

@@ -25,6 +25,7 @@ import { Toaster as SonnerToaster } from "@/components/ui/sonner"
 import { Toaster as BaseToaster } from "@/components/ui/toast"
 import { COMPONENTS } from "@/docs/registry"
 import BRANDS from "./brands.json"
+import { GradedDemo, LessonDemo, QuizDemo, SidebarShellDemo, SmallPieces } from "./learning"
 
 const demos = import.meta.glob("../docs/demos/*.tsx", { eager: true }) as Record<string, { default: React.ComponentType }>
 
@@ -88,6 +89,7 @@ export function Guide() {
           <Foundations current={current} />
           <Patterns />
           <Heroes />
+          <Learning />
           <ComponentLibrary />
           <ExamplePage />
           <Rules />
@@ -109,6 +111,7 @@ const SECTIONS: [string, string, boolean][] = [
   ["foundations", "Foundations", false],
   ["patterns", "Patterns", true],
   ["heroes", "Page tops", false],
+  ["learn", "Interactive", false],
   ["components", "Components", false],
   ["rules", "Rules", true],
 ]
@@ -207,7 +210,7 @@ function Hero({ current }: { current?: Brand }) {
     <header className="bos-hero" id="top">
       <div className="bos-hero-grid">
         <div>
-          <span className="bos-kicker">Component guide · BrandOS 1.2</span>
+          <span className="bos-kicker">Component guide · BrandOS 1.3</span>
           <h1 className="bos-display" style={{ marginTop: 10 }}>
             One component library. Any brand.
           </h1>
@@ -234,7 +237,7 @@ function Hero({ current }: { current?: Brand }) {
                 {current?.label}
               </p>
               <div className="bos-caption">
-                Headings: {current?.display ?? `${current?.sans} (no heading font)`} · Body: {current?.sans}
+                {current?.display ? `Headings: ${current.display} · Body: ${current.sans}` : `Headings and body: ${current?.sans}`}
               </div>
             </div>
           </div>
@@ -319,8 +322,8 @@ npx brandos verify http://localhost:5173 --app app/frontend`}</Code>
             <ArrowRight className="gd-arrow" aria-hidden="true" />
             <ArrowRight className="gd-arrow" aria-hidden="true" />
             <div className="gd-node gd-node-out">
-              fonts.display → <code>--font-display</code>
-              <small>display, h1, h2, big numbers</small>
+              headings → <code>--font-heading</code>
+              <small>the body font, heavier; a display font only if the brand opts in</small>
             </div>
             <div className="gd-node gd-node-out">
               fonts.sans → <code>--font-sans</code>
@@ -604,7 +607,7 @@ function Foundations({ current }: { current?: Brand }) {
           </div>
         ))}
         <p className="bos-caption" style={{ margin: "16px 0 0" }}>
-          {current?.display ? `This brand's heading font is ${current.display}; body text is ${current.sans}.` : `This brand has no heading font, so headings use ${current?.sans}.`}
+          {current?.display ? `This brand uses ${current.display} for headings and ${current.sans} for everything else.` : `One family, ${current?.sans}, for everything. Headings are the same font at a heavier weight.`}
         </p>
       </div>
 
@@ -1044,6 +1047,40 @@ const HEROES: { id: string; name: string; cls: string; when: string; avoid: stri
   },
 ]
 
+function Learning() {
+  return (
+    <Section
+      id="learn"
+      kicker="Interactive"
+      title="Quizzes, challenges and lessons"
+      intro="For apps where people learn, practise and get graded. Each piece shows its state clearly: what's selected, what was right, what was wrong, how far along you are and how long is left. Answer the quiz below to see every state."
+    >
+      <div className="gd-learn">
+        <div>
+          <h3 className="bos-h3 gd-sub-sm">Quiz, exam or challenge question</h3>
+          <p className="bos-caption gd-learn-note">bos-quiz, bos-track, bos-options, bos-feedback, bos-tally, bos-timer, then bos-result at the end</p>
+          <QuizDemo />
+        </div>
+        <div>
+          <h3 className="bos-h3 gd-sub-sm">Answer graded by an assistant</h3>
+          <p className="bos-caption gd-learn-note">bos-graded, bos-grading while it works, then bos-score and bos-rubric</p>
+          <GradedDemo />
+        </div>
+      </div>
+      <h3 className="bos-h3 gd-sub-sm">Lesson page</h3>
+      <p className="bos-caption gd-learn-note">bos-learn: the lesson (bos-video) with the module beside it (bos-ring, bos-lessons). The module moves under the lesson on smaller screens.</p>
+      <LessonDemo />
+      <h3 className="bos-h3 gd-sub-sm">Small pieces</h3>
+      <SmallPieces />
+      <div className="gd-learn-rules">
+        <div className="bos-tile"><div className="bos-label">Modal or side panel?</div><p className="bos-caption" style={{ margin: "6px 0 0" }}>A modal for a short decision that stops everything (confirm, rename, submit an exam). A side panel (Sheet) when people need to see the page behind it: a use case's details, a lesson's notes, a row they are editing.</p></div>
+        <div className="bos-tile"><div className="bos-label">Right and wrong</div><p className="bos-caption" style={{ margin: "6px 0 0" }}>Never colour alone: every outcome has an icon and words ("Correct", "Not quite"). Show the right answer after a wrong one, and say why.</p></div>
+        <div className="bos-tile"><div className="bos-label">Time and progress</div><p className="bos-caption" style={{ margin: "6px 0 0" }}>Show where people are (question 3 of 10, lesson 3 of 5) and how long is left. The timer turns amber in the last minute, and nothing moves on its own without warning.</p></div>
+      </div>
+    </Section>
+  )
+}
+
 function Heroes() {
   return (
     <Section
@@ -1068,10 +1105,15 @@ function Heroes() {
         ))}
       </div>
 
-      <h3 className="bos-h2 gd-sub">The shared app shell</h3>
+      <h3 className="bos-h2 gd-sub">Two shells, chosen by what the app is for</h3>
       <p className="bos-lead gd-intro" style={{ marginBottom: 20 }}>
-        The same in every app: a glass pill nav at the top with the brand block, up to six main pages, a More menu grouped by section for everything else, then search, the one Create action and the user menu (settings, admin, theme, sign out). The page below it uses the same width and margins.
+        Ask why people open the app. If they come to look around and find things, use the top bar. If they come to get one job done and the rest is there when needed, use the sidebar, so the work draws the eye and the navigation stays quiet. Both use the same brand block, active style, user menu, width and spacing.
       </p>
+      <div className="gd-shell-choice">
+        <div className="bos-tile"><div className="bos-label">Top bar · bos-shell</div><p className="bos-caption" style={{ margin: "6px 0 0" }}>Browse, search and explore: a library, a knowledge base, a catalogue of assistants. Up to six main pages; More only when there are more.</p></div>
+        <div className="bos-tile"><div className="bos-label">Sidebar · bos-app</div><p className="bos-caption" style={{ margin: "6px 0 0" }}>One main job: training, a delivery tracker, a build pipeline. Collapses to icons so the work gets the room; becomes a sheet on phones.</p></div>
+      </div>
+      <h4 className="bos-h3 gd-sub-sm">Top bar, for apps people explore</h4>
       <div className="gd-browser">
         <div className="gd-browser-bar" aria-hidden="true"><span /><span /><span /></div>
         <div className="gd-browser-page gd-shell-demo">
@@ -1137,6 +1179,15 @@ function Heroes() {
               <li><div><div className="bos-h3" style={{ fontSize: 16 }}>Review the data model</div><p>Due today</p></div><button className="bos-btn-glass bos-btn-sm">Open task</button></li>
             </ol>
           </div>
+        </div>
+      </div>
+
+      <h4 className="bos-h3 gd-sub-sm">Sidebar, for apps with one main job (try the collapse button)</h4>
+      <div className="gd-browser">
+        <div className="gd-browser-bar" aria-hidden="true"><span /><span /><span /></div>
+        <div className="gd-browser-page">
+          <div className="gd-browser-glow" aria-hidden="true" />
+          <SidebarShellDemo />
         </div>
       </div>
 

@@ -247,6 +247,7 @@ function clean(b) {
     out.fonts[k] = e
   }
   if (b.darkMode === false) out.darkMode = false
+  if (b.typography?.headings === "display") out.typography = { headings: "display" }
   return out
 }
 

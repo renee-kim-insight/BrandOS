@@ -67,7 +67,7 @@
       "prop": "color",
       "value": "oklch(0.511 0.086 186.4)",
       "selector": "header#top.bos-hero > div.bos-hero-grid > div > span.bos-kicker",
-      "text": "Component guide · BrandOS 1.2",
+      "text": "Component guide · BrandOS 1.3",
       "detail": "#0f766e is not a brand hue (nearest #4ec7ea, 34° away)"
     },
     {
@@ -77,7 +77,7 @@
       "prop": "font-family",
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
       "selector": "header#top.bos-hero > div.bos-hero-grid > div > span.bos-kicker",
-      "text": "Component guide · BrandOS 1.2",
+      "text": "Component guide · BrandOS 1.3",
       "detail": "font Manrope"
     },
     {
@@ -207,7 +207,7 @@
       "prop": "font-family",
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
       "selector": "aside.bos-surface.bos-surface-lg > div.gd-level-top > div > div.bos-caption",
-      "text": "Headings: Manrope (no heading ",
+      "text": "Headings and body: Manrope",
       "detail": "font Manrope"
     },
     {
@@ -567,7 +567,7 @@
       "prop": "font-family",
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
       "selector": "div.bos-grid-2 > div.gd-fontflow.bos-glass > div.gd-fontflow-grid > div.gd-node.gd-node-out",
-      "text": "fonts.display → --font-display",
+      "text": "headings → --font-headingthe b",
       "detail": "font Manrope"
     },
     {
@@ -577,7 +577,7 @@
       "prop": "font-family",
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
       "selector": "div.gd-fontflow.bos-glass > div.gd-fontflow-grid > div.gd-node.gd-node-out > small",
-      "text": "display, h1, h2, big numbers",
+      "text": "the body font, heavier; a disp",
       "detail": "font Manrope"
     },
     {
@@ -1577,7 +1577,7 @@
       "prop": "font-family",
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
       "selector": "section#foundations.bos-block.gd-section > div.bos-surface.gd-type > p.bos-caption",
-      "text": "This brand has no heading font",
+      "text": "One family, Manrope, for every",
       "detail": "font Manrope"
     },
     {
@@ -3007,7 +3007,7 @@
       "prop": "font-family",
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
       "selector": "section#heroes.bos-block.gd-section > h3.bos-h2.gd-sub",
-      "text": "The shared app shell",
+      "text": "Two shells, chosen by what the",
       "detail": "font Manrope"
     },
     {
@@ -3017,7 +3017,37 @@
       "prop": "font-family",
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
       "selector": "section#heroes.bos-block.gd-section > p.bos-lead.gd-intro",
-      "text": "The same in every app: a glass",
+      "text": "Ask why people open the app. I",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section#heroes.bos-block.gd-section > div.gd-shell-choice > div.bos-tile > div.bos-label",
+      "text": "Top bar · bos-shell",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section#heroes.bos-block.gd-section > div.gd-shell-choice > div.bos-tile > p.bos-caption",
+      "text": "Browse, search and explore: a ",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section#heroes.bos-block.gd-section > h4.bos-h3.gd-sub-sm",
+      "text": "Top bar, for apps people explo",
       "detail": "font Manrope"
     },
     {
@@ -3263,6 +3293,176 @@
     {
       "mode": "light",
       "page": "/",
+      "kind": "colour",
+      "prop": "background-image",
+      "value": "oklch(0.91 0.045 47.6)",
+      "selector": "section#heroes.bos-block.gd-section > div.gd-browser > div.gd-browser-page > div.gd-browser-glow",
+      "text": "",
+      "detail": "#fcd9c8 is not a brand hue (nearest #c4122f, 26° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-image",
+      "value": "oklab(0.511 -0.085464 -0.00958633 / 0.2)",
+      "selector": "section#heroes.bos-block.gd-section > div.gd-browser > div.gd-browser-page > div.gd-browser-glow",
+      "text": "",
+      "detail": "#0f766e is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-image",
+      "value": "oklch(0.575 0.187 47.6)",
+      "selector": "aside.bos-sidebar > div.bos-sidebar-head > a.bos-sidebar-brand > span.bos-charm.bos-charm-sm",
+      "text": "",
+      "detail": "#cb4800 is not a brand hue (nearest #c4122f, 26° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-image",
+      "value": "oklch(0.451 0.086 186.4)",
+      "selector": "aside.bos-sidebar > div.bos-sidebar-head > a.bos-sidebar-brand > span.bos-charm.bos-charm-sm",
+      "text": "",
+      "detail": "#00645d is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-image",
+      "value": "oklch(0.511 0.086 186.4)",
+      "selector": "aside.bos-sidebar > div.bos-sidebar-head > a.bos-sidebar-brand > span.bos-charm.bos-charm-sm",
+      "text": "",
+      "detail": "#0f766e is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-image",
+      "value": "oklch(0.555 0.148 237.3)",
+      "selector": "aside.bos-sidebar > div.bos-sidebar-head > a.bos-sidebar-brand > span.bos-charm.bos-charm-sm",
+      "text": "",
+      "detail": "#007cbe is not a brand hue (nearest #4ec7ea, 17° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-sidebar-head > a.bos-sidebar-brand > span > strong",
+      "text": "Academy",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-sidebar-head > a.bos-sidebar-brand > span > small",
+      "text": "Learning",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "aside.bos-sidebar > nav.bos-sidebar-section > a.bos-sidebar-item > span",
+      "text": "Home",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-color",
+      "value": "oklch(0.511 0.086 186.4)",
+      "selector": "div.bos-app.gd-app-demo > aside.bos-sidebar > nav.bos-sidebar-section > a.bos-sidebar-item",
+      "text": "",
+      "detail": "#0f766e is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "aside.bos-sidebar > nav.bos-sidebar-section > a.bos-sidebar-item > span.bos-count",
+      "text": "2",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "aside.bos-sidebar > div.bos-sidebar-footer > a.bos-sidebar-item > span",
+      "text": "Settings",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "color",
+      "value": "oklab(0.4165 -0.0654893 -0.0073458)",
+      "selector": "aside.bos-sidebar > div.bos-sidebar-footer > a.bos-sidebar-item > span.bos-avatar.bos-avatar-sm",
+      "text": "SR",
+      "detail": "#135852 is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "aside.bos-sidebar > div.bos-sidebar-footer > a.bos-sidebar-item > span.bos-avatar.bos-avatar-sm",
+      "text": "SR",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-app.gd-app-demo > main.bos-main > div.bos-topbar > span.bos-topbar-title",
+      "text": "Training",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "main.bos-main > div.bos-page > div.bos-hero-compact > h3.bos-h1",
+      "text": "Pick up where you left off",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "main.bos-main > div.bos-page > div.bos-hero-compact > p.bos-lead",
+      "text": "Lesson 3 of 5 in Working with ",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
       "kind": "font",
       "prop": "font-family",
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
@@ -3278,6 +3478,676 @@
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
       "selector": "section#heroes.bos-block.gd-section > div.gd-layout-spec > div.gd-layout-row > span",
       "text": "Width of every page and the na",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "color",
+      "value": "oklch(0.511 0.086 186.4)",
+      "selector": "section#learn.bos-block.gd-section > div.gd-sec-head > span.bos-kicker",
+      "text": "Interactive",
+      "detail": "#0f766e is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section#learn.bos-block.gd-section > div.gd-sec-head > span.bos-kicker",
+      "text": "Interactive",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "h2#learn-title.bos-h1",
+      "text": "Quizzes, challenges and lesson",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section#learn.bos-block.gd-section > div.gd-sec-head > p.bos-lead.gd-intro",
+      "text": "For apps where people learn, p",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section#learn.bos-block.gd-section > div.gd-learn > div > h3.bos-h3.gd-sub-sm",
+      "text": "Quiz, exam or challenge questi",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section#learn.bos-block.gd-section > div.gd-learn > div > p.bos-caption.gd-learn-note",
+      "text": "bos-quiz, bos-track, bos-optio",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div > section.bos-quiz > header.bos-quiz-head > span",
+      "text": "Question 1 of 4",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div > section.bos-quiz > header.bos-quiz-head > span.bos-timer",
+      "text": "2:29",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-color",
+      "value": "oklab(0.511 -0.085464 -0.00958633 / 0.45)",
+      "selector": "div > section.bos-quiz > ol.bos-track > li",
+      "text": "",
+      "detail": "#0f766e is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.gd-learn > div > section.bos-quiz > h4.bos-quiz-prompt",
+      "text": "You want an assistant to summa",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section.bos-quiz > div.bos-options > label.bos-option > span.bos-option-key",
+      "text": "A",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section.bos-quiz > div.bos-options > label.bos-option > span",
+      "text": "Paste the report and write \"su",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section.bos-quiz > footer.bos-quiz-foot > ul.bos-tally > li",
+      "text": "0 correct",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "color",
+      "value": "oklch(0.56 0.14 152)",
+      "selector": "footer.bos-quiz-foot > ul.bos-tally > li > svg.lucide.lucide-circle-check",
+      "text": "",
+      "detail": "#168b49 is not a brand hue (nearest #4ec7ea, 69° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "stroke",
+      "value": "oklch(0.56 0.14 152)",
+      "selector": "footer.bos-quiz-foot > ul.bos-tally > li > svg.lucide.lucide-circle-check",
+      "text": "",
+      "detail": "#168b49 is not a brand hue (nearest #4ec7ea, 69° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "color",
+      "value": "oklch(0.56 0.14 152)",
+      "selector": "ul.bos-tally > li > svg.lucide.lucide-circle-check > circle",
+      "text": "",
+      "detail": "#168b49 is not a brand hue (nearest #4ec7ea, 69° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "stroke",
+      "value": "oklch(0.56 0.14 152)",
+      "selector": "ul.bos-tally > li > svg.lucide.lucide-circle-check > circle",
+      "text": "",
+      "detail": "#168b49 is not a brand hue (nearest #4ec7ea, 69° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "color",
+      "value": "oklch(0.56 0.14 152)",
+      "selector": "ul.bos-tally > li > svg.lucide.lucide-circle-check > path",
+      "text": "",
+      "detail": "#168b49 is not a brand hue (nearest #4ec7ea, 69° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "stroke",
+      "value": "oklch(0.56 0.14 152)",
+      "selector": "ul.bos-tally > li > svg.lucide.lucide-circle-check > path",
+      "text": "",
+      "detail": "#168b49 is not a brand hue (nearest #4ec7ea, 69° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "footer.bos-quiz-foot > ul.bos-tally > li > b",
+      "text": "0",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-color",
+      "value": "oklch(0.511 0.086 186.4)",
+      "selector": "div > section.bos-quiz > footer.bos-quiz-foot > button.bos-btn-primary",
+      "text": "Check answer",
+      "detail": "#0f766e is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div > section.bos-quiz > footer.bos-quiz-foot > button.bos-btn-primary",
+      "text": "Check answer",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "textarea#gd-graded",
+      "text": "I would give the assistant the",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div > section.bos-quiz > footer.bos-quiz-foot > span.bos-caption",
+      "text": "Answers are graded by an assis",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section#learn.bos-block.gd-section > h3.bos-h3.gd-sub-sm",
+      "text": "Lesson page",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section#learn.bos-block.gd-section > p.bos-caption.gd-learn-note",
+      "text": "bos-learn: the lesson (bos-vid",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-image",
+      "value": "oklch(0.575 0.187 47.6)",
+      "selector": "section#learn.bos-block.gd-section > div.bos-learn > div.bos-stack > div.bos-video",
+      "text": "",
+      "detail": "#cb4800 is not a brand hue (nearest #c4122f, 26° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-image",
+      "value": "oklch(0.451 0.086 186.4)",
+      "selector": "section#learn.bos-block.gd-section > div.bos-learn > div.bos-stack > div.bos-video",
+      "text": "",
+      "detail": "#00645d is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-image",
+      "value": "oklch(0.511 0.086 186.4)",
+      "selector": "section#learn.bos-block.gd-section > div.bos-learn > div.bos-stack > div.bos-video",
+      "text": "",
+      "detail": "#0f766e is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-image",
+      "value": "oklch(0.555 0.148 237.3)",
+      "selector": "section#learn.bos-block.gd-section > div.bos-learn > div.bos-stack > div.bos-video",
+      "text": "",
+      "detail": "#007cbe is not a brand hue (nearest #4ec7ea, 17° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-stack > div.bos-video > div.bos-video-meta > span",
+      "text": "Lesson 3",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "color",
+      "value": "oklch(0.511 0.086 186.4)",
+      "selector": "div.bos-learn > div.bos-stack > div > span.bos-kicker",
+      "text": "Module 1 · Working with assist",
+      "detail": "#0f766e is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-learn > div.bos-stack > div > span.bos-kicker",
+      "text": "Module 1 · Working with assist",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-learn > div.bos-stack > div > h4.bos-h2",
+      "text": "Giving context and examples",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-learn > div.bos-stack > div > p.bos-lead",
+      "text": "Assistants do their best work ",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "aside > div.bos-module-head > div > div.bos-h3",
+      "text": "Module 1",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "aside > div.bos-module-head > div > span.bos-caption",
+      "text": "2 of 5 done",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-image",
+      "value": "oklch(0.511 0.086 186.4)",
+      "selector": "aside > div.bos-module-head > div.bos-ring-wrap > span.bos-ring.bos-ring-sm",
+      "text": "",
+      "detail": "#0f766e is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-module-head > div.bos-ring-wrap > span > b",
+      "text": "40%",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-color",
+      "value": "oklch(0.56 0.14 152)",
+      "selector": "ol.bos-lessons > li > a.bos-lesson > span.bos-lesson-status",
+      "text": "",
+      "detail": "#168b49 is not a brand hue (nearest #4ec7ea, 69° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "li > a.bos-lesson > span > span.bos-lesson-title",
+      "text": "What assistants are good at",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "li > a.bos-lesson > span > span.bos-meta",
+      "text": "Video · 6 min",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-color",
+      "value": "oklch(0.511 0.086 186.4)",
+      "selector": "ol.bos-lessons > li > a.bos-lesson > span.bos-lesson-status",
+      "text": "",
+      "detail": "#0f766e is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "ol.bos-lessons > li > a.bos-lesson > span.bos-lesson-status",
+      "text": "4",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "li > div.bos-lesson > span > span.bos-lesson-title",
+      "text": "Challenge: a review brief",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "li > div.bos-lesson > span > span.bos-meta",
+      "text": "Challenge · Graded",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section#learn.bos-block.gd-section > div.gd-learn-small > div.bos-tile > div.bos-label",
+      "text": "Counter",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section#learn.bos-block.gd-section > div.gd-learn-small > div.bos-tile > p.bos-caption",
+      "text": "Questions per practice round",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.gd-learn-small > div.bos-tile > div.bos-counter > output",
+      "text": "10",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.gd-learn-small > div.bos-tile > div.bos-btns > span.bos-timer",
+      "text": "12:30",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "color",
+      "value": "oklch(0.68 0.15 65)",
+      "selector": "div.bos-tile > div.bos-btns > span.bos-timer > svg.lucide.lucide-timer",
+      "text": "",
+      "detail": "#d6810c is not a brand hue (nearest #c4122f, 43° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "stroke",
+      "value": "oklch(0.68 0.15 65)",
+      "selector": "div.bos-tile > div.bos-btns > span.bos-timer > svg.lucide.lucide-timer",
+      "text": "",
+      "detail": "#d6810c is not a brand hue (nearest #c4122f, 43° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "color",
+      "value": "oklch(0.68 0.15 65)",
+      "selector": "div.bos-btns > span.bos-timer > svg.lucide.lucide-timer > circle",
+      "text": "",
+      "detail": "#d6810c is not a brand hue (nearest #c4122f, 43° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "stroke",
+      "value": "oklch(0.68 0.15 65)",
+      "selector": "div.bos-btns > span.bos-timer > svg.lucide.lucide-timer > circle",
+      "text": "",
+      "detail": "#d6810c is not a brand hue (nearest #c4122f, 43° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-image",
+      "value": "oklch(0.511 0.086 186.4)",
+      "selector": "div.bos-tile > div.bos-btns > div.bos-ring-wrap > span.bos-ring",
+      "text": "",
+      "detail": "#0f766e is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-btns > div.bos-ring-wrap > span > b",
+      "text": "40%",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-image",
+      "value": "oklch(0.56 0.14 152)",
+      "selector": "div.bos-tile > div.bos-btns > div.bos-ring-wrap > span.bos-ring",
+      "text": "",
+      "detail": "#168b49 is not a brand hue (nearest #4ec7ea, 69° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.gd-learn-small > div.bos-tile > ul.bos-tally > li",
+      "text": "8 correct",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "color",
+      "value": "oklch(0.56 0.14 152)",
+      "selector": "div.bos-tile > ul.bos-tally > li > svg.lucide.lucide-circle-check",
+      "text": "",
+      "detail": "#168b49 is not a brand hue (nearest #4ec7ea, 69° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "stroke",
+      "value": "oklch(0.56 0.14 152)",
+      "selector": "div.bos-tile > ul.bos-tally > li > svg.lucide.lucide-circle-check",
+      "text": "",
+      "detail": "#168b49 is not a brand hue (nearest #4ec7ea, 69° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-tile > ul.bos-tally > li > b",
+      "text": "8",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "color",
+      "value": "oklch(0.68 0.15 65)",
+      "selector": "div.bos-tile > ul.bos-tally > li > svg.lucide.lucide-flame",
+      "text": "",
+      "detail": "#d6810c is not a brand hue (nearest #c4122f, 43° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "stroke",
+      "value": "oklch(0.68 0.15 65)",
+      "selector": "div.bos-tile > ul.bos-tally > li > svg.lucide.lucide-flame",
+      "text": "",
+      "detail": "#d6810c is not a brand hue (nearest #c4122f, 43° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "color",
+      "value": "oklch(0.68 0.15 65)",
+      "selector": "ul.bos-tally > li > svg.lucide.lucide-flame > path",
+      "text": "",
+      "detail": "#d6810c is not a brand hue (nearest #c4122f, 43° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "stroke",
+      "value": "oklch(0.68 0.15 65)",
+      "selector": "ul.bos-tally > li > svg.lucide.lucide-flame > path",
+      "text": "",
+      "detail": "#d6810c is not a brand hue (nearest #c4122f, 43° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section#learn.bos-block.gd-section > div.gd-learn-rules > div.bos-tile > div.bos-label",
+      "text": "Modal or side panel?",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section#learn.bos-block.gd-section > div.gd-learn-rules > div.bos-tile > p.bos-caption",
+      "text": "A modal for a short decision t",
       "detail": "font Manrope"
     },
     {
@@ -9507,7 +10377,7 @@
       "prop": "color",
       "value": "oklch(0.62 0.086 186.4)",
       "selector": "header#top.bos-hero > div.bos-hero-grid > div > span.bos-kicker",
-      "text": "Component guide · BrandOS 1.2",
+      "text": "Component guide · BrandOS 1.3",
       "detail": "#3d978e is not a brand hue (nearest #4ec7ea, 34° away)"
     },
     {
@@ -9517,7 +10387,7 @@
       "prop": "font-family",
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
       "selector": "header#top.bos-hero > div.bos-hero-grid > div > span.bos-kicker",
-      "text": "Component guide · BrandOS 1.2",
+      "text": "Component guide · BrandOS 1.3",
       "detail": "font Manrope"
     },
     {
@@ -9647,7 +10517,7 @@
       "prop": "font-family",
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
       "selector": "aside.bos-surface.bos-surface-lg > div.gd-level-top > div > div.bos-caption",
-      "text": "Headings: Manrope (no heading ",
+      "text": "Headings and body: Manrope",
       "detail": "font Manrope"
     },
     {
@@ -10007,7 +10877,7 @@
       "prop": "font-family",
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
       "selector": "div.bos-grid-2 > div.gd-fontflow.bos-glass > div.gd-fontflow-grid > div.gd-node.gd-node-out",
-      "text": "fonts.display → --font-display",
+      "text": "headings → --font-headingthe b",
       "detail": "font Manrope"
     },
     {
@@ -10017,7 +10887,7 @@
       "prop": "font-family",
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
       "selector": "div.gd-fontflow.bos-glass > div.gd-fontflow-grid > div.gd-node.gd-node-out > small",
-      "text": "display, h1, h2, big numbers",
+      "text": "the body font, heavier; a disp",
       "detail": "font Manrope"
     },
     {
@@ -11047,7 +11917,7 @@
       "prop": "font-family",
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
       "selector": "section#foundations.bos-block.gd-section > div.bos-surface.gd-type > p.bos-caption",
-      "text": "This brand has no heading font",
+      "text": "One family, Manrope, for every",
       "detail": "font Manrope"
     },
     {
@@ -12477,7 +13347,7 @@
       "prop": "font-family",
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
       "selector": "section#heroes.bos-block.gd-section > h3.bos-h2.gd-sub",
-      "text": "The shared app shell",
+      "text": "Two shells, chosen by what the",
       "detail": "font Manrope"
     },
     {
@@ -12487,7 +13357,37 @@
       "prop": "font-family",
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
       "selector": "section#heroes.bos-block.gd-section > p.bos-lead.gd-intro",
-      "text": "The same in every app: a glass",
+      "text": "Ask why people open the app. I",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section#heroes.bos-block.gd-section > div.gd-shell-choice > div.bos-tile > div.bos-label",
+      "text": "Top bar · bos-shell",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section#heroes.bos-block.gd-section > div.gd-shell-choice > div.bos-tile > p.bos-caption",
+      "text": "Browse, search and explore: a ",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section#heroes.bos-block.gd-section > h4.bos-h3.gd-sub-sm",
+      "text": "Top bar, for apps people explo",
       "detail": "font Manrope"
     },
     {
@@ -12733,6 +13633,176 @@
     {
       "mode": "dark",
       "page": "/",
+      "kind": "colour",
+      "prop": "background-image",
+      "value": "oklch(0.34 0.075 47.6)",
+      "selector": "section#heroes.bos-block.gd-section > div.gd-browser > div.gd-browser-page > div.gd-browser-glow",
+      "text": "",
+      "detail": "#562a11 is not a brand hue (nearest #c4122f, 26° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-image",
+      "value": "oklab(0.62 -0.085464 -0.00958633 / 0.2)",
+      "selector": "section#heroes.bos-block.gd-section > div.gd-browser > div.gd-browser-page > div.gd-browser-glow",
+      "text": "",
+      "detail": "#3d978e is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-image",
+      "value": "oklch(0.575 0.187 47.6)",
+      "selector": "aside.bos-sidebar > div.bos-sidebar-head > a.bos-sidebar-brand > span.bos-charm.bos-charm-sm",
+      "text": "",
+      "detail": "#cb4800 is not a brand hue (nearest #c4122f, 26° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-image",
+      "value": "oklch(0.451 0.086 186.4)",
+      "selector": "aside.bos-sidebar > div.bos-sidebar-head > a.bos-sidebar-brand > span.bos-charm.bos-charm-sm",
+      "text": "",
+      "detail": "#00645d is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-image",
+      "value": "oklch(0.511 0.086 186.4)",
+      "selector": "aside.bos-sidebar > div.bos-sidebar-head > a.bos-sidebar-brand > span.bos-charm.bos-charm-sm",
+      "text": "",
+      "detail": "#0f766e is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-image",
+      "value": "oklch(0.555 0.148 237.3)",
+      "selector": "aside.bos-sidebar > div.bos-sidebar-head > a.bos-sidebar-brand > span.bos-charm.bos-charm-sm",
+      "text": "",
+      "detail": "#007cbe is not a brand hue (nearest #4ec7ea, 17° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-sidebar-head > a.bos-sidebar-brand > span > strong",
+      "text": "Academy",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-sidebar-head > a.bos-sidebar-brand > span > small",
+      "text": "Learning",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "aside.bos-sidebar > nav.bos-sidebar-section > a.bos-sidebar-item > span",
+      "text": "Home",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-color",
+      "value": "oklch(0.62 0.086 186.4)",
+      "selector": "div.bos-app.gd-app-demo > aside.bos-sidebar > nav.bos-sidebar-section > a.bos-sidebar-item",
+      "text": "",
+      "detail": "#3d978e is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "aside.bos-sidebar > nav.bos-sidebar-section > a.bos-sidebar-item > span.bos-count",
+      "text": "2",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "aside.bos-sidebar > div.bos-sidebar-footer > a.bos-sidebar-item > span",
+      "text": "Settings",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "color",
+      "value": "oklab(0.809997 -0.0427092 -0.00478312)",
+      "selector": "aside.bos-sidebar > div.bos-sidebar-footer > a.bos-sidebar-item > span.bos-avatar.bos-avatar-sm",
+      "text": "SR",
+      "detail": "#a2cac5 is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "aside.bos-sidebar > div.bos-sidebar-footer > a.bos-sidebar-item > span.bos-avatar.bos-avatar-sm",
+      "text": "SR",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-app.gd-app-demo > main.bos-main > div.bos-topbar > span.bos-topbar-title",
+      "text": "Training",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "main.bos-main > div.bos-page > div.bos-hero-compact > h3.bos-h1",
+      "text": "Pick up where you left off",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "main.bos-main > div.bos-page > div.bos-hero-compact > p.bos-lead",
+      "text": "Lesson 3 of 5 in Working with ",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
       "kind": "font",
       "prop": "font-family",
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
@@ -12748,6 +13818,676 @@
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
       "selector": "section#heroes.bos-block.gd-section > div.gd-layout-spec > div.gd-layout-row > span",
       "text": "Width of every page and the na",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "color",
+      "value": "oklch(0.62 0.086 186.4)",
+      "selector": "section#learn.bos-block.gd-section > div.gd-sec-head > span.bos-kicker",
+      "text": "Interactive",
+      "detail": "#3d978e is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section#learn.bos-block.gd-section > div.gd-sec-head > span.bos-kicker",
+      "text": "Interactive",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "h2#learn-title.bos-h1",
+      "text": "Quizzes, challenges and lesson",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section#learn.bos-block.gd-section > div.gd-sec-head > p.bos-lead.gd-intro",
+      "text": "For apps where people learn, p",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section#learn.bos-block.gd-section > div.gd-learn > div > h3.bos-h3.gd-sub-sm",
+      "text": "Quiz, exam or challenge questi",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section#learn.bos-block.gd-section > div.gd-learn > div > p.bos-caption.gd-learn-note",
+      "text": "bos-quiz, bos-track, bos-optio",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div > section.bos-quiz > header.bos-quiz-head > span",
+      "text": "Question 1 of 4",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div > section.bos-quiz > header.bos-quiz-head > span.bos-timer",
+      "text": "2:29",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-color",
+      "value": "oklab(0.62 -0.085464 -0.00958633 / 0.45)",
+      "selector": "div > section.bos-quiz > ol.bos-track > li",
+      "text": "",
+      "detail": "#3d978e is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.gd-learn > div > section.bos-quiz > h4.bos-quiz-prompt",
+      "text": "You want an assistant to summa",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section.bos-quiz > div.bos-options > label.bos-option > span.bos-option-key",
+      "text": "A",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section.bos-quiz > div.bos-options > label.bos-option > span",
+      "text": "Paste the report and write \"su",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section.bos-quiz > footer.bos-quiz-foot > ul.bos-tally > li",
+      "text": "0 correct",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "color",
+      "value": "oklch(0.74 0.15 152)",
+      "selector": "footer.bos-quiz-foot > ul.bos-tally > li > svg.lucide.lucide-circle-check",
+      "text": "",
+      "detail": "#54c57a is not a brand hue (nearest #4ec7ea, 69° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "stroke",
+      "value": "oklch(0.74 0.15 152)",
+      "selector": "footer.bos-quiz-foot > ul.bos-tally > li > svg.lucide.lucide-circle-check",
+      "text": "",
+      "detail": "#54c57a is not a brand hue (nearest #4ec7ea, 69° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "color",
+      "value": "oklch(0.74 0.15 152)",
+      "selector": "ul.bos-tally > li > svg.lucide.lucide-circle-check > circle",
+      "text": "",
+      "detail": "#54c57a is not a brand hue (nearest #4ec7ea, 69° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "stroke",
+      "value": "oklch(0.74 0.15 152)",
+      "selector": "ul.bos-tally > li > svg.lucide.lucide-circle-check > circle",
+      "text": "",
+      "detail": "#54c57a is not a brand hue (nearest #4ec7ea, 69° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "color",
+      "value": "oklch(0.74 0.15 152)",
+      "selector": "ul.bos-tally > li > svg.lucide.lucide-circle-check > path",
+      "text": "",
+      "detail": "#54c57a is not a brand hue (nearest #4ec7ea, 69° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "stroke",
+      "value": "oklch(0.74 0.15 152)",
+      "selector": "ul.bos-tally > li > svg.lucide.lucide-circle-check > path",
+      "text": "",
+      "detail": "#54c57a is not a brand hue (nearest #4ec7ea, 69° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "footer.bos-quiz-foot > ul.bos-tally > li > b",
+      "text": "0",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-color",
+      "value": "oklch(0.62 0.086 186.4)",
+      "selector": "div > section.bos-quiz > footer.bos-quiz-foot > button.bos-btn-primary",
+      "text": "Check answer",
+      "detail": "#3d978e is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div > section.bos-quiz > footer.bos-quiz-foot > button.bos-btn-primary",
+      "text": "Check answer",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "textarea#gd-graded",
+      "text": "I would give the assistant the",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div > section.bos-quiz > footer.bos-quiz-foot > span.bos-caption",
+      "text": "Answers are graded by an assis",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section#learn.bos-block.gd-section > h3.bos-h3.gd-sub-sm",
+      "text": "Lesson page",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section#learn.bos-block.gd-section > p.bos-caption.gd-learn-note",
+      "text": "bos-learn: the lesson (bos-vid",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-image",
+      "value": "oklch(0.575 0.187 47.6)",
+      "selector": "section#learn.bos-block.gd-section > div.bos-learn > div.bos-stack > div.bos-video",
+      "text": "",
+      "detail": "#cb4800 is not a brand hue (nearest #c4122f, 26° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-image",
+      "value": "oklch(0.451 0.086 186.4)",
+      "selector": "section#learn.bos-block.gd-section > div.bos-learn > div.bos-stack > div.bos-video",
+      "text": "",
+      "detail": "#00645d is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-image",
+      "value": "oklch(0.511 0.086 186.4)",
+      "selector": "section#learn.bos-block.gd-section > div.bos-learn > div.bos-stack > div.bos-video",
+      "text": "",
+      "detail": "#0f766e is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-image",
+      "value": "oklch(0.555 0.148 237.3)",
+      "selector": "section#learn.bos-block.gd-section > div.bos-learn > div.bos-stack > div.bos-video",
+      "text": "",
+      "detail": "#007cbe is not a brand hue (nearest #4ec7ea, 17° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-stack > div.bos-video > div.bos-video-meta > span",
+      "text": "Lesson 3",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "color",
+      "value": "oklch(0.62 0.086 186.4)",
+      "selector": "div.bos-learn > div.bos-stack > div > span.bos-kicker",
+      "text": "Module 1 · Working with assist",
+      "detail": "#3d978e is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-learn > div.bos-stack > div > span.bos-kicker",
+      "text": "Module 1 · Working with assist",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-learn > div.bos-stack > div > h4.bos-h2",
+      "text": "Giving context and examples",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-learn > div.bos-stack > div > p.bos-lead",
+      "text": "Assistants do their best work ",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "aside > div.bos-module-head > div > div.bos-h3",
+      "text": "Module 1",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "aside > div.bos-module-head > div > span.bos-caption",
+      "text": "2 of 5 done",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-image",
+      "value": "oklch(0.62 0.086 186.4)",
+      "selector": "aside > div.bos-module-head > div.bos-ring-wrap > span.bos-ring.bos-ring-sm",
+      "text": "",
+      "detail": "#3d978e is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-module-head > div.bos-ring-wrap > span > b",
+      "text": "40%",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-color",
+      "value": "oklch(0.74 0.15 152)",
+      "selector": "ol.bos-lessons > li > a.bos-lesson > span.bos-lesson-status",
+      "text": "",
+      "detail": "#54c57a is not a brand hue (nearest #4ec7ea, 69° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "li > a.bos-lesson > span > span.bos-lesson-title",
+      "text": "What assistants are good at",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "li > a.bos-lesson > span > span.bos-meta",
+      "text": "Video · 6 min",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-color",
+      "value": "oklch(0.62 0.086 186.4)",
+      "selector": "ol.bos-lessons > li > a.bos-lesson > span.bos-lesson-status",
+      "text": "",
+      "detail": "#3d978e is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "ol.bos-lessons > li > a.bos-lesson > span.bos-lesson-status",
+      "text": "4",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "li > div.bos-lesson > span > span.bos-lesson-title",
+      "text": "Challenge: a review brief",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "li > div.bos-lesson > span > span.bos-meta",
+      "text": "Challenge · Graded",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section#learn.bos-block.gd-section > div.gd-learn-small > div.bos-tile > div.bos-label",
+      "text": "Counter",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section#learn.bos-block.gd-section > div.gd-learn-small > div.bos-tile > p.bos-caption",
+      "text": "Questions per practice round",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.gd-learn-small > div.bos-tile > div.bos-counter > output",
+      "text": "10",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.gd-learn-small > div.bos-tile > div.bos-btns > span.bos-timer",
+      "text": "12:30",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "color",
+      "value": "oklch(0.8 0.14 75)",
+      "selector": "div.bos-tile > div.bos-btns > span.bos-timer > svg.lucide.lucide-timer",
+      "text": "",
+      "detail": "#f2af48 is not a brand hue (nearest #c4122f, 53° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "stroke",
+      "value": "oklch(0.8 0.14 75)",
+      "selector": "div.bos-tile > div.bos-btns > span.bos-timer > svg.lucide.lucide-timer",
+      "text": "",
+      "detail": "#f2af48 is not a brand hue (nearest #c4122f, 53° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "color",
+      "value": "oklch(0.8 0.14 75)",
+      "selector": "div.bos-btns > span.bos-timer > svg.lucide.lucide-timer > circle",
+      "text": "",
+      "detail": "#f2af48 is not a brand hue (nearest #c4122f, 53° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "stroke",
+      "value": "oklch(0.8 0.14 75)",
+      "selector": "div.bos-btns > span.bos-timer > svg.lucide.lucide-timer > circle",
+      "text": "",
+      "detail": "#f2af48 is not a brand hue (nearest #c4122f, 53° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-image",
+      "value": "oklch(0.62 0.086 186.4)",
+      "selector": "div.bos-tile > div.bos-btns > div.bos-ring-wrap > span.bos-ring",
+      "text": "",
+      "detail": "#3d978e is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-btns > div.bos-ring-wrap > span > b",
+      "text": "40%",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-image",
+      "value": "oklch(0.74 0.15 152)",
+      "selector": "div.bos-tile > div.bos-btns > div.bos-ring-wrap > span.bos-ring",
+      "text": "",
+      "detail": "#54c57a is not a brand hue (nearest #4ec7ea, 69° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.gd-learn-small > div.bos-tile > ul.bos-tally > li",
+      "text": "8 correct",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "color",
+      "value": "oklch(0.74 0.15 152)",
+      "selector": "div.bos-tile > ul.bos-tally > li > svg.lucide.lucide-circle-check",
+      "text": "",
+      "detail": "#54c57a is not a brand hue (nearest #4ec7ea, 69° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "stroke",
+      "value": "oklch(0.74 0.15 152)",
+      "selector": "div.bos-tile > ul.bos-tally > li > svg.lucide.lucide-circle-check",
+      "text": "",
+      "detail": "#54c57a is not a brand hue (nearest #4ec7ea, 69° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-tile > ul.bos-tally > li > b",
+      "text": "8",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "color",
+      "value": "oklch(0.8 0.14 75)",
+      "selector": "div.bos-tile > ul.bos-tally > li > svg.lucide.lucide-flame",
+      "text": "",
+      "detail": "#f2af48 is not a brand hue (nearest #c4122f, 53° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "stroke",
+      "value": "oklch(0.8 0.14 75)",
+      "selector": "div.bos-tile > ul.bos-tally > li > svg.lucide.lucide-flame",
+      "text": "",
+      "detail": "#f2af48 is not a brand hue (nearest #c4122f, 53° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "color",
+      "value": "oklch(0.8 0.14 75)",
+      "selector": "ul.bos-tally > li > svg.lucide.lucide-flame > path",
+      "text": "",
+      "detail": "#f2af48 is not a brand hue (nearest #c4122f, 53° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "stroke",
+      "value": "oklch(0.8 0.14 75)",
+      "selector": "ul.bos-tally > li > svg.lucide.lucide-flame > path",
+      "text": "",
+      "detail": "#f2af48 is not a brand hue (nearest #c4122f, 53° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section#learn.bos-block.gd-section > div.gd-learn-rules > div.bos-tile > div.bos-label",
+      "text": "Modal or side panel?",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section#learn.bos-block.gd-section > div.gd-learn-rules > div.bos-tile > p.bos-caption",
+      "text": "A modal for a short decision t",
       "detail": "font Manrope"
     },
     {

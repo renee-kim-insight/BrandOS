@@ -133,6 +133,7 @@ function tailwindV4() {
 ${TOKENS.map((t) => `  --color-${t}: var(--${t});`).join("\n")}
   --font-sans: var(--font-sans);
   --font-display: var(--font-display, var(--font-sans));
+  --font-heading: var(--font-heading, var(--font-sans));
   --font-mono: var(--font-mono);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
@@ -161,6 +162,7 @@ ${colors}
       fontFamily: {
         sans: "var(--font-sans)",
         display: "var(--font-display, var(--font-sans))",
+        heading: "var(--font-heading, var(--font-sans))",
         mono: "var(--font-mono)",
       },
       borderRadius: { lg: "var(--radius)", xl: "calc(var(--radius) * 1.4)", "2xl": "calc(var(--radius) * 1.8)" },
@@ -197,17 +199,18 @@ function rulesMd(brand, theme) {
     ``,
     `## Fonts`,
     line("Body and UI", fam(f.sans)),
-    line("Headings", fam(f.display) ?? "same as body"),
+    line("Headings", brand.typography?.headings === "display" && f.display ? fam(f.display) : "same as body (sans)"),
     line("Code", fam(f.mono)),
-    `Heading font only for display, h1, h2 and big numbers (\`bos-display\`, \`bos-h1\`, \`bos-h2\`, \`bos-stat\`). Everything else uses the body font.`,
+    `One font family for everything: headings use the body font at a heavier weight (\`--font-heading\`). Don't put a display or serif font on headings, labels or accents unless brand.json sets typography.headings to "display".`,
     ``,
     `## Shell, layout and type (must match in every app)`,
-    `- Nav: the glass pill at the top. \`bos-shell-wrap\` > \`bos-container\` > \`bos-shell bos-glass\` with \`bos-brand\`, \`bos-nav-list\` (up to 6 main pages) and, only when there are more than six main pages, a \`details.bos-menu-wrap.bos-nav-more\` More menu grouped by section, then \`bos-actions\`: search, one Create (\`bos-btn-primary\`), and a user menu (settings, admin, theme, sign out). Same padding on both ends of the bar; the nav sits in its centre.`,
-    `- Serif: the brand's heading font is for page titles and section headings only (\`bos-display\`, \`bos-h1\`, \`bos-h2\`). Row and card titles, nav, buttons, labels and table numbers stay sans; only big stat numbers (\`bos-stat\`) may use it.`,
+    `- Navigation by purpose: a top bar (\`bos-shell\`) for apps people explore and browse; a collapsible sidebar (\`bos-app\`, \`bos-sidebar\`, \`data-collapsed\`) for apps with one main job, so the work draws the eye. Both: same brand block, filled primary pill for the current page, user menu (settings, admin, theme, sign out). Top bar: up to six main pages, More only when there are more, same padding both ends, nav centred.`,
+    `- Fonts: headings are sans, the same family as the body. Never set font-family by hand; use the type classes.`,
     `- Layout: \`bos-container\` for width and margins (\`--page-max\` 1680px, slim \`--page-gutter\` 12 to 24px; running text held to \`--measure\`), \`bos-page\` stacks the title block and sections (\`--page-top\` 48, \`--section-gap\` 64), \`bos-stack\` inside sections (\`--block-gap\` 24). Every block spans the page width; only text gets a narrower measure. No hand-set widths, margins, paddings or radii.`,
     `- Corners: \`--radius-control\` pill, \`--radius-card\` 24, \`--radius-row\` 18, \`--radius-inner\` 14 for anything inside a card. No overflow hidden on rounded containers that hold menus or focusable things (use \`bos-clip\`).`,
     `- Title block: the same in every app and on every page: \`bos-page\` sets the gap below the nav, then an optional \`bos-kicker\` (a section or date, never the app's name), \`bos-h1\`, and one \`bos-lead\` line. What follows the title block (stats, queue, search, composer) changes with the page's purpose; the title block itself doesn't. Centred titles only on search and assistant pages.`,
     `- Chat: a composer is always docked at the bottom of the screen (\`bos-composer-dock\`, last on the page). Every composer has an assistant picker (\`bos-composer-agent\`). Conversation pages use \`bos-chat\` with a rail of assistants and recent conversations (\`bos-chat-rail\`), so switching never means going back home.`,
+    `- Interactive: quizzes and exams use \`bos-quiz\`, \`bos-track\`, \`bos-options\` (data-state correct, incorrect, missed after checking), \`bos-feedback\`, \`bos-tally\`, \`bos-timer\`, \`bos-result\`; graded answers use \`bos-graded\` and \`bos-rubric\`; courses use \`bos-lessons\`, \`bos-ring\`, \`bos-video\`, \`bos-learn\`; \`bos-counter\` for stepping numbers. Never colour alone for right and wrong; always show progress and time left. Modal for short decisions, side panel when the page behind matters.`,
     `- Type: \`bos-h1\` for every page title (home included), \`bos-h2\` sections, \`bos-h3\` items, \`bos-lead\`, \`bos-stat\`. \`bos-display\` only on landing and welcome pages. Never set heading sizes by hand.`,
     `- Every clickable thing has a hover state; nothing else does. \`brandos verify\` checks hover, cut-off content, broken corners, sideways scrolling, broken images and failed requests.`,
     `- Corners: pill radius (\`--radius-control\`) only on controls: buttons, inputs, chips, the nav. Big boxes (dialogs, command menus, composers, cards) use \`--radius-card\`, never pill, or they turn into ovals. Never change the radius scale (\`--radius\`, \`--radius-xl\` and so on) to make buttons round; use \`rounded-full\` on the button. Anything with a background inside a rounded box gets \`border-radius: inherit\` or \`--radius-inner\`, or no background.`,

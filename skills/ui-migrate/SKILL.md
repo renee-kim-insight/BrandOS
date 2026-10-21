@@ -46,12 +46,12 @@ Every kit installs `brandos-ui.css`. Use its classes and the theme variables ins
 | Card padding and radius | `bos-card`, `bos-card-compact` |
 | App bar (brand, nav, actions) | `bos-shell` with `bos-brand`, `bos-nav` > `bos-nav-list`, `bos-actions`; `data-priority="low"` on items that may move into `bos-nav-more`; `bos-nav-toggle` for small screens |
 | Page title block (app screens) | `bos-page-header` with `bos-title` and `bos-subtitle` |
-| App shell (every app, same anatomy) | The glass pill nav: `bos-shell-wrap` > `bos-container` > `bos-shell bos-glass` with `bos-brand` (logo, name, optional `<small>` subtitle), `bos-nav` > `bos-nav-list` (up to 6 main pages, `aria-current="page"` on the active one) followed by `<details class="bos-menu-wrap bos-nav-more">` (More, grouped with `bos-menu-group` and `bos-menu-label`), then `bos-actions`: search, the one Create action (`bos-btn-primary`), and the user menu (`<details class="bos-menu-wrap bos-menu-end">`: settings, admin, theme, sign out). The sidebar shell (`bos-app`, `bos-sidebar`) is only for an app the person explicitly wants it for |
+| App shell (chosen by purpose, see "Choosing the navigation") | Top bar for apps people explore: `bos-shell-wrap` > `bos-container` > `bos-shell bos-glass` with `bos-brand` (logo, name, optional `<small>` subtitle), `bos-nav` > `bos-nav-list` (up to 6 main pages, `aria-current="page"` on the active one), a `<details class="bos-menu-wrap bos-nav-more">` More menu only when there are more than six, then `bos-actions`: search, the one Create action (`bos-btn-primary`), and the user menu (`<details class="bos-menu-wrap bos-menu-end">`: settings, admin, theme, sign out). Sidebar for apps with one main job: `bos-app` > `bos-sidebar` (`bos-sidebar-head` with brand and `bos-sidebar-toggle`, `bos-sidebar-section` of `bos-sidebar-item`s, `bos-sidebar-footer` with settings and the user) + `bos-main`; collapsible with `data-collapsed` |
 | Page layout | `bos-container` (or `bos-content`) for width and margins, `bos-page` for the stack of title block and sections, `bos-stack` inside a section. Never set page width, margins or section spacing by hand |
 | The top of a page | One of the heroes in "Choosing the top of a page" below: `bos-hero-compact`, `bos-hero-overview`, `bos-hero-search`, `bos-hero-chat`, `bos-hero-split`, or `bos-record-header` |
 | Type sizes | `bos-display` (landing and welcome only), `bos-h1` (every page title, home included), `bos-h2`, `bos-h3`, `bos-lead`, `bos-stat`. Sizes come from `--text-*`; never set a heading size by hand |
 | Work queues, big search, chat | `bos-queue` (numbered next actions, the first is solid), `bos-search-xl`, `bos-composer`, `bos-suggestions` |
-| Type scale | `bos-display`, `bos-h1`, `bos-h2`, `bos-stat` use the brand's heading font; `bos-h3`, `bos-lead`, `bos-label`, `bos-caption`, `bos-kicker` use the body font |
+| Type scale | `bos-display`, `bos-h1`, `bos-h2`, `bos-stat` use `--font-heading` (the body font at a heavier weight, unless the brand opts in to its display font); `bos-h3`, `bos-lead`, `bos-label`, `bos-caption`, `bos-kicker` use the body font |
 | Section with a featured item and a list | `bos-block` > `bos-sec-head` (title plus `bos-text-link`), then `bos-feature-grid` with a `bos-surface bos-feature` and a `bos-rows` list |
 | The closing call to action | `bos-band` (the brand gradient, once per page) with a `bos-btn-glass` on it |
 | Badges, avatars, icon frames | charms: `bos-charm` plus a shape (`bos-charm-petal`, `-leaf`, `-arch`, `-bloom`, `-pebble`, `-tab`), a fill (gradient by default, `-primary`, `-soft`, `-secondary`) and a size (`-sm`, `-md`, `-lg`); `bos-avatar` for initials |
@@ -158,12 +158,49 @@ Ask: what is the first thing a person does on this page? Then pick the pattern t
 
 Stats belong only where the numbers are the point and someone would act on them. Never show counts of things that rarely change (number of assistants, prompts, published entries, stages).
 
+## Choosing the navigation
+
+Ask why people open the app.
+
+| People come to | Use | Examples |
+|---|---|---|
+| Look around and find things: browse, search, explore, try things | Top bar (`bos-shell`) | A knowledge base, a library of standards, a catalogue of assistants, a marketplace |
+| Get one main job done, with the rest there when needed | Sidebar (`bos-app`, collapsible) | Training and courses, a delivery tracker, a build pipeline, a queue of work |
+
+- The top bar floats and draws the eye, which suits exploring. The sidebar is quiet so the work on the page draws the eye. If the most important thing on the page is a button or a task, lean to the sidebar.
+- The sidebar collapses to icons (`data-collapsed` on `bos-app`, toggled by `bos-sidebar-toggle`, remembered per person). Every item has an icon, a plain `<span>` label and a `title`. On phones it opens as a sheet from a menu button in `bos-topbar`.
+- Both shells share the brand block, the active style, the user menu, page width and spacing. Say in your summary which shell you chose and why, in one sentence.
+
+## Interactive and learning patterns
+
+For apps where people learn, practise, take exams or get graded. The app owns the logic; these classes own the states.
+
+| Need | Use |
+|---|---|
+| A question with choices (quiz, exam, challenge) | `bos-quiz` with `bos-quiz-head` (question n of total, `bos-timer`), `bos-track` (one segment per question: `data-state` current, correct, incorrect, skipped), `bos-quiz-prompt`, `bos-options` of `label.bos-option` (radio + `bos-option-key`), `bos-feedback`, `bos-quiz-foot` |
+| After "Check answer" | `data-locked` on `bos-options`; `data-state` on options: correct (picked and right), incorrect (picked and wrong), missed (right but not picked). `bos-feedback data-state` with an icon, "Correct" or "Not quite", and why |
+| Running score | `bos-tally` items with `data-kind` correct, incorrect, streak |
+| Progress | `bos-ring` (`--value` 0 to 100, `data-state` pass or fail) in `bos-ring-wrap` with the number inside; `bos-track` for questions; `bos-progress` for a bar |
+| Time left | `bos-timer`, `data-state="warning"` in the last minute, `"over"` at zero |
+| A number to step | `bos-counter` (minus, `output`, plus; disable at the limits) |
+| End of a quiz or exam | `bos-result`: ring, pass or not-yet pill, heading, `bos-tally`, then Try again and the next step |
+| Written answer graded by an assistant | `bos-graded` (textarea), `bos-grading` while it works, then `bos-score` and `bos-rubric` items with `data-state` met, partial, missed, each with what to improve |
+| A course or module | `bos-module` > `bos-module-head` (title, n of total done, small ring) + `bos-lessons` of `bos-lesson` (`data-state` done, current, todo, locked; `bos-lesson-status`, title, `bos-meta` with type and length) |
+| A lesson | `bos-learn`: the lesson (`bos-video`, text) with the module beside it; the module moves below on smaller screens |
+
+Rules:
+- Never show right or wrong by colour alone: every outcome has an icon and words. After a wrong answer, show the right one and say why.
+- Always show where people are (question 3 of 10, lesson 3 of 5) and how much time is left.
+- Nothing moves on by itself. People press Next; a timer running out says so before anything is submitted.
+- Locked lessons say what unlocks them.
+- Modal or side panel: a modal for a short decision that stops everything (confirm, rename, submit an exam); a side panel (Sheet) when people need the page behind it (a use case's details, notes for a lesson, a row they are editing). Cards for things people compare or pick from.
+
 ## Consistency across apps
 
 When several apps carry the same brand, the important things must match exactly and only the page content may differ.
 
 Must match in every app:
-- The shell: the glass pill nav, its height and width (the page width), brand block (logo, name and, unless the app is white-label, a one-line subtitle, always the same size), the active item style, the More menu, the Create action and the user menu with settings, admin, theme and sign out.
+- The shell's parts: brand block (logo, name and, unless the app is white-label, a one-line subtitle, always the same size), the active item style (a filled primary pill in both shells), the user menu with settings, admin, theme and sign out, and the page width and spacing. Which shell (top bar or sidebar) depends on what the app is for, and must be the same for apps of the same kind.
 - The layout system: page width, margins, the gap above the page title, section and block gaps, card and row padding, corner radii.
 - Type: the same classes and sizes for page titles (`bos-h1`), section titles (`bos-h2`), leads and stats. No custom heading sizes.
 - Colour: primary only for the main action, the active nav item, focus and the user's own status. Inputs, focus rings and selected states look the same everywhere.
@@ -182,7 +219,7 @@ Use these when a page part matches. They are the most common improvements, not a
 
 | You see | Rebuild as |
 |---|---|
-| Row of links at the top, active one styled by hand | Navigation Menu (marketing sites) or Sidebar (apps with many sections) |
+| Row of links at the top, active one styled by hand | The top bar or the sidebar shell, chosen as in "Choosing the navigation" |
 | Custom modal or popup div | Dialog. Destructive confirmation: Alert Dialog. Side panel or filters: Sheet. Mobile bottom panel: Drawer |
 | Label and input pairs, error text in red divs | Field with FieldLabel, Input, FieldDescription, FieldError. Every input gets a visible label |
 | Long settings page of checkboxes | FieldSet groups with Switch (takes effect now) or Checkbox (saved with a button) |
@@ -204,7 +241,7 @@ Use these when a page part matches. They are the most common improvements, not a
 - Colour budget: about 90% neutrals (the brand's greys and text colours), brand colour for the few things that need attention: the one primary button, the active nav item, the focus ring, and the user's own status (current level, main progress). Progress bars, secondary buttons, links, icons, tags and chips stay neutral. The backdrop and shell are neutral with only faint brand colour. Squint test: on any page the eye should land on one coloured thing first.
 - Solid for what matters, glass for the rest. In each section, the single most important thing (the next step, the user's level, a key form) is a solid `bos-surface` with a soft shadow. Secondary items next to it (lists of rows, the nav, floating controls, secondary buttons) are glass and turn solid when hovered if they are clickable. Repeating cards in a grid are outlined `bos-tile`s. Dense app screens with many panels can use the frost tiers instead. Floating menus and dialogs are the most opaque surfaces so text behind never shows through. Text must pass contrast on every surface.
 - Choose the top of each page by what it is for (see "Choosing the top of a page"). Do not give every home page the same hero, and do not add a stat strip, a side card or a band just because another page has one.
-- Type: the brand's heading font is for big type only: display, h1, h2 and stat numbers. Everything else (h3, lists, tiles, tables, forms, menus) uses the body font. When the brand has no heading font, headings use the body font at a heavier weight.
+- Type: one font family. Headings use `--font-heading`, which is the body font at a heavier weight. A brand only gets a separate heading font when its brand.json sets `typography.headings` to `"display"`. Never set font-family by hand.
 - Brand colour in small doses beyond the colour budget: one `bos-band` per page for the closing call to action, and charms for badges, avatars and icon frames. No other gradients.
 - Hover only on things you can click: buttons, links, nav and menu items, and cards that are links as a whole. Static cards and rows get no hover lift, shadow, colour change or pointer cursor. A card that is clickable as a whole must be a real link or button so it works with the keyboard.
 - One spacing scale (4, 8, 12, 16, 24, 32, 48, 64, 96 px) and one shared page header, so every page starts the same way: the same gap above the title, between title and subtitle, and before the first content. No icons in front of page titles, no empty dividers, no nested cards (a card inside a card inside a card).
@@ -212,7 +249,7 @@ Use these when a page part matches. They are the most common improvements, not a
 - Progress bars are a muted neutral (a mid warm grey from the brand's neutrals) on a light track, not black and not brand colour, except the user's one main progress bar.
 - More appears only when there are more than six main pages. With six or fewer, show them all in the bar, put settings and admin in the user menu, and leave More out. Never a More with one or two items in it.
 - The nav bar has the same padding on both ends, and the nav sits in the true centre of the bar. Don't add margins or padding to the brand, nav or actions to nudge them.
-- The serif (the brand's heading font) is for page titles and section headings only: `bos-display`, `bos-h1`, `bos-h2`. Row titles, card titles, nav, buttons, labels and table text stay in the sans font; only big stat numbers (`bos-stat`) may use it.
+- No serif or display fonts on headings, row titles, labels or accents unless the brand opted in (`typography.headings: "display"`). Weight and size do the work, not a second family.
 - Corners: pill radius (`--radius-control`) is for controls only: buttons, inputs, chips, the nav. Big boxes (dialogs, command menus, composers, cards, page headers with a background) use `--radius-card` and never pill, or they draw as ovals. Never change the radius scale (`--radius`, `--radius-xl` and so on) to make buttons round; that rounds every dialog and card too. Put `rounded-full` or `--radius-control` on the button itself. BrandOS also forces dialogs, command menus and popovers back to card and row radii. Anything with a background inside a rounded box gets `border-radius: inherit` or `--radius-inner`, or no background, so square corners never poke out. A composer's focus ring goes on the rounded box, not the textarea.
 - Chat: any page with a composer docks it at the bottom of the screen (`bos-composer-dock`, the last thing on the page). It stays in view while the page scrolls and sits at the bottom even when the thread is short. No ancestor may have `overflow: hidden`.
 - Assistants: switching who answers never means going back to the home page. Every composer has an assistant picker (`details.bos-menu-wrap.bos-composer-agent`) that keeps what was typed. Conversation pages use `bos-chat`: a rail (`bos-chat-rail`) with the assistants and recent conversations, then `bos-chat-main` with `bos-chat-head`, `bos-thread` and the dock. The rail hides below 1024px, where the picker does the job.

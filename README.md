@@ -52,7 +52,7 @@ preview/             Local preview site (prebuilt) showing every component in a 
 
 - tinted neutrals, text colours for every surface, borders, focus ring, charts, the glass backdrop and a full dark mode;
 - three frost tiers and an overlay surface, a six-step ramp of the brand colour for ordered things like levels, muted progress colours and a spacing scale;
-- a brand band gradient built from the brand's colours (every stop checked for white text), shadows tinted with the brand's neutral, and heading and body font stacks with serif or sans fallbacks to match;
+- a brand band gradient built from the brand's colours (every stop checked for white text), shadows tinted with the brand's neutral, and font stacks with matching fallbacks (headings use the body font unless the brand opts in to its display font);
 - automatic contrast fixes, so every theme meets WCAG 2.2 AA (4.5:1 for text, 3:1 for large text and control edges), in light and dark, including text on glass;
 - when a brand colour is too light to work as a button (bright yellow, pale blue), it uses the brand's darker colour for buttons and keeps the light one for accents, and flags this for you to confirm.
 
@@ -60,7 +60,9 @@ Token names match shadcn/ui, so the theme also works with shadcn's Vue, Svelte a
 
 ## Design rules
 
-BrandOS applies a few rules everywhere (full list in `skills/ui-migrate/SKILL.md`): one solid surface per section for the most important thing and glass for secondary items, the nav and secondary buttons (glass at rest, solid on hover); the brand's heading font for display, h1, h2 and big numbers only; one brand gradient band per page and small charm shapes for badges and avatars; about 90% neutrals with brand colour only for the primary action, active navigation, focus and the user's own status; one spacing scale and page header; one neutral segmented control; hover only on things you can click; ordered things use one hue from pale to full.
+BrandOS applies a few rules everywhere (full list in `skills/ui-migrate/SKILL.md`): one solid surface per section for the most important thing and glass for secondary items, the nav and secondary buttons (glass at rest, solid on hover); one font family, with headings in the body font at a heavier weight; a top bar for apps people explore and a collapsible sidebar for apps with one main job; one brand gradient band per page and small charm shapes for badges and avatars; about 90% neutrals with brand colour only for the primary action, active navigation, focus and the user's own status; one spacing scale and page header; one neutral segmented control; hover only on things you can click; ordered things use one hue from pale to full.
+
+For apps where people learn and get graded there are interactive patterns too: quiz and exam questions with right, wrong and missed states, answer feedback, score tallies, progress rings and question tracks, timers, counters, results, answers graded by an assistant against a rubric, lesson lists and video lessons.
 
 To see every component and pattern in your brands, build the visual guide: `node scripts/build-guide.mjs --out docs/guide path/to/brand.json` (with no brand files it uses the examples). It needs the preview app's dependencies, which it installs the first time.
 

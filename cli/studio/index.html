@@ -199,9 +199,12 @@ code.cmd { display: block; padding: 12px 14px; border-radius: 10px; background: 
             <div class="font-row"><input type="text" id="f-sans"><select id="f-sans-src" aria-label="Where the body font comes from"><option value="google">Google Fonts</option><option value="self-hosted">Licensed files</option><option value="system">System</option></select></div>
             <div class="font-status" id="f-sans-status"></div>
           </div>
-          <div class="field"><label for="f-display">Headings (optional)</label>
+          <div class="field"><label for="f-display">Display font (optional)</label>
             <div class="font-row"><input type="text" id="f-display" placeholder="Same as body"><select id="f-display-src" aria-label="Where the heading font comes from"><option value="google">Google Fonts</option><option value="self-hosted">Licensed files</option><option value="system">System</option></select></div>
             <div class="font-status" id="f-display-status"></div>
+          </div>
+          <div class="field"><label for="f-headings">Headings use</label>
+            <select id="f-headings"><option value="sans">The body font (recommended)</option><option value="display">The display font</option></select>
           </div>
           <input id="slotFontFile" type="file" multiple hidden accept=".woff2,.woff,.otf,.ttf" aria-label="Font files">
           <div class="picks" id="fontPicks"></div>
@@ -384,6 +387,7 @@ function showReview() {
   $("#f-sans").value = brand.fonts?.sans?.family ?? ""
   $("#f-sans-src").value = brand.fonts?.sans?.source ?? "google"
   $("#f-display").value = brand.fonts?.display?.family ?? ""
+  $("#f-headings").value = brand.typography?.headings === "display" ? "display" : "sans"
   $("#f-display-src").value = brand.fonts?.display?.source ?? "google"
   renderColours(); renderFound(); renderFontPicks(); renderNotes([])
   refresh()
@@ -498,6 +502,11 @@ function readFonts() {
 for (const el of ["#f-sans", "#f-sans-src", "#f-display", "#f-display-src"]) $(el).onchange = () => { readFonts(); refresh() }
 $("#f-name").onchange = () => { brand.name = $("#f-name").value; refresh() }
 $("#f-version").onchange = () => { brand.version = $("#f-version").value.trim() || "1.0.0"; refresh() }
+$("#f-headings").onchange = () => {
+  if ($("#f-headings").value === "display") brand.typography = { ...(brand.typography ?? {}), headings: "display" }
+  else if (brand.typography) { delete brand.typography.headings; if (!Object.keys(brand.typography).length) delete brand.typography }
+  refresh()
+}
 $("#f-radius").onchange = () => { brand.radius = $("#f-radius").value; refresh() }
 $("#f-dark").onchange = () => { if ($("#f-dark").value === "off") brand.darkMode = false; else delete brand.darkMode; refresh() }
 

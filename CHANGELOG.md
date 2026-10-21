@@ -2,6 +2,25 @@
 
 BrandOS uses semantic versioning: patch (1.0.x) for fixes and rule changes, minor (1.x.0) for new features, major (x.0.0) for breaking changes.
 
+## 1.3.0
+
+Navigation chosen by purpose, one font family, and interactive components for learning apps.
+
+### Navigation by purpose
+- Two shells. A top bar for apps people explore and browse, and a collapsible sidebar for apps with one main job, so the work draws the eye instead of the navigation. The skill and brand-rules.md explain how to choose, and the agent says which it picked and why.
+- The sidebar is now a quiet floating glass panel that collapses to icons (`data-collapsed` on `bos-app`, `bos-sidebar-toggle`). The current page uses the same filled primary pill as the top bar. On phones it opens as a sheet.
+
+### One font family
+- Headings use the body font at a heavier weight (`--font-heading`). A brand's display or serif font is only used for headings when brand.json sets `typography.headings` to `"display"`; the studio has a "Headings use" choice for it.
+
+### Interactive and learning components
+- Quiz, exam and challenge questions (`bos-quiz`): question track, answer options with selected, correct, incorrect and missed states, feedback that says why, and a running score.
+- Score tally (`bos-tally`), progress ring (`bos-ring`), timer with warning and over states (`bos-timer`), counter (`bos-counter`) and an end-of-quiz result (`bos-result`).
+- Written answers graded by an assistant (`bos-graded`, `bos-grading`, `bos-score`, `bos-rubric`).
+- Courses and lessons: module progress, lesson list with done, current, to-do and locked states (`bos-lessons`), video lessons (`bos-video`) and a lesson page layout (`bos-learn`).
+- Rules for right and wrong (never colour alone), progress and time, locked lessons, and when to use a modal or a side panel.
+- The guide has a new Interactive section where the quiz, grading and lessons all work.
+
 ## 1.2.3
 
 Chat pages: switch assistants anywhere, and the composer stays at the bottom.

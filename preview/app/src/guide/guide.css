@@ -149,7 +149,7 @@ code {
   position: absolute;
   top: 16px;
   right: 18px;
-  font-family: var(--font-display, var(--font-sans));
+  font-family: var(--font-heading, var(--font-sans));
   font-size: 28px;
   font-weight: var(--display-weight, 600);
   color: color-mix(in oklab, var(--foreground) 22%, transparent);
@@ -1003,3 +1003,16 @@ code {
 .gd-chat-demo { height: 520px; overflow-y: auto; margin: -8px; padding: 0 8px; --shell-space: 0px; }
 .gd-chat-demo .bos-chat-rail { top: 0; max-height: 480px; }
 .gd-hero-card:has(.gd-chat-demo) { grid-column: 1 / -1; }
+
+/* Shells and interactive section */
+.gd-shell-choice { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-bottom: 24px; }
+.gd-sub-sm { margin: 28px 0 12px; }
+.gd-app-demo { min-height: 0; position: relative; z-index: 1; }
+.gd-app-demo .bos-sidebar { position: relative; top: 0; height: auto; min-height: 460px; }
+.gd-app-demo .bos-topbar { position: relative; background: none; }
+.gd-learn { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: start; }
+.gd-learn-note { margin: -4px 0 14px; }
+.gd-learn-small { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.gd-learn-rules { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 28px; }
+@media (max-width: 1100px) { .gd-learn, .gd-learn-small { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 720px) { .gd-learn, .gd-learn-small, .gd-learn-rules, .gd-shell-choice { grid-template-columns: minmax(0, 1fr); } }

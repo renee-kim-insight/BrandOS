@@ -37,7 +37,7 @@ for (const f of files) {
     if (font?.source === "self-hosted" && font.fallback) addGoogle(font.fallback)
   }
   const label = (font) => (font ? (font.source === "self-hosted" && !font.files?.length ? `${font.family} (shown as ${font.fallback})` : font.family) : null)
-  list.push({ id: brand.slug, label: brand.name, display: label(brand.fonts.display), sans: label(brand.fonts.sans) })
+  list.push({ id: brand.slug, label: brand.name, display: brand.typography?.headings === "display" ? label(brand.fonts.display) : null, sans: label(brand.fonts.sans) })
 }
 addGoogle("Geist Mono", [400, 500])
 

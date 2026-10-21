@@ -40,7 +40,7 @@ This does the whole first pass automatically:
 
 With several sources, run it on the best one (guide PDF, then template deck, then website), and run the others with `--no-theme --brand brand-extract/<name>.json` to compare.
 
-To add or change a heading font later, drop its files into `brand-source/fonts/` and run `brandos extract --force`, or set `fonts.display` in `brand.json` and run `brandos theme`. A brand with only one font is fine: headings then use the body font.
+To add or change a heading font later, drop its files into `brand-source/fonts/` and run `brandos extract --force`, or set `fonts.display` in `brand.json` and run `brandos theme`. Headings use the body font by default, even when a heading font exists; set `typography.headings` to `"display"` in brand.json to use the heading font for page titles and section headings.
 
 Then **read** `extract-report.md` and `brand-text.txt` yourself. The extractor finds candidates; you understand the guide. Look for:
 
