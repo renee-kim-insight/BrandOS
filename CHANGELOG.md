@@ -2,6 +2,13 @@
 
 BrandOS uses semantic versioning: patch (1.0.x) for fixes and rule changes, minor (1.x.0) for new features, major (x.0.0) for breaking changes.
 
+## 1.3.1
+
+One shell per app.
+
+- A sidebar app has no top bar on desktop. Its brand block sits at the top of the sidebar and the user menu at the bottom; `bos-topbar` now only shows on phones, to open the sidebar.
+- Rule: never a top bar and a sidebar together. Anything from a top bar (brand, role or demo switcher, user, search, Create) moves into the sidebar or the page's title block.
+
 ## 1.3.0
 
 Navigation chosen by purpose, one font family, and interactive components for learning apps.

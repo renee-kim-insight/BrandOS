@@ -394,7 +394,7 @@ export function SidebarShellDemo() {
           <button type="button" className="bos-sidebar-toggle bos-nav-toggle-side" aria-label="Open menu"><Menu /></button>
           <span className="bos-topbar-title">Training</span>
         </div>
-        <div className="bos-page" style={{ paddingTop: 8, paddingInline: "var(--page-gutter)" }}>
+        <div className="bos-page" style={{ paddingTop: 36, paddingInline: "var(--page-gutter)" }}>
           <div className="bos-hero-compact">
             <h3 className="bos-h1">Pick up where you left off</h3>
             <p className="bos-lead">Lesson 3 of 5 in Working with assistants.</p>

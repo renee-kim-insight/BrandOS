@@ -1293,6 +1293,8 @@ button.bos-row:hover {
  * Choose the shell by what the app is for (skills/ui-migrate/SKILL.md, "Choosing the navigation"):
  *   top bar (bos-shell)  people come to look around and find things: browse, search, explore.
  *   sidebar (bos-app)    people come to get one job done, and the rest is there when needed.
+ * One shell per app, never both: a sidebar app has no top bar on desktop. Its brand block sits at the
+ * top of the sidebar and the user menu at the bottom; bos-topbar only appears on phones, to open it.
  * The sidebar is a quiet floating glass panel so the work, not the navigation, draws the eye. It
  * collapses to icons: put data-collapsed on .bos-app (toggle it with a .bos-sidebar-toggle button and
  * remember the choice). Give every item an icon, a plain <span> label (no class) and a title for the
@@ -1425,7 +1427,7 @@ a.bos-sidebar-brand:hover { opacity: 0.75; }
   position: sticky;
   top: 0;
   z-index: 30;
-  display: flex;
+  display: none; /* phones only: see the media query below */
   align-items: center;
   gap: var(--space-3);
   min-height: 64px;
@@ -1440,6 +1442,7 @@ a.bos-sidebar-brand:hover { opacity: 0.75; }
   .bos-app, .bos-app[data-collapsed] { grid-template-columns: minmax(0, 1fr); }
   .bos-sidebar { display: none; }
   .bos-nav-toggle-side { display: inline-grid; }
+  .bos-topbar { display: flex; }
   .bos-app[data-nav-open] .bos-sidebar {
     display: flex;
     position: fixed;

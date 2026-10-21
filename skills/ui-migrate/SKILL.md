@@ -169,6 +169,7 @@ Ask why people open the app.
 
 - The top bar floats and draws the eye, which suits exploring. The sidebar is quiet so the work on the page draws the eye. If the most important thing on the page is a button or a task, lean to the sidebar.
 - The sidebar collapses to icons (`data-collapsed` on `bos-app`, toggled by `bos-sidebar-toggle`, remembered per person). Every item has an icon, a plain `<span>` label and a `title`. On phones it opens as a sheet from a menu button in `bos-topbar`.
+- One shell per app, never both. A sidebar app has no top bar: the brand block goes at the top of the sidebar (`bos-sidebar-head`) and the user menu, settings and admin at the bottom (`bos-sidebar-footer`). Anything that was in a top bar (brand, demo or role switcher, user, search, Create) moves into the sidebar or into the page's own title block. The only bar above the page is `bos-topbar`, and it shows on phones only, to open the sidebar. A top-bar app has no sidebar.
 - Both shells share the brand block, the active style, the user menu, page width and spacing. Say in your summary which shell you chose and why, in one sentence.
 
 ## Interactive and learning patterns
