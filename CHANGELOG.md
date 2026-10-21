@@ -2,6 +2,15 @@
 
 BrandOS uses semantic versioning: patch (1.0.x) for fixes and rule changes, minor (1.x.0) for new features, major (x.0.0) for breaking changes.
 
+## 1.2.2
+
+No more oval dialogs, and one title block for every page.
+
+- Dialogs, command menus and popovers always use the card and row corners, even if an app changed its radius scale to make buttons round. That was turning modals into ovals and cutting off their content.
+- The Tailwind adapter now sets the whole radius scale, up to `rounded-4xl`.
+- Rules: never change the radius scale to round buttons; use `rounded-full` on the button.
+- Rules: the title block is the same on every page of every app (gap below the nav, optional kicker that never repeats the app name, `bos-h1`, one lead line). Only what follows it changes, and every difference between apps needs a one-sentence reason.
+
 ## 1.2.1
 
 Wider pages, an even nav bar, and corners that can't break.

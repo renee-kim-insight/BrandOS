@@ -139,6 +139,8 @@ ${TOKENS.map((t) => `  --color-${t}: var(--${t});`).join("\n")}
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) * 1.4);
   --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
   --shadow-sm: var(--shadow-sm);
   --shadow-md: var(--shadow-md);
   --shadow-lg: var(--shadow-lg);
@@ -204,9 +206,10 @@ function rulesMd(brand, theme) {
     `- Serif: the brand's heading font is for page titles and section headings only (\`bos-display\`, \`bos-h1\`, \`bos-h2\`). Row and card titles, nav, buttons, labels and table numbers stay sans; only big stat numbers (\`bos-stat\`) may use it.`,
     `- Layout: \`bos-container\` for width and margins (\`--page-max\` 1680px, slim \`--page-gutter\` 12 to 24px; running text held to \`--measure\`), \`bos-page\` stacks the title block and sections (\`--page-top\` 48, \`--section-gap\` 64), \`bos-stack\` inside sections (\`--block-gap\` 24). Every block spans the page width; only text gets a narrower measure. No hand-set widths, margins, paddings or radii.`,
     `- Corners: \`--radius-control\` pill, \`--radius-card\` 24, \`--radius-row\` 18, \`--radius-inner\` 14 for anything inside a card. No overflow hidden on rounded containers that hold menus or focusable things (use \`bos-clip\`).`,
+    `- Title block: the same in every app and on every page: \`bos-page\` sets the gap below the nav, then an optional \`bos-kicker\` (a section or date, never the app's name), \`bos-h1\`, and one \`bos-lead\` line. What follows the title block (stats, queue, search, composer) changes with the page's purpose; the title block itself doesn't. Centred titles only on search and assistant pages.`,
     `- Type: \`bos-h1\` for every page title (home included), \`bos-h2\` sections, \`bos-h3\` items, \`bos-lead\`, \`bos-stat\`. \`bos-display\` only on landing and welcome pages. Never set heading sizes by hand.`,
     `- Every clickable thing has a hover state; nothing else does. \`brandos verify\` checks hover, cut-off content, broken corners, sideways scrolling, broken images and failed requests.`,
-    `- Corners: pill radius (\`--radius-control\`) only on controls: buttons, inputs, chips, the nav. Big boxes (dialogs, command menus, composers, cards) use \`--radius-card\`, never pill, or they turn into ovals. Anything with a background inside a rounded box gets \`border-radius: inherit\` or \`--radius-inner\`, or no background.`,
+    `- Corners: pill radius (\`--radius-control\`) only on controls: buttons, inputs, chips, the nav. Big boxes (dialogs, command menus, composers, cards) use \`--radius-card\`, never pill, or they turn into ovals. Never change the radius scale (\`--radius\`, \`--radius-xl\` and so on) to make buttons round; use \`rounded-full\` on the button. Anything with a background inside a rounded box gets \`border-radius: inherit\` or \`--radius-inner\`, or no background.`,
     ``,
     `## The top of a page: pick by what the page is for`,
     `- Acting on what needs attention: \`bos-hero-compact\` then \`bos-queue\`.`,
