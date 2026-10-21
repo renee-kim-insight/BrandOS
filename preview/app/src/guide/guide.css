@@ -24,9 +24,6 @@ code {
 }
 
 /* Nav */
-.gd-shell {
-  padding: 8px 8px 8px 20px;
-}
 .gd-brand {
   font-weight: 700;
   color: var(--foreground);

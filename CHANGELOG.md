@@ -2,6 +2,19 @@
 
 BrandOS uses semantic versioning: patch (1.0.x) for fixes and rule changes, minor (1.x.0) for new features, major (x.0.0) for breaking changes.
 
+## 1.2.1
+
+Wider pages, an even nav bar, and corners that can't break.
+
+- Pages use the window: `--page-max` is now 1680px and the side margin (`--page-gutter`) is a slim 12 to 24px. Running text is still held to a readable line length (`--measure`).
+- The nav bar has the same padding on both ends, and the main pages sit in the true centre of the bar.
+- More only shows when it holds something. With six main pages or fewer there is no More; settings and admin go in the user menu.
+- More is sized and spaced exactly like the other nav items.
+- Menus are solid, so the page's text no longer shows through them (a blur inside the glass nav bar can't blur anything).
+- Glass rows have a soft shadow, so they lift off the page like cards.
+- `brandos verify` checks corners: a pill radius on a big box (it draws as an oval) and square boxes with a background inside a rounded one. `--chromium <path>` uses a local browser.
+- Rules: pill radius is for controls only; the serif heading font is for page titles and section headings only.
+
 ## 1.2.0
 
 Brand packs and BrandOS Studio, design-system import, page tops chosen by purpose, one layout system for every app, and checks that pages actually work.

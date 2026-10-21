@@ -75,7 +75,7 @@ export async function verify(a, PKG) {
   if (!a["no-checks"]) {
     const byKind = {}
     for (const c of checks) (byKind[c.kind] ??= []).push(c)
-    const label = { hover: "Clickable but no hover change", clipped: "Content cut off by its container", overflow: "Page scrolls sideways", image: "Broken image", hidden: "Text you can't see" }
+    const label = { hover: "Clickable but no hover change", clipped: "Content cut off by its container", overflow: "Page scrolls sideways", image: "Broken image", hidden: "Text you can't see", corners: "Broken corners" }
     for (const k of Object.keys(label)) {
       const list = byKind[k] ?? []
       if (!list.length) console.log(`✓ ${label[k]}: none`)
@@ -231,10 +231,35 @@ function visibility() {
     if (!s) styles.set(e, (s = getComputedStyle(e)))
     return s
   }
+  // Corners: a pill radius on a big box turns it into an oval, and a square box with a background inside
+  // a rounded one pokes its corners out past the curve.
+  const painted = (cs) => !/rgba\(0, 0, 0, 0\)|transparent/.test(cs.backgroundColor) || parseFloat(cs.borderTopWidth) > 0
+  const radius = (cs, r) => { const v = cs.borderTopLeftRadius; return v.endsWith("%") ? (parseFloat(v) / 100) * Math.min(r.width, r.height) : parseFloat(v) || 0 }
+  const corners = (el, cs) => {
+    if (el.closest("[data-bos-static]")) return
+    const r = el.getBoundingClientRect()
+    if (r.width < 24 || r.height < 24 || !painted(cs)) return
+    const rad = radius(cs, r)
+    if (r.height > 72 && Math.abs(r.width - r.height) > 8 && rad >= Math.min(r.width, r.height) / 2 - 1)
+      return out.push({ kind: "corners", selector: sel(el), detail: `pill radius on a ${Math.round(r.width)}x${Math.round(r.height)} box, so it draws as an oval; use --radius-card` })
+    if (rad > 2 || /rgba\(0, 0, 0, 0\)|transparent/.test(cs.backgroundColor)) return
+    for (let p = el.parentElement, n = 0; p && p !== document.body && n < 3; p = p.parentElement, n++) {
+      const ps = style(p)
+      if (!painted(ps)) continue
+      const pr = p.getBoundingClientRect()
+      const prad = radius(ps, pr)
+      if (prad < 8 || clips(ps)) return
+      const inset = prad * 0.3
+      const touches = (Math.abs(r.top - pr.top) < inset || Math.abs(r.bottom - pr.bottom) < inset) && (Math.abs(r.left - pr.left) < inset || Math.abs(r.right - pr.right) < inset)
+      if (touches) out.push({ kind: "corners", selector: sel(el), detail: `square corners stick out of rounded ${sel(p)}; give it border-radius: inherit or --radius-inner, or no background` })
+      return
+    }
+  }
   const all = [...document.querySelectorAll("body *")].slice(0, 6000)
   for (const el of all) {
     const cs = style(el)
     if (cs.visibility === "hidden" || cs.display === "none" || !el.getClientRects().length) continue
+    corners(el, cs)
     const ownText = [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim().length > 1)
     if (!ownText) continue
     const text = el.textContent.trim().slice(0, 40)

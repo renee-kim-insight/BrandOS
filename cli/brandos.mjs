@@ -40,7 +40,8 @@ App
   audit [appDir]                                Leftover hand-built UI, off-brand colours and fonts in the code
   verify <url> --app <appDir> [--pages /,/a]    Open the running app and check every colour and font on screen
                                                 and that it works: failed requests, hover on everything clickable,
-                                                content cut off, sideways scrolling, broken images (--no-checks to skip)
+                                                content cut off, broken corners, sideways scrolling, broken images
+                                                (--no-checks to skip, --chromium <path> for a local browser)
 
 Preview
   preview [--brand brand-out-dir] [--port 4321] Local site showing every component in the brand

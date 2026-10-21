@@ -110,7 +110,7 @@ For small swaps, proceed. For restructures that change layout or how something i
 
 ### c. Show
 
-Run `brandos audit` and `brandos verify` for the page. Verify must report nothing off-brand, no failed requests or script errors, no clickable thing without a hover change, no content cut off by its container, no sideways scrolling and no broken images. Also look at the page yourself at 1440 and 390px wide, in light and dark: everything visible, nothing overlapping, every menu and dialog opening in full. Mark the item `[~]` in `MIGRATION.md`. Run the app (or reload it) and give the person the URL of the page, plus a short summary: what changed, and anything you chose not to change and why. A before-and-after screenshot helps when you can take one.
+Run `brandos audit` and `brandos verify` for the page. Verify must report nothing off-brand, no failed requests or script errors, no clickable thing without a hover change, no broken corners, no content cut off by its container, no sideways scrolling and no broken images. Also look at the page yourself at 1440 and 390px wide, in light and dark: everything visible, nothing overlapping, every menu and dialog opening in full. Mark the item `[~]` in `MIGRATION.md`. Run the app (or reload it) and give the person the URL of the page, plus a short summary: what changed, and anything you chose not to change and why. A before-and-after screenshot helps when you can take one.
 
 ### d. Wait
 
@@ -127,8 +127,9 @@ Every app uses the same measurements, set once in `brandos-ui.css`. Pages change
 
 | Token | Value | Used for |
 |---|---|---|
-| `--page-max` | 1200px | The width of every page and of the nav bar, so their edges line up |
-| `--page-gutter` | 16 to 40px | Left and right page margin |
+| `--page-max` | 1680px | The width of every page and of the nav bar, so their edges line up. Pages use the window; running text is held to `--measure` |
+| `--page-gutter` | 12 to 24px | Left and right page margin, kept slim |
+| `--measure` | 72ch | Longest line of running text (leads, descriptions, prose) |
 | `--page-top` | 48px | Nav bar to page title |
 | `--section-gap` | 64px | Between sections (`bos-page` sets it) |
 | `--block-gap` | 24px | Section title to its content, and between cards |
@@ -207,6 +208,10 @@ Use these when a page part matches. They are the most common improvements, not a
 - One spacing scale (4, 8, 12, 16, 24, 32, 48, 64, 96 px) and one shared page header, so every page starts the same way: the same gap above the title, between title and subtitle, and before the first content. No icons in front of page titles, no empty dividers, no nested cards (a card inside a card inside a card).
 - One control per job: every tab bar, filter toggle and segmented choice uses the same segmented control, and its selected state is neutral (strong frost, --foreground text). Brand colour is for the main nav and the primary action only.
 - Progress bars are a muted neutral (a mid warm grey from the brand's neutrals) on a light track, not black and not brand colour, except the user's one main progress bar.
+- More appears only when there are more than six main pages. With six or fewer, show them all in the bar, put settings and admin in the user menu, and leave More out. Never a More with one or two items in it.
+- The nav bar has the same padding on both ends, and the nav sits in the true centre of the bar. Don't add margins or padding to the brand, nav or actions to nudge them.
+- The serif (the brand's heading font) is for page titles and section headings only: `bos-display`, `bos-h1`, `bos-h2`. Row titles, card titles, nav, buttons, labels and table text stay in the sans font; only big stat numbers (`bos-stat`) may use it.
+- Corners: pill radius (`--radius-control`) is for controls only: buttons, inputs, chips, the nav. Big boxes (dialogs, command menus, composers, cards, page headers with a background) use `--radius-card` and never pill, or they draw as ovals. Anything with a background inside a rounded box gets `border-radius: inherit` or `--radius-inner`, or no background, so square corners never poke out. A composer's focus ring goes on the rounded box, not the textarea.
 - The app bar must never overlap or wrap, at any width and for every role. Brand and actions keep their size, the nav takes what is left. Plan for the longest nav (usually an admin's): at most about 6 to 7 top-level items; mark the rest `data-priority="low"` so they move into a "More" menu, and put account-level things (theme switcher, settings, admin tools) in the user menu rather than the bar. Below 768px the nav collapses into a menu button.
 - Check every layout at 1440, 1280, 1024, 768 and 390px wide, logged in as the role with the most items, in light and dark. Nothing may overlap, clip or scroll sideways.
 - Motion is small and quick: 120 to 320ms, ease-out, only opacity and transform, no bounce or spin. Use it to show where something came from (menus pop from their trigger, content fades up once when it first appears, pages cross-fade, progress grows in), never as decoration. Entrances play once, not on every re-render or poll. Everything turns off under prefers-reduced-motion.

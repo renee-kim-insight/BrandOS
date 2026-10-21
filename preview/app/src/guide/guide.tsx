@@ -1082,8 +1082,8 @@ function Heroes() {
       </p>
       <div className="gd-layout-spec">
         {[
-          ["--page-max", "1200px", "Width of every page and the nav bar"],
-          ["--page-gutter", "16 to 40px", "Left and right page margin"],
+          ["--page-max", "1680px", "Width of every page and the nav bar"],
+          ["--page-gutter", "12 to 24px", "Left and right page margin, kept slim"],
           ["--page-top", "48px", "Nav bar to the page title"],
           ["--section-gap", "64px", "Between sections"],
           ["--block-gap", "24px", "Section title to content, and between cards"],
