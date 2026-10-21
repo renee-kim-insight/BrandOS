@@ -918,9 +918,9 @@ const HEROES: { id: string; name: string; cls: string; when: string; avoid: stri
   {
     id: "chat",
     name: "Ask an assistant",
-    cls: "bos-hero-chat + bos-composer + bos-suggestions",
-    when: "The page is for asking an assistant a question.",
-    avoid: "Greeting and composer side by side, or suggestions cut off mid-sentence.",
+    cls: "bos-hero-chat + bos-composer-dock + bos-composer-agent",
+    when: "The page is for asking an assistant a question. In the app, wrap the composer in bos-composer-dock so it stays at the bottom of the screen. The picker in the composer switches assistants.",
+    avoid: "Greeting and composer side by side, suggestions cut off mid-sentence, or a composer that scrolls away.",
     demo: (
       <div className="bos-hero-chat" style={{ paddingTop: 8 }}>
         <h3 className="bos-h1">Welcome back, Sam</h3>
@@ -928,7 +928,15 @@ const HEROES: { id: string; name: string; cls: string; when: string; avoid: stri
         <div className="bos-composer">
           <textarea aria-label="Your question" placeholder="Ask a question or describe what you need" />
           <div className="bos-composer-bar">
-            <span className="bos-chip">Policy Helper will answer</span>
+            <details className="bos-menu-wrap bos-composer-agent">
+              <summary>Policy Helper</summary>
+              <div className="bos-menu" role="menu">
+                <span className="bos-menu-label">Who answers</span>
+                <button type="button" aria-current="page">Policy Helper</button>
+                <button type="button">IT Desk</button>
+                <button type="button">Deal Coach</button>
+              </div>
+            </details>
             <button className="bos-btn-primary bos-btn-sm" type="button"><Send size={16} /> Send</button>
           </div>
         </div>
@@ -936,6 +944,62 @@ const HEROES: { id: string; name: string; cls: string; when: string; avoid: stri
           <button type="button">What is our travel policy?</button>
           <button type="button">Reset my VPN</button>
           <button type="button">Draft a renewal email</button>
+        </div>
+      </div>
+    ),
+  },
+  {
+    id: "conversation",
+    name: "Conversation",
+    cls: "bos-chat + bos-chat-rail + bos-thread + bos-composer-dock",
+    when: "A conversation with an assistant. The rail switches assistants and reopens recent conversations; the composer stays at the bottom of the screen.",
+    avoid: "Going back to the home page to switch assistants, or a composer that floats mid-page when the thread is short.",
+    demo: (
+      <div className="gd-chat-demo">
+        <div className="bos-chat">
+          <nav className="bos-chat-rail" aria-label="Assistants and conversations">
+            <section>
+              <h2>Assistants</h2>
+              <a href="#heroes" aria-current="page"><span className="bos-avatar bos-avatar-sm">P</span><span>Policy Helper<small>Company policy</small></span></a>
+              <a href="#heroes"><span className="bos-avatar bos-avatar-sm">I</span><span>IT Desk<small>Laptops, access, accounts</small></span></a>
+              <a href="#heroes"><span className="bos-avatar bos-avatar-sm">D</span><span>Deal Coach<small>Proposals from past wins</small></span></a>
+            </section>
+            <section>
+              <h2>Recent</h2>
+              <a href="#heroes"><span>Travel policy for Lisbon<small>Policy Helper · Today</small></span></a>
+              <a href="#heroes"><span>VPN keeps dropping<small>IT Desk · Yesterday</small></span></a>
+            </section>
+          </nav>
+          <div className="bos-chat-main" style={{ minHeight: 440 }}>
+            <div className="bos-chat-head">
+              <span className="bos-kicker">Policy Helper</span>
+              <h3 className="bos-h1" style={{ fontSize: "var(--text-h2)" }}>Travel policy for Lisbon</h3>
+            </div>
+            <div className="bos-thread">
+              <div className="bos-msg bos-msg-user">Can I book business class to Lisbon?</div>
+              <div className="bos-msg bos-msg-assistant">Economy is the default for flights under 8 hours. Lisbon from Toronto is about 7, so book economy, or ask your manager for an exception.</div>
+              <div className="bos-msg bos-msg-user">What about a seat upgrade?</div>
+              <div className="bos-msg bos-msg-assistant">Paid seat selection up to $80 each way is covered. Anything above that needs approval first.</div>
+            </div>
+            <div className="bos-composer-dock">
+              <div className="bos-composer">
+                <textarea aria-label="Your message" placeholder="Reply to Policy Helper" />
+                <div className="bos-composer-bar">
+                  <details className="bos-menu-wrap bos-composer-agent">
+              <summary>Policy Helper</summary>
+              <div className="bos-menu" role="menu">
+                <span className="bos-menu-label">Who answers</span>
+                <button type="button" aria-current="page">Policy Helper</button>
+                <button type="button">IT Desk</button>
+                <button type="button">Deal Coach</button>
+              </div>
+            </details>
+                  <button className="bos-btn-primary bos-btn-sm" type="button"><Send size={16} /> Send</button>
+                </div>
+              </div>
+              <span className="bos-composer-hint">Enter to send · Shift+Enter for a new line</span>
+            </div>
+          </div>
         </div>
       </div>
     ),

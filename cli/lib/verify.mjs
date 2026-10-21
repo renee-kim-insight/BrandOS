@@ -259,6 +259,7 @@ function visibility() {
   for (const el of all) {
     const cs = style(el)
     if (cs.visibility === "hidden" || cs.display === "none" || !el.getClientRects().length) continue
+    if (el.closest("details:not([open])") && !el.closest("summary")) continue
     corners(el, cs)
     const ownText = [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim().length > 1)
     if (!ownText) continue
@@ -293,11 +294,13 @@ function visibility() {
 /** Hover each clickable thing and check something visibly changes. */
 async function hoverCheck(page, limit) {
   const targets = await page.evaluate((limit) => {
+    // Content of a closed <details> still reports a size but isn't drawn; only its <summary> is.
+    const hiddenInDetails = (e) => { const d = e.closest("details:not([open])"); return !!d && !e.closest("summary") }
     const q = 'a[href], button, [role="button"], [role="tab"], [role="menuitem"], [role="link"], summary, input[type="submit"], input[type="button"], [onclick]'
     const els = [...document.querySelectorAll(q)].filter((e) => {
       const r = e.getBoundingClientRect()
       const cs = getComputedStyle(e)
-      return r.width > 4 && r.height > 4 && cs.visibility !== "hidden" && cs.display !== "none" && !e.disabled && e.getAttribute("aria-disabled") !== "true" && !e.closest("[inert], [data-bos-static]")
+      return r.width > 4 && r.height > 4 && cs.visibility !== "hidden" && cs.display !== "none" && !e.disabled && e.getAttribute("aria-disabled") !== "true" && !e.closest("[inert], [data-bos-static]") && !hiddenInDetails(e)
     })
     // Skip duplicates of the same component (same classes and text length) so long lists stay quick.
     const seen = new Set()

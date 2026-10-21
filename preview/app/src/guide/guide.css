@@ -998,3 +998,8 @@ code {
   .gd-layout-row { grid-template-columns: 1fr auto; }
   .gd-layout-row span { grid-column: 1 / -1; }
 }
+
+/* The conversation demo scrolls inside its frame, so the docked composer and sticky rail can be seen working. */
+.gd-chat-demo { height: 520px; overflow-y: auto; margin: -8px; padding: 0 8px; --shell-space: 0px; }
+.gd-chat-demo .bos-chat-rail { top: 0; max-height: 480px; }
+.gd-hero-card:has(.gd-chat-demo) { grid-column: 1 / -1; }

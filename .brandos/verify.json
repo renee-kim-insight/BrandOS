@@ -2606,8 +2606,38 @@
       "kind": "font",
       "prop": "font-family",
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
-      "selector": "div.bos-hero-chat > div.bos-composer > div.bos-composer-bar > span.bos-chip",
-      "text": "Policy Helper will answer",
+      "selector": "div.bos-composer > div.bos-composer-bar > details.bos-menu-wrap.bos-composer-agent > summary",
+      "text": "Policy Helper",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-composer-bar > details.bos-menu-wrap.bos-composer-agent > div.bos-menu > span.bos-menu-label",
+      "text": "Who answers",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "color",
+      "value": "oklab(0.448 -0.0721476 -0.00809265)",
+      "selector": "div.bos-composer-bar > details.bos-menu-wrap.bos-composer-agent > div.bos-menu > button",
+      "text": "Policy Helper",
+      "detail": "#13625b is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-composer-bar > details.bos-menu-wrap.bos-composer-agent > div.bos-menu > button",
+      "text": "Policy Helper",
       "detail": "font Manrope"
     },
     {
@@ -2638,6 +2668,146 @@
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
       "selector": "div.gd-hero-stage > div.bos-hero-chat > div.bos-suggestions > button",
       "text": "What is our travel policy?",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-chat > nav.bos-chat-rail > section > h2",
+      "text": "Assistants",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-color",
+      "value": "oklab(0.511 -0.085464 -0.00958633 / 0.14)",
+      "selector": "div.bos-chat > nav.bos-chat-rail > section > a",
+      "text": "",
+      "detail": "#0f766e is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "color",
+      "value": "oklab(0.4165 -0.0654893 -0.0073458)",
+      "selector": "nav.bos-chat-rail > section > a > span.bos-avatar.bos-avatar-sm",
+      "text": "P",
+      "detail": "#135852 is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "nav.bos-chat-rail > section > a > span.bos-avatar.bos-avatar-sm",
+      "text": "P",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "nav.bos-chat-rail > section > a > span",
+      "text": "Policy HelperCompany policy",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section > a > span > small",
+      "text": "Company policy",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "color",
+      "value": "oklch(0.511 0.086 186.4)",
+      "selector": "div.bos-chat > div.bos-chat-main > div.bos-chat-head > span.bos-kicker",
+      "text": "Policy Helper",
+      "detail": "#0f766e is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-chat > div.bos-chat-main > div.bos-chat-head > span.bos-kicker",
+      "text": "Policy Helper",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-chat > div.bos-chat-main > div.bos-chat-head > h3.bos-h1",
+      "text": "Travel policy for Lisbon",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-chat > div.bos-chat-main > div.bos-thread > div.bos-msg.bos-msg-user",
+      "text": "Can I book business class to L",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-chat > div.bos-chat-main > div.bos-thread > div.bos-msg.bos-msg-assistant",
+      "text": "Economy is the default for fli",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-color",
+      "value": "oklch(0.511 0.086 186.4)",
+      "selector": "div.bos-composer-dock > div.bos-composer > div.bos-composer-bar > button.bos-btn-primary.bos-btn-sm",
+      "text": "Send",
+      "detail": "#0f766e is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-composer-dock > div.bos-composer > div.bos-composer-bar > button.bos-btn-primary.bos-btn-sm",
+      "text": "Send",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-chat > div.bos-chat-main > div.bos-composer-dock > span.bos-composer-hint",
+      "text": "Enter to send · Shift+Enter fo",
       "detail": "font Manrope"
     },
     {
@@ -11906,8 +12076,38 @@
       "kind": "font",
       "prop": "font-family",
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
-      "selector": "div.bos-hero-chat > div.bos-composer > div.bos-composer-bar > span.bos-chip",
-      "text": "Policy Helper will answer",
+      "selector": "div.bos-composer > div.bos-composer-bar > details.bos-menu-wrap.bos-composer-agent > summary",
+      "text": "Policy Helper",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-composer-bar > details.bos-menu-wrap.bos-composer-agent > div.bos-menu > span.bos-menu-label",
+      "text": "Who answers",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "color",
+      "value": "oklab(0.6888 -0.0697625 -0.00782512)",
+      "selector": "div.bos-composer-bar > details.bos-menu-wrap.bos-composer-agent > div.bos-menu > button",
+      "text": "Policy Helper",
+      "detail": "#66a9a2 is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-composer-bar > details.bos-menu-wrap.bos-composer-agent > div.bos-menu > button",
+      "text": "Policy Helper",
       "detail": "font Manrope"
     },
     {
@@ -11938,6 +12138,146 @@
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
       "selector": "div.gd-hero-stage > div.bos-hero-chat > div.bos-suggestions > button",
       "text": "What is our travel policy?",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-chat > nav.bos-chat-rail > section > h2",
+      "text": "Assistants",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-color",
+      "value": "oklab(0.62 -0.085464 -0.00958633 / 0.14)",
+      "selector": "div.bos-chat > nav.bos-chat-rail > section > a",
+      "text": "",
+      "detail": "#3d978e is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "color",
+      "value": "oklab(0.809997 -0.0427092 -0.00478312)",
+      "selector": "nav.bos-chat-rail > section > a > span.bos-avatar.bos-avatar-sm",
+      "text": "P",
+      "detail": "#a2cac5 is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "nav.bos-chat-rail > section > a > span.bos-avatar.bos-avatar-sm",
+      "text": "P",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "nav.bos-chat-rail > section > a > span",
+      "text": "Policy HelperCompany policy",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section > a > span > small",
+      "text": "Company policy",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "color",
+      "value": "oklch(0.62 0.086 186.4)",
+      "selector": "div.bos-chat > div.bos-chat-main > div.bos-chat-head > span.bos-kicker",
+      "text": "Policy Helper",
+      "detail": "#3d978e is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-chat > div.bos-chat-main > div.bos-chat-head > span.bos-kicker",
+      "text": "Policy Helper",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-chat > div.bos-chat-main > div.bos-chat-head > h3.bos-h1",
+      "text": "Travel policy for Lisbon",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-chat > div.bos-chat-main > div.bos-thread > div.bos-msg.bos-msg-user",
+      "text": "Can I book business class to L",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-chat > div.bos-chat-main > div.bos-thread > div.bos-msg.bos-msg-assistant",
+      "text": "Economy is the default for fli",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "background-color",
+      "value": "oklch(0.62 0.086 186.4)",
+      "selector": "div.bos-composer-dock > div.bos-composer > div.bos-composer-bar > button.bos-btn-primary.bos-btn-sm",
+      "text": "Send",
+      "detail": "#3d978e is not a brand hue (nearest #4ec7ea, 34° away)"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-composer-dock > div.bos-composer > div.bos-composer-bar > button.bos-btn-primary.bos-btn-sm",
+      "text": "Send",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.bos-chat > div.bos-chat-main > div.bos-composer-dock > span.bos-composer-hint",
+      "text": "Enter to send · Shift+Enter fo",
       "detail": "font Manrope"
     },
     {

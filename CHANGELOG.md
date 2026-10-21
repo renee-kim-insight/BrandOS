@@ -2,6 +2,18 @@
 
 BrandOS uses semantic versioning: patch (1.0.x) for fixes and rule changes, minor (1.x.0) for new features, major (x.0.0) for breaking changes.
 
+## 1.2.3
+
+Chat pages: switch assistants anywhere, and the composer stays at the bottom.
+
+- New `bos-composer-dock`: any composer docks at the bottom of the screen and stays there while the page scrolls.
+- New assistant picker in the composer (`bos-composer-agent`): switch who answers without leaving the page or losing what you typed. Its menu opens upward.
+- New conversation layout: `bos-chat` with a rail of assistants and recent conversations (`bos-chat-rail`), `bos-chat-head`, `bos-thread` and message bubbles (`bos-msg-user`, `bos-msg-assistant`). The rail hides below 1024px.
+- New tokens: `--shell-space` and `--chat-measure`. New `bos-avatar-sm`.
+- Rule: when a More menu is removed or nav items move, every item must land somewhere, and the agent lists where.
+- Guide: a live Conversation pattern under Page tops.
+- `brandos verify` no longer flags items inside a closed menu as missing hover.
+
 ## 1.2.2
 
 No more oval dialogs, and one title block for every page.
