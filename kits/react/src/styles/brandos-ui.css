@@ -205,6 +205,9 @@
 /* ---------- One segmented control for tabs, filters and view switches. Selection is neutral. ---------- */
 .bos-segmented {
   display: inline-flex;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
   gap: 2px;
   padding: 4px;
   border-radius: 999px;
@@ -213,6 +216,8 @@
 }
 .bos-segmented > * {
   display: inline-flex;
+  flex: none;
+  white-space: nowrap;
   align-items: center;
   gap: var(--space-2);
   padding: var(--space-2) var(--space-4);
@@ -838,14 +843,16 @@ a.bos-brand:hover { opacity: 0.75; }
    Brand colour appears as one gradient band per page and in small charm shapes.
    ========================================================================== */
 
-/* ---------- Type scale: the heading font for display, h1, h2 and big numbers; body font for the rest ---------- */
+/* ---------- Type scale: one family; size and weight make the hierarchy, not boldness ----------
+ * Titles are large and medium weight (500), item titles medium, supporting text regular and muted.
+ */
 .bos-display,
 .bos-h1,
 .bos-h2,
 .bos-stat {
   margin: 0;
   font-family: var(--font-heading, var(--font-sans));
-  font-weight: var(--display-weight, 650);
+  font-weight: var(--display-weight, 500);
   text-wrap: balance;
 }
 /* One set of sizes for every app. Use the classes; never set a heading size by hand. */
@@ -860,7 +867,7 @@ a.bos-brand:hover { opacity: 0.75; }
 .bos-display { font-size: var(--text-display); line-height: 1.04; letter-spacing: -0.022em; }
 .bos-h1 { font-size: var(--text-h1); line-height: 1.1; letter-spacing: -0.018em; }
 .bos-h2 { font-size: var(--text-h2); line-height: 1.15; letter-spacing: -0.012em; }
-.bos-h3 { margin: 0; font-family: var(--font-sans); font-size: var(--text-h3); font-weight: 700; line-height: 1.3; letter-spacing: -0.01em; }
+.bos-h3 { margin: 0; font-family: var(--font-sans); font-size: var(--text-h3); font-weight: 500; line-height: 1.3; letter-spacing: -0.01em; }
 .bos-lead { margin: 0; font-size: var(--text-lead); line-height: 1.5; color: var(--muted-foreground); text-wrap: pretty; max-width: 60ch; }
 .bos-stat { font-size: var(--text-stat); line-height: 1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
 .bos-kicker { font-size: 0.875rem; font-weight: 600; color: var(--primary); }
@@ -2092,3 +2099,351 @@ a.bos-lesson:hover { background: var(--frost-strong); }
 .bos-learn { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: var(--space-6); align-items: start; }
 .bos-learn > aside { position: sticky; top: var(--space-5); display: flex; flex-direction: column; gap: var(--space-4); }
 @media (max-width: 1023px) { .bos-learn { grid-template-columns: minmax(0, 1fr); } .bos-learn > aside { position: static; } }
+
+/* ==========================================================================
+   Bento layout (1.4.0)
+   A page made of panels in one grid. Each panel has a title, an optional "View all", and its content.
+   Size comes from the grid, never from the panel: spans of 3, 4, 6, 8 or 12 columns, optionally two
+   rows tall. Same gap everywhere; inner tiles use --radius-inner.
+   <div class="bos-bento">
+     <section class="bos-panel bos-span-8"><header class="bos-panel-head"><h2 class="bos-panel-title">Planned work</h2>
+       <a class="bos-link-pill" href="...">View all</a></header> ... </section>
+     <section class="bos-panel bos-span-4 bos-tall">...</section>
+   </div>
+   ========================================================================== */
+:root {
+  --bento-gap: 20px;
+  --pad-panel: 24px;
+  --text-panel: clamp(1.375rem, 0.7vw + 1.1rem, 1.75rem); /* panel titles */
+}
+.bos-bento {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-auto-flow: row dense;
+  gap: var(--bento-gap);
+}
+.bos-bento > * { grid-column: span 12; min-width: 0; }
+.bos-bento > .bos-span-3 { grid-column: span 3; }
+.bos-bento > .bos-span-4 { grid-column: span 4; }
+.bos-bento > .bos-span-6 { grid-column: span 6; }
+.bos-bento > .bos-span-8 { grid-column: span 8; }
+.bos-bento > .bos-span-12 { grid-column: span 12; }
+.bos-bento > .bos-tall { grid-row: span 2; }
+/* Tablets: two per row, and a panel left alone on its row grows to fill it, so there are no holes. */
+@media (max-width: 1100px) {
+  .bos-bento { display: flex; flex-wrap: wrap; }
+  .bos-bento > * { flex: 1 1 calc(50% - var(--bento-gap)); }
+  .bos-bento > :is(.bos-span-8, .bos-span-12) { flex-basis: 100%; }
+}
+@media (max-width: 720px) {
+  .bos-bento > * { flex-basis: 100%; }
+}
+.bos-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
+  padding: var(--pad-panel);
+  border-radius: var(--radius-card);
+  background: var(--frost-strong, var(--card));
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+  backdrop-filter: blur(20px) saturate(170%);
+  box-shadow: inset 0 1px 0 var(--glass-highlight), inset 0 0 0 1px var(--edge), var(--shadow-sm);
+}
+.bos-panel-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-3); min-height: 40px; }
+.bos-panel-head > :first-child:not(.bos-icon-badge) { flex: 1 1 auto; min-width: min(100%, 12ch); }
+.bos-panel-title {
+  margin: 0;
+  font-family: var(--font-heading, var(--font-sans));
+  font-size: var(--text-panel);
+  font-weight: var(--display-weight, 500);
+  line-height: 1.15;
+  letter-spacing: -0.012em;
+}
+.bos-panel-head .bos-btns { gap: var(--space-2); }
+.bos-panel > .bos-stats { margin-top: auto; }
+/* A panel whose list is longer than its height scrolls inside and fades at the bottom. */
+.bos-panel-scroll {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  flex: 1;
+  min-height: 0;
+  max-height: var(--panel-max, 460px);
+  overflow-y: auto;
+  padding-bottom: var(--space-5);
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 48px), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 48px), transparent);
+}
+/* "View all" and other quiet panel actions: an outlined pill with an arrow. */
+.bos-link-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 var(--space-4);
+  border: 0;
+  border-radius: var(--radius-control);
+  background: var(--frost-light);
+  box-shadow: inset 0 0 0 1px var(--edge-strong);
+  color: var(--foreground);
+  font: inherit;
+  font-size: 0.9375rem;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 150ms, box-shadow 150ms;
+}
+.bos-link-pill:hover { background: var(--card); box-shadow: inset 0 0 0 1px var(--edge-strong), var(--shadow-sm); }
+.bos-link-pill svg { width: 16px; height: 16px; }
+/* Inner tiles inside a panel */
+.bos-inner {
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-inner);
+  background: var(--card);
+  box-shadow: inset 0 0 0 1px var(--edge), 0 1px 2px oklch(0 0 0 / 4%);
+}
+a.bos-inner, button.bos-inner { width: 100%; border: 0; color: inherit; font: inherit; text-align: inherit; text-decoration: none; cursor: pointer; transition: box-shadow 150ms, transform 150ms var(--ease-out, ease-out); }
+a.bos-inner:hover, button.bos-inner:hover { box-shadow: inset 0 0 0 1px var(--edge-strong), var(--shadow-md); }
+
+/* ---------- Meta chips, status and avatar stacks ---------- */
+.bos-meta-chips { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.bos-chip-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-control);
+  background: color-mix(in oklab, var(--foreground) 5%, transparent);
+  box-shadow: inset 0 0 0 1px var(--edge);
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.bos-chip-meta svg { width: 16px; height: 16px; color: var(--muted-foreground); flex: none; }
+.bos-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 22px;
+  padding: 0 8px;
+  border-radius: var(--radius-control);
+  background: var(--card);
+  box-shadow: inset 0 0 0 1px var(--edge);
+  font-size: 0.75rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.bos-status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.bos-status[data-tone="positive"]::before { background: var(--correct); }
+.bos-status[data-tone="waiting"]::before { background: var(--caution); }
+.bos-status[data-tone="negative"]::before { background: var(--incorrect); }
+.bos-avatars { display: inline-flex; align-items: center; }
+.bos-avatars > * {
+  width: 36px;
+  height: 36px;
+  margin-left: -6px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--card);
+  object-fit: cover;
+}
+.bos-avatars > :first-child { margin-left: 0; }
+.bos-avatars > span { display: grid; place-items: center; background: color-mix(in oklab, var(--primary) 14%, var(--card)); color: var(--foreground); font-size: 0.6875rem; font-weight: 600; }
+.bos-avatars > .bos-avatars-more { background: var(--card); box-shadow: 0 0 0 2px var(--card), inset 0 0 0 1px var(--edge-strong); }
+
+/* ---------- Event card: something happening at a time ---------- */
+.bos-event { display: flex; flex-direction: column; gap: var(--space-3); }
+.bos-event-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-3); }
+.bos-event-title { margin: 0; font-size: 1.0625rem; font-weight: 500; line-height: 1.35; }
+.bos-event p { margin: 2px 0 0; font-size: 0.9375rem; line-height: 1.5; color: var(--muted-foreground); }
+.bos-event-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2); margin-top: var(--space-1); }
+/* The one that needs attention now: the brand's soft highlight, at most one per panel. */
+.bos-event[data-tone="now"] {
+  background: color-mix(in oklab, var(--primary) 14%, var(--card));
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--primary) 30%, transparent), var(--shadow-sm);
+}
+.bos-event[data-tone="now"] p { color: color-mix(in oklab, var(--foreground) 75%, var(--primary)); }
+.bos-event[data-tone="now"] .bos-chip-meta { background: color-mix(in oklab, var(--card) 70%, transparent); }
+
+/* ---------- Person card: someone and how far along they are ---------- */
+.bos-people { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 180px), 1fr)); gap: var(--space-3); }
+.bos-person {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: var(--space-5) var(--space-4);
+  text-align: center;
+}
+.bos-person-photo {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  margin-bottom: var(--space-2);
+  border-radius: 50%;
+  background: color-mix(in oklab, var(--primary) 14%, var(--card));
+  box-shadow: 0 0 0 3px var(--card), 0 0 0 4px var(--edge);
+  font-weight: 600;
+  object-fit: cover;
+}
+.bos-person-name { font-size: 1.0625rem; font-weight: 500; }
+.bos-person-role { font-size: 0.9375rem; color: var(--muted-foreground); }
+.bos-person .bos-chip-meta { margin-top: var(--space-3); }
+
+/* ---------- Feature tile: a preview on top, then a title and one or two lines ---------- */
+.bos-feature { display: flex; flex-direction: column; gap: var(--space-3); }
+.bos-feature-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 160px;
+  margin-bottom: var(--space-2);
+  padding: var(--space-5);
+  border-radius: var(--radius-inner);
+  overflow: hidden;
+  background:
+    radial-gradient(color-mix(in oklab, var(--foreground) 10%, transparent) 1px, transparent 1.5px) 0 0 / 14px 14px,
+    color-mix(in oklab, var(--foreground) 3%, var(--card));
+  box-shadow: inset 0 0 0 1px var(--edge);
+}
+.bos-feature-stage > * { position: relative; width: 100%; }
+.bos-feature p { margin: 0; color: var(--muted-foreground); line-height: 1.55; }
+
+/* Round icon badge at the top of a panel or tile */
+.bos-icon-badge {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--card);
+  color: var(--foreground);
+  box-shadow: inset 0 0 0 1px var(--edge), var(--shadow-sm);
+}
+.bos-icon-badge svg { width: 20px; height: 20px; }
+
+/* ---------- Figure: one big number with a small unit ---------- */
+.bos-figure { display: flex; flex-direction: column; gap: 4px; }
+.bos-figure-value {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-family: var(--font-heading, var(--font-sans));
+  font-size: clamp(2.75rem, 2.4vw + 1.6rem, 4rem);
+  font-weight: var(--display-weight, 500);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+.bos-figure-value small { font-size: 0.42em; font-weight: 400; letter-spacing: 0; color: var(--muted-foreground); }
+.bos-figure > span:last-child { color: var(--muted-foreground); }
+
+/* ---------- Metric pills: pick which number a chart shows ---------- */
+.bos-metric-tabs { display: flex; flex-wrap: wrap; gap: var(--space-1); }
+.bos-metric-tabs > button {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  min-height: 38px;
+  padding: 0 var(--space-4);
+  border: 0;
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: var(--muted-foreground);
+  font: inherit;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  transition: background-color 150ms, color 150ms, box-shadow 150ms;
+}
+.bos-metric-tabs > button b { color: var(--foreground); font-weight: 600; font-variant-numeric: tabular-nums; }
+.bos-metric-tabs > button:hover { background: color-mix(in oklab, var(--foreground) 6%, transparent); color: var(--foreground); }
+.bos-metric-tabs > [aria-selected="true"],
+.bos-metric-tabs > [aria-selected="true"]:hover { background: var(--card); color: var(--foreground); box-shadow: inset 0 0 0 1px var(--edge), var(--shadow-sm); }
+/* A simple line chart frame: draw the line with SVG using currentColor. */
+.bos-chart { color: var(--primary); }
+.bos-chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.bos-chart .bos-chart-grid { stroke: var(--edge); stroke-dasharray: 3 5; }
+.bos-chart .bos-chart-axis { fill: var(--muted-foreground); font-size: 12px; }
+
+/* ---------- Labelled bars: progress of several things side by side (agents, jobs, budgets) ---------- */
+.bos-bars { display: flex; flex-direction: column; gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+.bos-bars > li { display: grid; grid-template-columns: minmax(80px, auto) minmax(0, 1fr); align-items: center; gap: var(--space-3); }
+.bos-bars > li > span:first-child { font-family: var(--font-mono); font-size: 0.8125rem; color: var(--muted-foreground); }
+.bos-bar {
+  position: relative;
+  height: 30px;
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--foreground) 6%, transparent);
+  overflow: hidden;
+}
+.bos-bar > span {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  min-width: 3.5em;
+  padding-right: 8px;
+  border-radius: inherit;
+  background: color-mix(in oklab, var(--primary) 22%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--primary) 50%, transparent);
+  color: color-mix(in oklab, var(--primary), var(--foreground) 35%);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  transition: width 400ms var(--ease-out, ease-out);
+}
+
+/* ---------- Flow: steps of a workflow, joined left to right ---------- */
+.bos-flow { display: flex; align-items: center; gap: 0; overflow-x: auto; padding: var(--space-2) 2px; }
+.bos-flow-node {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 64px;
+  padding: 0 var(--space-5);
+  flex: none;
+  border-radius: var(--radius-inner);
+  background: var(--card);
+  box-shadow: inset 0 0 0 1px var(--edge-strong), var(--shadow-sm);
+  font-weight: 500;
+  white-space: nowrap;
+}
+.bos-flow-node svg { width: 20px; height: 20px; color: var(--muted-foreground); }
+.bos-flow-node[data-state="running"] { box-shadow: inset 0 0 0 2px var(--primary), var(--shadow-sm); }
+.bos-flow-node[data-state="done"] svg { color: var(--correct); }
+.bos-flow-link { position: relative; flex: 1 0 32px; max-width: 72px; height: 2px; background: var(--edge-strong); }
+.bos-flow-link::before,
+.bos-flow-link::after { content: ""; position: absolute; top: 50%; width: 8px; height: 8px; border-radius: 2px; background: var(--card); box-shadow: inset 0 0 0 1.5px var(--edge-strong); transform: translateY(-50%); }
+.bos-flow-link::before { left: -4px; }
+.bos-flow-link::after { right: -4px; }
+
+/* ---------- Media card: a picture with a title and a line ---------- */
+.bos-media { display: flex; flex-direction: column; gap: var(--space-2); color: inherit; text-decoration: none; }
+.bos-media > img,
+.bos-media > .bos-media-img { width: 100%; aspect-ratio: 16 / 10; border-radius: var(--radius-inner); object-fit: cover; background: var(--gradient-brand, var(--muted)); }
+.bos-media-title { margin-top: var(--space-1); font-weight: 500; }
+.bos-media p { margin: 0; font-size: 0.875rem; line-height: 1.5; color: var(--muted-foreground); }
+a.bos-media:hover .bos-media-title { text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---------- Glow: one soft brand light behind a panel, at most one per page ---------- */
+.bos-panel[data-glow] { position: relative; isolation: isolate; }
+.bos-panel[data-glow]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(120% 70% at 50% -10%, color-mix(in oklab, var(--primary) 30%, transparent), transparent 65%);
+  pointer-events: none;
+}
+/* Phones: the workflow runs top to bottom instead of scrolling sideways. */
+@media (max-width: 560px) {
+  .bos-flow { flex-direction: column; align-items: stretch; overflow: visible; }
+  .bos-flow-node { min-height: 52px; }
+  .bos-flow-link { flex: none; align-self: center; width: 2px; height: 20px; max-width: none; }
+  .bos-flow-link::before { left: 50%; top: -4px; transform: translateX(-50%); }
+  .bos-flow-link::after { left: 50%; right: auto; top: auto; bottom: -4px; transform: translateX(-50%); }
+}

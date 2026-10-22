@@ -2,6 +2,27 @@
 
 BrandOS uses semantic versioning: patch (1.0.x) for fixes and rule changes, minor (1.x.0) for new features, major (x.0.0) for breaking changes.
 
+## 1.4.0
+
+Bento pages and a softer type hierarchy.
+
+### Bento
+- New `bos-bento` grid: 12 columns, panels spanning 3, 4, 6, 8 or 12 (`bos-span-*`), optionally two rows tall (`bos-tall`). On tablets panels sit two to a row and a lone panel fills its row, so there are never holes; on phones they stack.
+- New `bos-panel` with `bos-panel-head`, `bos-panel-title` and `bos-link-pill` ("View all"), plus `bos-panel-scroll` for long lists that fade at the bottom.
+- New items: `bos-inner` tiles, `bos-event` (title, one line, times and dates, who's going, one highlighted "now" event per panel) and `bos-person` cards in a `bos-people` grid.
+- New for dashboards and feature pages: `bos-feature` (a live preview on top, then a title and a line), `bos-figure` (a big number with its unit), `bos-metric-tabs` (pills that switch what a chart shows) and a `bos-chart` frame, `bos-icon-badge`, `bos-bars` (several things running side by side), `bos-flow` (a workflow, top to bottom on phones), `bos-media` (picture cards) and `data-glow` (one soft brand light per page).
+- New small pieces: `bos-chip-meta` (icon and a fact), `bos-avatars` (stacked people with a count), `bos-status` (dot and a word, in positive, waiting or negative tones).
+
+### Type
+- Headings and item titles are medium weight (500) instead of bold, so size makes the hierarchy: big titles, medium names, regular muted detail. `typography.headingWeight` still overrides it.
+
+### Fixes
+- The segmented control keeps each option on one line and scrolls sideways on narrow screens instead of wrapping into an oval.
+- Trace titles wrap to two lines instead of cutting off mid-sentence.
+
+### Guide
+- A live Bento section with two examples: a team home (weekly summary, assistant, upcoming events, onboarding) and an agent overview (switchable chart, agents in parallel, workflow, time saved, a summary feature and news).
+
 ## 1.3.1
 
 One shell per app.

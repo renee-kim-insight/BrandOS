@@ -60,7 +60,7 @@ function TraceTitle({ className, ...props }: React.ComponentProps<"span">) {
     <span
       data-slot="trace-title"
       className={cn(
-        "cn-trace-title min-w-0 truncate motion-reduce:shimmer-none",
+        "cn-trace-title min-w-0 line-clamp-2 motion-reduce:shimmer-none",
         className
       )}
       {...props}

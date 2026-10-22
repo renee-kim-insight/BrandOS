@@ -172,6 +172,32 @@ Ask why people open the app.
 - One shell per app, never both. A sidebar app has no top bar: the brand block goes at the top of the sidebar (`bos-sidebar-head`) and the user menu, settings and admin at the bottom (`bos-sidebar-footer`). Anything that was in a top bar (brand, demo or role switcher, user, search, Create) moves into the sidebar or into the page's own title block. The only bar above the page is `bos-topbar`, and it shows on phones only, to open the sidebar. A top-bar app has no sidebar.
 - Both shells share the brand block, the active style, the user menu, page width and spacing. Say in your summary which shell you chose and why, in one sentence.
 
+## Bento pages
+
+Home pages, overviews and dashboards are bento: panels of set sizes in one grid, each answering one question.
+
+| Need | Use |
+|---|---|
+| The grid | `bos-bento` (12 columns, `--bento-gap`). Panels span `bos-span-3`, `-4`, `-6`, `-8` or `-12`; `bos-tall` for two rows. Spans in each row add up to 12. Tablets show two per row and a lone panel fills its row; phones stack |
+| A panel | `section.bos-panel` > `header.bos-panel-head` (`h2.bos-panel-title` + a `bos-link-pill` "View all" with an arrow icon, or a date chip) + content. Long lists go in `bos-panel-scroll`, which scrolls and fades at the bottom |
+| Items inside a panel | `bos-inner` tiles (`--radius-inner`): `bos-event` for things at a time (title, one line, `bos-meta-chips` of `bos-chip-meta` with clock and date icons, `bos-avatars`), `bos-person` in a `bos-people` grid (`bos-person-photo`, name, role, one `bos-chip-meta` such as "5/10 tasks done") |
+| Status | `bos-status` with `data-tone` positive, waiting or negative ("In 15 min", "Approved", "Pending") |
+| A feature or capability, explained | `bos-feature`: a `bos-feature-stage` preview on top (a small live example, never a stock picture), then `bos-panel-title` and one or two lines |
+| One big number | `bos-figure` with `bos-figure-value` (the number, its unit in `<small>`) and a line of context. Optional `bos-icon-badge` in the panel head |
+| A chart with several measures | `bos-metric-tabs` (`role="tablist"`, each pill the number and its name) above `bos-figure` and a `bos-chart` |
+| Several things running side by side | `bos-bars`: label, then `bos-bar` with the value inside |
+| A workflow | `bos-flow` of `bos-flow-node` (`data-state` done or running) joined by `bos-flow-link`; it runs top to bottom on phones |
+| News, lessons or anything with a picture | `bos-media`: image, `bos-media-title`, one line |
+| A panel that should stand out | `data-glow` on the panel: one soft brand light, at most one per page |
+| Ask an assistant on a bento page | A `bos-panel bos-tall` with the greeting, `bos-suggestions` and a `bos-composer` at the bottom |
+
+Rules:
+- Type does the hierarchy, not boldness: panel titles big and medium weight (`bos-panel-title`), item names medium (`bos-event-title`, `bos-person-name`, `bos-h3`), detail regular and muted. One family.
+- Same padding (`--pad-panel`) and gap in every panel. Inner tiles never have their own shadows heavier than `--shadow-sm` at rest.
+- At most one highlighted item per panel (`data-tone="now"` on `bos-event`).
+- Facts like times, dates and counts go in `bos-chip-meta` with an icon, not in sentences.
+- Every panel has a title. "View all" goes to the full page for that panel.
+
 ## Interactive and learning patterns
 
 For apps where people learn, practise, take exams or get graded. The app owns the logic; these classes own the states.

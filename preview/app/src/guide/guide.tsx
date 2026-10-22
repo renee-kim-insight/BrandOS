@@ -25,6 +25,7 @@ import { Toaster as SonnerToaster } from "@/components/ui/sonner"
 import { Toaster as BaseToaster } from "@/components/ui/toast"
 import { COMPONENTS } from "@/docs/registry"
 import BRANDS from "./brands.json"
+import { BentoAgentsDemo, BentoDemo } from "./bento"
 import { GradedDemo, LessonDemo, QuizDemo, SidebarShellDemo, SmallPieces } from "./learning"
 
 const demos = import.meta.glob("../docs/demos/*.tsx", { eager: true }) as Record<string, { default: React.ComponentType }>
@@ -89,6 +90,7 @@ export function Guide() {
           <Foundations current={current} />
           <Patterns />
           <Heroes />
+          <Bento />
           <Learning />
           <ComponentLibrary />
           <ExamplePage />
@@ -111,7 +113,8 @@ const SECTIONS: [string, string, boolean][] = [
   ["foundations", "Foundations", false],
   ["patterns", "Patterns", true],
   ["heroes", "Page tops", false],
-  ["learn", "Interactive", false],
+  ["bento", "Bento", false],
+  ["learn", "Interactive", true],
   ["components", "Components", false],
   ["rules", "Rules", true],
 ]
@@ -210,7 +213,7 @@ function Hero({ current }: { current?: Brand }) {
     <header className="bos-hero" id="top">
       <div className="bos-hero-grid">
         <div>
-          <span className="bos-kicker">Component guide · BrandOS 1.3</span>
+          <span className="bos-kicker">Component guide · BrandOS 1.4</span>
           <h1 className="bos-display" style={{ marginTop: 10 }}>
             One component library. Any brand.
           </h1>
@@ -1046,6 +1049,31 @@ const HEROES: { id: string; name: string; cls: string; when: string; avoid: stri
     ),
   },
 ]
+
+function Bento() {
+  return (
+    <Section
+      id="bento"
+      kicker="Bento"
+      title="Pages made of panels"
+      intro="For home pages and dashboards: panels of a few set sizes in one grid, each with a title, a quiet View all, and its content. One family of type, sized for hierarchy: big medium-weight titles, medium item names, regular muted detail. Same gap and padding everywhere."
+    >
+      <div className="gd-bento-stage">
+        <BentoDemo />
+      </div>
+      <h3 className="bos-h3 gd-sub-sm">Another mix: an agent overview</h3>
+      <p className="bos-caption gd-learn-note">bos-metric-tabs switch the chart, bos-figure for a big number with its unit, bos-bars for things running side by side, bos-flow for a workflow, bos-feature with a preview on top, bos-media cards, and one data-glow panel per page. Pick the metric pills to see the chart change.</p>
+      <div className="gd-bento-stage">
+        <BentoAgentsDemo />
+      </div>
+      <div className="gd-learn-rules">
+        <div className="bos-tile"><div className="bos-label">Sizes</div><p className="bos-caption" style={{ margin: "6px 0 0" }}>bos-bento is 12 columns. Panels span 3, 4, 6, 8 or 12 (bos-span-*) and can be two rows tall (bos-tall). Thirds and quarters become halves on tablets and everything stacks on phones.</p></div>
+        <div className="bos-tile"><div className="bos-label">Inside a panel</div><p className="bos-caption" style={{ margin: "6px 0 0" }}>bos-panel-head with bos-panel-title and a bos-link-pill. Items are bos-inner tiles: bos-event, bos-person. Facts go in bos-chip-meta with an icon; people in bos-avatars.</p></div>
+        <div className="bos-tile"><div className="bos-label">Restraint</div><p className="bos-caption" style={{ margin: "6px 0 0" }}>At most one highlighted item per panel (data-tone="now"). Long lists scroll inside the panel and fade at the bottom. Every panel answers one question.</p></div>
+      </div>
+    </Section>
+  )
+}
 
 function Learning() {
   return (

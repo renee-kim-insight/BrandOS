@@ -62,6 +62,8 @@ Token names match shadcn/ui, so the theme also works with shadcn's Vue, Svelte a
 
 BrandOS applies a few rules everywhere (full list in `skills/ui-migrate/SKILL.md`): one solid surface per section for the most important thing and glass for secondary items, the nav and secondary buttons (glass at rest, solid on hover); one font family, with headings in the body font at a heavier weight; a top bar for apps people explore and a collapsible sidebar for apps with one main job; one brand gradient band per page and small charm shapes for badges and avatars; about 90% neutrals with brand colour only for the primary action, active navigation, focus and the user's own status; one spacing scale and page header; one neutral segmented control; hover only on things you can click; ordered things use one hue from pale to full.
 
+Home pages and dashboards can be bento: panels of set sizes in one grid, with event cards, person cards, meta chips, avatar stacks and status pills.
+
 For apps where people learn and get graded there are interactive patterns too: quiz and exam questions with right, wrong and missed states, answer feedback, score tallies, progress rings and question tracks, timers, counters, results, answers graded by an assistant against a rubric, lesson lists and video lessons.
 
 To see every component and pattern in your brands, build the visual guide: `node scripts/build-guide.mjs --out docs/guide path/to/brand.json` (with no brand files it uses the examples). It needs the preview app's dependencies, which it installs the first time.

@@ -131,7 +131,7 @@
       "description": "How fonts are used. By default headings use the body font at a heavier weight.",
       "properties": {
         "headings": { "enum": ["sans", "display"], "description": "sans (default): headings use the body font. display: page titles and section headings use fonts.display." },
-        "headingWeight": { "type": "number", "description": "Weight for sans headings. Default 600." }
+        "headingWeight": { "type": "number", "description": "Weight for sans headings. Default 500." }
       },
       "additionalProperties": false
     },
