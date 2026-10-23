@@ -53,16 +53,6 @@
     {
       "mode": "light",
       "page": "/",
-      "kind": "font",
-      "prop": "font-family",
-      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
-      "selector": "nav.bos-nav > ul.bos-nav-list > li > a",
-      "text": "How it works",
-      "detail": "font Manrope"
-    },
-    {
-      "mode": "light",
-      "page": "/",
       "kind": "colour",
       "prop": "color",
       "value": "oklch(0.511 0.086 186.4)",
@@ -2643,66 +2633,6 @@
     {
       "mode": "light",
       "page": "/",
-      "kind": "font",
-      "prop": "font-family",
-      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
-      "selector": "div.bos-chat > nav.bos-chat-rail > section > h2",
-      "text": "Assistants",
-      "detail": "font Manrope"
-    },
-    {
-      "mode": "light",
-      "page": "/",
-      "kind": "colour",
-      "prop": "background-color",
-      "value": "oklab(0.511 -0.085464 -0.00958633 / 0.14)",
-      "selector": "div.bos-chat > nav.bos-chat-rail > section > a",
-      "text": "",
-      "detail": "#0f766e is not a brand hue (nearest #4ec7ea, 34° away)"
-    },
-    {
-      "mode": "light",
-      "page": "/",
-      "kind": "colour",
-      "prop": "color",
-      "value": "oklab(0.4165 -0.0654893 -0.0073458)",
-      "selector": "nav.bos-chat-rail > section > a > span.bos-avatar.bos-avatar-sm",
-      "text": "P",
-      "detail": "#135852 is not a brand hue (nearest #4ec7ea, 34° away)"
-    },
-    {
-      "mode": "light",
-      "page": "/",
-      "kind": "font",
-      "prop": "font-family",
-      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
-      "selector": "nav.bos-chat-rail > section > a > span.bos-avatar.bos-avatar-sm",
-      "text": "P",
-      "detail": "font Manrope"
-    },
-    {
-      "mode": "light",
-      "page": "/",
-      "kind": "font",
-      "prop": "font-family",
-      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
-      "selector": "nav.bos-chat-rail > section > a > span",
-      "text": "Policy HelperCompany policy",
-      "detail": "font Manrope"
-    },
-    {
-      "mode": "light",
-      "page": "/",
-      "kind": "font",
-      "prop": "font-family",
-      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
-      "selector": "section > a > span > small",
-      "text": "Company policy",
-      "detail": "font Manrope"
-    },
-    {
-      "mode": "light",
-      "page": "/",
       "kind": "colour",
       "prop": "color",
       "value": "oklch(0.511 0.086 186.4)",
@@ -3086,36 +3016,6 @@
       "kind": "font",
       "prop": "font-family",
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
-      "selector": "div.gd-browser-page.gd-shell-demo > header.bos-shell.bos-glass > a.bos-brand > span",
-      "text": "WatchtowerDelivery",
-      "detail": "font Manrope"
-    },
-    {
-      "mode": "light",
-      "page": "/",
-      "kind": "font",
-      "prop": "font-family",
-      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
-      "selector": "header.bos-shell.bos-glass > a.bos-brand > span > small",
-      "text": "Delivery",
-      "detail": "font Manrope"
-    },
-    {
-      "mode": "light",
-      "page": "/",
-      "kind": "colour",
-      "prop": "background-color",
-      "value": "oklch(0.511 0.086 186.4)",
-      "selector": "nav.bos-nav > ul.bos-nav-list > li > a",
-      "text": "Dashboard",
-      "detail": "#0f766e is not a brand hue (nearest #4ec7ea, 34° away)"
-    },
-    {
-      "mode": "light",
-      "page": "/",
-      "kind": "font",
-      "prop": "font-family",
-      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
       "selector": "header.bos-shell.bos-glass > nav.bos-nav > details.bos-menu-wrap.bos-nav-more > summary",
       "text": "More",
       "detail": "font Manrope"
@@ -3127,8 +3027,18 @@
       "prop": "font-family",
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
       "selector": "details.bos-menu-wrap.bos-nav-more > div.bos-menu.bos-menu-cols > div.bos-menu-group > span.bos-menu-label",
-      "text": "Work",
+      "text": "Main",
       "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "colour",
+      "prop": "color",
+      "value": "oklab(0.448 -0.0721476 -0.00809265)",
+      "selector": "details.bos-menu-wrap.bos-nav-more > div.bos-menu.bos-menu-cols > div.bos-menu-group > a",
+      "text": "Dashboard",
+      "detail": "#13625b is not a brand hue (nearest #4ec7ea, 34° away)"
     },
     {
       "mode": "light",
@@ -3137,7 +3047,7 @@
       "prop": "font-family",
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
       "selector": "details.bos-menu-wrap.bos-nav-more > div.bos-menu.bos-menu-cols > div.bos-menu-group > a",
-      "text": "People",
+      "text": "Dashboard",
       "detail": "font Manrope"
     },
     {
@@ -3283,121 +3193,11 @@
     {
       "mode": "light",
       "page": "/",
-      "kind": "colour",
-      "prop": "background-image",
-      "value": "oklch(0.575 0.187 47.6)",
-      "selector": "aside.bos-sidebar > div.bos-sidebar-head > a.bos-sidebar-brand > span.bos-charm.bos-charm-sm",
-      "text": "",
-      "detail": "#cb4800 is not a brand hue (nearest #c4122f, 26° away)"
-    },
-    {
-      "mode": "light",
-      "page": "/",
-      "kind": "colour",
-      "prop": "background-image",
-      "value": "oklch(0.451 0.086 186.4)",
-      "selector": "aside.bos-sidebar > div.bos-sidebar-head > a.bos-sidebar-brand > span.bos-charm.bos-charm-sm",
-      "text": "",
-      "detail": "#00645d is not a brand hue (nearest #4ec7ea, 34° away)"
-    },
-    {
-      "mode": "light",
-      "page": "/",
-      "kind": "colour",
-      "prop": "background-image",
-      "value": "oklch(0.511 0.086 186.4)",
-      "selector": "aside.bos-sidebar > div.bos-sidebar-head > a.bos-sidebar-brand > span.bos-charm.bos-charm-sm",
-      "text": "",
-      "detail": "#0f766e is not a brand hue (nearest #4ec7ea, 34° away)"
-    },
-    {
-      "mode": "light",
-      "page": "/",
-      "kind": "colour",
-      "prop": "background-image",
-      "value": "oklch(0.555 0.148 237.3)",
-      "selector": "aside.bos-sidebar > div.bos-sidebar-head > a.bos-sidebar-brand > span.bos-charm.bos-charm-sm",
-      "text": "",
-      "detail": "#007cbe is not a brand hue (nearest #4ec7ea, 17° away)"
-    },
-    {
-      "mode": "light",
-      "page": "/",
       "kind": "font",
       "prop": "font-family",
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
-      "selector": "div.bos-sidebar-head > a.bos-sidebar-brand > span > strong",
-      "text": "Academy",
-      "detail": "font Manrope"
-    },
-    {
-      "mode": "light",
-      "page": "/",
-      "kind": "font",
-      "prop": "font-family",
-      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
-      "selector": "div.bos-sidebar-head > a.bos-sidebar-brand > span > small",
-      "text": "Learning",
-      "detail": "font Manrope"
-    },
-    {
-      "mode": "light",
-      "page": "/",
-      "kind": "font",
-      "prop": "font-family",
-      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
-      "selector": "aside.bos-sidebar > nav.bos-sidebar-section > a.bos-sidebar-item > span",
-      "text": "Home",
-      "detail": "font Manrope"
-    },
-    {
-      "mode": "light",
-      "page": "/",
-      "kind": "colour",
-      "prop": "background-color",
-      "value": "oklch(0.511 0.086 186.4)",
-      "selector": "div.bos-app.gd-app-demo > aside.bos-sidebar > nav.bos-sidebar-section > a.bos-sidebar-item",
-      "text": "",
-      "detail": "#0f766e is not a brand hue (nearest #4ec7ea, 34° away)"
-    },
-    {
-      "mode": "light",
-      "page": "/",
-      "kind": "font",
-      "prop": "font-family",
-      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
-      "selector": "aside.bos-sidebar > nav.bos-sidebar-section > a.bos-sidebar-item > span.bos-count",
-      "text": "2",
-      "detail": "font Manrope"
-    },
-    {
-      "mode": "light",
-      "page": "/",
-      "kind": "font",
-      "prop": "font-family",
-      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
-      "selector": "aside.bos-sidebar > div.bos-sidebar-footer > a.bos-sidebar-item > span",
-      "text": "Settings",
-      "detail": "font Manrope"
-    },
-    {
-      "mode": "light",
-      "page": "/",
-      "kind": "colour",
-      "prop": "color",
-      "value": "oklab(0.4165 -0.0654893 -0.0073458)",
-      "selector": "aside.bos-sidebar > div.bos-sidebar-footer > a.bos-sidebar-item > span.bos-avatar.bos-avatar-sm",
-      "text": "SR",
-      "detail": "#135852 is not a brand hue (nearest #4ec7ea, 34° away)"
-    },
-    {
-      "mode": "light",
-      "page": "/",
-      "kind": "font",
-      "prop": "font-family",
-      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
-      "selector": "aside.bos-sidebar > div.bos-sidebar-footer > a.bos-sidebar-item > span.bos-avatar.bos-avatar-sm",
-      "text": "SR",
+      "selector": "div.bos-app.gd-app-demo > main.bos-main > div.bos-topbar > span.bos-topbar-title",
+      "text": "Training",
       "detail": "font Manrope"
     },
     {
@@ -8446,28 +8246,8 @@
       "kind": "font",
       "prop": "font-family",
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
-      "selector": "ul.cn-pagination-content.flex > li > a.cn-button.group/button > span.cn-pagination-previous-text.hidden",
-      "text": "Previous",
-      "detail": "font Manrope"
-    },
-    {
-      "mode": "light",
-      "page": "/",
-      "kind": "font",
-      "prop": "font-family",
-      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
       "selector": "nav.cn-pagination.mx-auto > ul.cn-pagination-content.flex > li > a.cn-button.group/button",
       "text": "1",
-      "detail": "font Manrope"
-    },
-    {
-      "mode": "light",
-      "page": "/",
-      "kind": "font",
-      "prop": "font-family",
-      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
-      "selector": "ul.cn-pagination-content.flex > li > a.cn-button.group/button > span.cn-pagination-next-text.hidden",
-      "text": "Next",
       "detail": "font Manrope"
     },
     {
@@ -11049,16 +10829,6 @@
       "selector": "div.bos-container > header.bos-shell.bos-glass > a.bos-brand.gd-brand > span.bos-charm.bos-charm-sm",
       "text": "",
       "detail": "#007cbe is not a brand hue (nearest #4ec7ea, 17° away)"
-    },
-    {
-      "mode": "dark",
-      "page": "/",
-      "kind": "font",
-      "prop": "font-family",
-      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
-      "selector": "nav.bos-nav > ul.bos-nav-list > li > a",
-      "text": "How it works",
-      "detail": "font Manrope"
     },
     {
       "mode": "dark",
@@ -13673,66 +13443,6 @@
     {
       "mode": "dark",
       "page": "/",
-      "kind": "font",
-      "prop": "font-family",
-      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
-      "selector": "div.bos-chat > nav.bos-chat-rail > section > h2",
-      "text": "Assistants",
-      "detail": "font Manrope"
-    },
-    {
-      "mode": "dark",
-      "page": "/",
-      "kind": "colour",
-      "prop": "background-color",
-      "value": "oklab(0.62 -0.085464 -0.00958633 / 0.14)",
-      "selector": "div.bos-chat > nav.bos-chat-rail > section > a",
-      "text": "",
-      "detail": "#3d978e is not a brand hue (nearest #4ec7ea, 34° away)"
-    },
-    {
-      "mode": "dark",
-      "page": "/",
-      "kind": "colour",
-      "prop": "color",
-      "value": "oklab(0.809997 -0.0427092 -0.00478312)",
-      "selector": "nav.bos-chat-rail > section > a > span.bos-avatar.bos-avatar-sm",
-      "text": "P",
-      "detail": "#a2cac5 is not a brand hue (nearest #4ec7ea, 34° away)"
-    },
-    {
-      "mode": "dark",
-      "page": "/",
-      "kind": "font",
-      "prop": "font-family",
-      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
-      "selector": "nav.bos-chat-rail > section > a > span.bos-avatar.bos-avatar-sm",
-      "text": "P",
-      "detail": "font Manrope"
-    },
-    {
-      "mode": "dark",
-      "page": "/",
-      "kind": "font",
-      "prop": "font-family",
-      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
-      "selector": "nav.bos-chat-rail > section > a > span",
-      "text": "Policy HelperCompany policy",
-      "detail": "font Manrope"
-    },
-    {
-      "mode": "dark",
-      "page": "/",
-      "kind": "font",
-      "prop": "font-family",
-      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
-      "selector": "section > a > span > small",
-      "text": "Company policy",
-      "detail": "font Manrope"
-    },
-    {
-      "mode": "dark",
-      "page": "/",
       "kind": "colour",
       "prop": "color",
       "value": "oklch(0.62 0.086 186.4)",
@@ -14116,36 +13826,6 @@
       "kind": "font",
       "prop": "font-family",
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
-      "selector": "div.gd-browser-page.gd-shell-demo > header.bos-shell.bos-glass > a.bos-brand > span",
-      "text": "WatchtowerDelivery",
-      "detail": "font Manrope"
-    },
-    {
-      "mode": "dark",
-      "page": "/",
-      "kind": "font",
-      "prop": "font-family",
-      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
-      "selector": "header.bos-shell.bos-glass > a.bos-brand > span > small",
-      "text": "Delivery",
-      "detail": "font Manrope"
-    },
-    {
-      "mode": "dark",
-      "page": "/",
-      "kind": "colour",
-      "prop": "background-color",
-      "value": "oklch(0.62 0.086 186.4)",
-      "selector": "nav.bos-nav > ul.bos-nav-list > li > a",
-      "text": "Dashboard",
-      "detail": "#3d978e is not a brand hue (nearest #4ec7ea, 34° away)"
-    },
-    {
-      "mode": "dark",
-      "page": "/",
-      "kind": "font",
-      "prop": "font-family",
-      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
       "selector": "header.bos-shell.bos-glass > nav.bos-nav > details.bos-menu-wrap.bos-nav-more > summary",
       "text": "More",
       "detail": "font Manrope"
@@ -14157,8 +13837,18 @@
       "prop": "font-family",
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
       "selector": "details.bos-menu-wrap.bos-nav-more > div.bos-menu.bos-menu-cols > div.bos-menu-group > span.bos-menu-label",
-      "text": "Work",
+      "text": "Main",
       "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "colour",
+      "prop": "color",
+      "value": "oklab(0.6888 -0.0697625 -0.00782512)",
+      "selector": "details.bos-menu-wrap.bos-nav-more > div.bos-menu.bos-menu-cols > div.bos-menu-group > a",
+      "text": "Dashboard",
+      "detail": "#66a9a2 is not a brand hue (nearest #4ec7ea, 34° away)"
     },
     {
       "mode": "dark",
@@ -14167,7 +13857,7 @@
       "prop": "font-family",
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
       "selector": "details.bos-menu-wrap.bos-nav-more > div.bos-menu.bos-menu-cols > div.bos-menu-group > a",
-      "text": "People",
+      "text": "Dashboard",
       "detail": "font Manrope"
     },
     {
@@ -14313,121 +14003,11 @@
     {
       "mode": "dark",
       "page": "/",
-      "kind": "colour",
-      "prop": "background-image",
-      "value": "oklch(0.575 0.187 47.6)",
-      "selector": "aside.bos-sidebar > div.bos-sidebar-head > a.bos-sidebar-brand > span.bos-charm.bos-charm-sm",
-      "text": "",
-      "detail": "#cb4800 is not a brand hue (nearest #c4122f, 26° away)"
-    },
-    {
-      "mode": "dark",
-      "page": "/",
-      "kind": "colour",
-      "prop": "background-image",
-      "value": "oklch(0.451 0.086 186.4)",
-      "selector": "aside.bos-sidebar > div.bos-sidebar-head > a.bos-sidebar-brand > span.bos-charm.bos-charm-sm",
-      "text": "",
-      "detail": "#00645d is not a brand hue (nearest #4ec7ea, 34° away)"
-    },
-    {
-      "mode": "dark",
-      "page": "/",
-      "kind": "colour",
-      "prop": "background-image",
-      "value": "oklch(0.511 0.086 186.4)",
-      "selector": "aside.bos-sidebar > div.bos-sidebar-head > a.bos-sidebar-brand > span.bos-charm.bos-charm-sm",
-      "text": "",
-      "detail": "#0f766e is not a brand hue (nearest #4ec7ea, 34° away)"
-    },
-    {
-      "mode": "dark",
-      "page": "/",
-      "kind": "colour",
-      "prop": "background-image",
-      "value": "oklch(0.555 0.148 237.3)",
-      "selector": "aside.bos-sidebar > div.bos-sidebar-head > a.bos-sidebar-brand > span.bos-charm.bos-charm-sm",
-      "text": "",
-      "detail": "#007cbe is not a brand hue (nearest #4ec7ea, 17° away)"
-    },
-    {
-      "mode": "dark",
-      "page": "/",
       "kind": "font",
       "prop": "font-family",
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
-      "selector": "div.bos-sidebar-head > a.bos-sidebar-brand > span > strong",
-      "text": "Academy",
-      "detail": "font Manrope"
-    },
-    {
-      "mode": "dark",
-      "page": "/",
-      "kind": "font",
-      "prop": "font-family",
-      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
-      "selector": "div.bos-sidebar-head > a.bos-sidebar-brand > span > small",
-      "text": "Learning",
-      "detail": "font Manrope"
-    },
-    {
-      "mode": "dark",
-      "page": "/",
-      "kind": "font",
-      "prop": "font-family",
-      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
-      "selector": "aside.bos-sidebar > nav.bos-sidebar-section > a.bos-sidebar-item > span",
-      "text": "Home",
-      "detail": "font Manrope"
-    },
-    {
-      "mode": "dark",
-      "page": "/",
-      "kind": "colour",
-      "prop": "background-color",
-      "value": "oklch(0.62 0.086 186.4)",
-      "selector": "div.bos-app.gd-app-demo > aside.bos-sidebar > nav.bos-sidebar-section > a.bos-sidebar-item",
-      "text": "",
-      "detail": "#3d978e is not a brand hue (nearest #4ec7ea, 34° away)"
-    },
-    {
-      "mode": "dark",
-      "page": "/",
-      "kind": "font",
-      "prop": "font-family",
-      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
-      "selector": "aside.bos-sidebar > nav.bos-sidebar-section > a.bos-sidebar-item > span.bos-count",
-      "text": "2",
-      "detail": "font Manrope"
-    },
-    {
-      "mode": "dark",
-      "page": "/",
-      "kind": "font",
-      "prop": "font-family",
-      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
-      "selector": "aside.bos-sidebar > div.bos-sidebar-footer > a.bos-sidebar-item > span",
-      "text": "Settings",
-      "detail": "font Manrope"
-    },
-    {
-      "mode": "dark",
-      "page": "/",
-      "kind": "colour",
-      "prop": "color",
-      "value": "oklab(0.809997 -0.0427092 -0.00478312)",
-      "selector": "aside.bos-sidebar > div.bos-sidebar-footer > a.bos-sidebar-item > span.bos-avatar.bos-avatar-sm",
-      "text": "SR",
-      "detail": "#a2cac5 is not a brand hue (nearest #4ec7ea, 34° away)"
-    },
-    {
-      "mode": "dark",
-      "page": "/",
-      "kind": "font",
-      "prop": "font-family",
-      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
-      "selector": "aside.bos-sidebar > div.bos-sidebar-footer > a.bos-sidebar-item > span.bos-avatar.bos-avatar-sm",
-      "text": "SR",
+      "selector": "div.bos-app.gd-app-demo > main.bos-main > div.bos-topbar > span.bos-topbar-title",
+      "text": "Training",
       "detail": "font Manrope"
     },
     {
@@ -19506,28 +19086,8 @@
       "kind": "font",
       "prop": "font-family",
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
-      "selector": "ul.cn-pagination-content.flex > li > a.cn-button.group/button > span.cn-pagination-previous-text.hidden",
-      "text": "Previous",
-      "detail": "font Manrope"
-    },
-    {
-      "mode": "dark",
-      "page": "/",
-      "kind": "font",
-      "prop": "font-family",
-      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
       "selector": "nav.cn-pagination.mx-auto > ul.cn-pagination-content.flex > li > a.cn-button.group/button",
       "text": "1",
-      "detail": "font Manrope"
-    },
-    {
-      "mode": "dark",
-      "page": "/",
-      "kind": "font",
-      "prop": "font-family",
-      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
-      "selector": "ul.cn-pagination-content.flex > li > a.cn-button.group/button > span.cn-pagination-next-text.hidden",
-      "text": "Next",
       "detail": "font Manrope"
     },
     {

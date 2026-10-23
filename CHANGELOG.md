@@ -2,6 +2,10 @@
 
 BrandOS uses semantic versioning: patch (1.0.x) for fixes and rule changes, minor (1.x.0) for new features, major (x.0.0) for breaking changes.
 
+## 1.4.2
+
+- Fix: the counter, timer, meta chips, status pills, score and segmented control keep their own width instead of stretching across a card.
+
 ## 1.4.1
 
 The component guide is up to date with everything since 1.2.

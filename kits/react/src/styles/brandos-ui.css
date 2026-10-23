@@ -2447,3 +2447,7 @@ a.bos-media:hover .bos-media-title { text-decoration: underline; text-underline-
   .bos-flow-link::before { left: 50%; top: -4px; transform: translateX(-50%); }
   .bos-flow-link::after { left: 50%; right: auto; top: auto; bottom: -4px; transform: translateX(-50%); }
 }
+/* Small inline pieces keep their own width, even when their parent is a flex column that stretches children. */
+:is(.bos-counter, .bos-timer, .bos-chip-meta, .bos-status, .bos-score, .bos-segmented, .bos-link-pill) { width: fit-content; max-width: 100%; }
+:is(.bos-counter, .bos-timer, .bos-chip-meta, .bos-status, .bos-score, .bos-segmented) { align-self: flex-start; }
+.bos-person .bos-chip-meta { align-self: center; }
