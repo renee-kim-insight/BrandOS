@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ArrowUpRight, Bot, Braces, CalendarDays, Clock, Copy, Database, Flag, Gauge, ListChecks, Mic, Paperclip, Send, Sparkles, UserPlus, Users } from "lucide-react"
+import { ArrowUpRight, BookOpen, Bot, Braces, CalendarDays, CircleCheck, Clock, Copy, Database, Flag, Gauge, House, Lightbulb, ListChecks, Mic, PanelLeftClose, PanelLeftOpen, Paperclip, RotateCcw, Send, Settings, Sparkles, Star, Trophy, UserPlus, Users, Zap } from "lucide-react"
 
 const EVENTS = [
   { title: "Quarterly planning", text: "Agree the roadmap for next quarter", time: "14:00 to 15:00", date: "Dec 5", people: ["AK", "JL"], more: 8, now: "In 15 min" },
@@ -228,6 +228,103 @@ export function BentoAgentsDemo() {
           <a className="bos-media" href="#bento"><span className="bos-media-img gd-media-alt" aria-hidden="true"><Sparkles /></span><span className="bos-media-title">Faster summaries</span><p>Half the wait on long documents.</p></a>
         </div>
       </section>
+    </div>
+  )
+}
+
+/* ------------------------------------------------------------------ a full app page */
+
+export function ExampleApp() {
+  const [collapsed, setCollapsed] = React.useState(false)
+  const nav: [React.ReactNode, string][] = [
+    [<House key="h" />, "Home"],
+    [<BookOpen key="t" />, "Training"],
+    [<Lightbulb key="u" />, "Use cases"],
+    [<Zap key="c" />, "Challenges"],
+    [<Trophy key="l" />, "Leaderboard"],
+  ]
+  return (
+    <div className="bos-app gd-app-demo" data-collapsed={collapsed || undefined}>
+      <aside className="bos-sidebar" aria-label="Example menu">
+        <div className="bos-sidebar-head">
+          <a className="bos-sidebar-brand" href="#example">
+            <span className="bos-charm bos-charm-sm" aria-hidden="true" />
+            <span><strong>Academy</strong></span>
+          </a>
+          <button type="button" className="bos-sidebar-toggle" aria-label={collapsed ? "Expand menu" : "Collapse menu"} aria-expanded={!collapsed} onClick={() => setCollapsed(!collapsed)}>
+            {collapsed ? <PanelLeftOpen /> : <PanelLeftClose />}
+          </button>
+        </div>
+        <nav className="bos-sidebar-section" aria-label="Pages">
+          {nav.map(([icon, label], i) => (
+            <a key={label} className="bos-sidebar-item" href="#example" title={label} aria-current={i === 0 ? "page" : undefined}>{icon}<span>{label}</span></a>
+          ))}
+        </nav>
+        <div className="bos-sidebar-footer">
+          <a className="bos-sidebar-item" href="#example" title="Settings"><Settings /><span>Settings</span></a>
+          <a className="bos-sidebar-item" href="#example" title="Avery Brooks"><span className="bos-avatar bos-avatar-sm">AB</span><span>Avery Brooks</span></a>
+        </div>
+      </aside>
+      <main className="bos-main">
+        <div className="bos-page" style={{ paddingTop: 36, paddingInline: "var(--page-gutter)" }}>
+          <div className="bos-hero-compact">
+            <h3 className="bos-h1">Welcome back, Avery</h3>
+            <p className="bos-lead">Navigator · 72% of the way to Pathfinder</p>
+          </div>
+          <div className="bos-bento">
+            <section className="bos-panel bos-span-8" data-glow aria-labelledby="ex-left">
+              <header className="bos-panel-head">
+                <h4 className="bos-panel-title" id="ex-left">Where you left off</h4>
+                <span className="bos-chip-meta"><Flag /> Toward Pathfinder</span>
+              </header>
+              <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "16px 24px" }}>
+                <span className="bos-icon-badge" aria-hidden="true"><RotateCcw /></span>
+                <div style={{ flex: "1 1 260px", minWidth: 0, display: "flex", flexDirection: "column", gap: 10 }}>
+                  <div className="bos-event-title" style={{ fontSize: 19 }}>Writing clear briefs</div>
+                  <div className="bos-meta-chips">
+                    <span className="bos-status" data-tone="waiting">In progress</span>
+                    <span className="bos-chip-meta"><Clock /> 8 min left</span>
+                  </div>
+                </div>
+                <a className="bos-btn-primary" href="#example">Continue</a>
+              </div>
+            </section>
+            <section className="bos-panel bos-span-4 bos-tall" aria-labelledby="ex-level">
+              <header className="bos-panel-head">
+                <h4 className="bos-panel-title" id="ex-level">Your level</h4>
+                <a className="bos-link-pill" href="#example"><ArrowUpRight /> View all</a>
+              </header>
+              <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+                <span className="bos-charm bos-charm-md" aria-hidden="true"><Star fill="currentColor" /></span>
+                <div><div className="bos-caption">Level 4</div><div className="bos-event-title" style={{ fontSize: 19 }}>Navigator</div></div>
+              </div>
+              <div className="bos-figure"><div className="bos-figure-value">72<small>%</small></div><span>of the way to Pathfinder</span></div>
+              <div className="bos-progress bos-progress-primary"><div style={{ width: "72%" }} /></div>
+              <ul className="bos-tally" style={{ marginTop: "auto" }}>
+                <li data-kind="correct"><CircleCheck /><b>9</b> courses</li>
+                <li><Trophy /><b>#4</b> on the board</li>
+              </ul>
+            </section>
+            <section className="bos-panel bos-span-8" aria-labelledby="ex-next">
+              <header className="bos-panel-head">
+                <h4 className="bos-panel-title" id="ex-next">Next up</h4>
+                <a className="bos-link-pill" href="#example"><ArrowUpRight /> View all</a>
+              </header>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {[["Weekly project review", "Review", "Due Friday", "Open review"], ["Planning a sprint", "Course", "12 min", "Start"]].map(([title, kind, when, action]) => (
+                  <div key={title} className="bos-inner" style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "12px 20px" }}>
+                    <div style={{ flex: "1 1 240px", minWidth: 0, display: "flex", flexDirection: "column", gap: 8 }}>
+                      <div className="bos-event-title">{title}</div>
+                      <div className="bos-meta-chips"><span className="bos-chip-meta">{kind}</span><span className="bos-chip-meta"><Clock /> {when}</span></div>
+                    </div>
+                    <a className="bos-btn-glass bos-btn-sm" href="#example">{action}</a>
+                  </div>
+                ))}
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
     </div>
   )
 }

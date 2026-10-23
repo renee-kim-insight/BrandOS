@@ -2,6 +2,16 @@
 
 BrandOS uses semantic versioning: patch (1.0.x) for fixes and rule changes, minor (1.x.0) for new features, major (x.0.0) for breaking changes.
 
+## 1.4.1
+
+The component guide is up to date with everything since 1.2.
+
+- How it works now shows the real flow: studio, brand pack, install --pack, migrate, verify, with the real commands.
+- Fonts, the type table and the stat notes describe one font family with size and weight doing the hierarchy.
+- Fix: panel titles no longer push View all onto a second line on phones.
+- A full page is now an app home: the sidebar shell, the shared title block and bento panels.
+- The do and don't rules cover the shells, layout system, page tops, bento, chat boxes, interactive states, corners, More and verify's checks.
+
 ## 1.4.0
 
 Bento pages and a softer type hierarchy.

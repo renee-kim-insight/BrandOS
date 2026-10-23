@@ -1,6 +1,8 @@
 import * as React from "react"
 import {
   ArrowRight,
+  LayoutDashboard,
+  Package,
   Search,
   Send,
   Check,
@@ -8,10 +10,8 @@ import {
   FileText,
   Layers,
   MoonIcon,
-  Palette,
   Paintbrush,
   Plug,
-  ScanSearch,
   ShieldCheck,
   Sparkles,
   Star,
@@ -25,7 +25,7 @@ import { Toaster as SonnerToaster } from "@/components/ui/sonner"
 import { Toaster as BaseToaster } from "@/components/ui/toast"
 import { COMPONENTS } from "@/docs/registry"
 import BRANDS from "./brands.json"
-import { BentoAgentsDemo, BentoDemo } from "./bento"
+import { BentoAgentsDemo, BentoDemo, ExampleApp } from "./bento"
 import { GradedDemo, LessonDemo, QuizDemo, SidebarShellDemo, SmallPieces } from "./learning"
 
 const demos = import.meta.glob("../docs/demos/*.tsx", { eager: true }) as Record<string, { default: React.ComponentType }>
@@ -280,17 +280,16 @@ function Hero({ current }: { current?: Brand }) {
 /* ------------------------------------------------------------------ how it works */
 
 const STEPS = [
-  { icon: FileText, cmd: "brand guide", title: "Brand guide", body: "A PDF, PowerPoint or website. Add licensed font files to brand-source/." },
-  { icon: ScanSearch, cmd: "brandos extract", title: "Extract", body: "Finds colours, roles and fonts, and writes brand.json." },
-  { icon: Palette, cmd: "brandos theme", title: "Theme", body: "Builds light and dark tokens and fixes anything under 4.5:1." },
-  { icon: Plug, cmd: "brandos install", title: "Install", body: "Adds the theme, fonts and the kit that fits the app." },
-  { icon: Paintbrush, cmd: "ui-migrate", title: "Migrate", body: "Moves each page onto the layout and components in this guide." },
-  { icon: ShieldCheck, cmd: "brandos audit · verify", title: "Check", body: "Fails on any colour or font that isn't in the brand." },
+  { icon: LayoutDashboard, cmd: "brandos studio", title: "Studio", body: "Drop in a brand guide, design-system files, links and licensed fonts. Check colours, fonts and contrast live. No AI, nothing uploaded." },
+  { icon: Package, cmd: "brand pack", title: "Pack", body: "Download a brand pack once: theme, fonts, tokens, components, adapters and brand-rules.md for AI tools." },
+  { icon: Plug, cmd: "brandos install --pack", title: "Install", body: "Finds the app (even in a subfolder) and adds the theme, fonts and the kit that fits it." },
+  { icon: Paintbrush, cmd: "ui-migrate", title: "Migrate", body: "An agent moves each page onto the shell, layout, page tops, bento panels and components in this guide." },
+  { icon: ShieldCheck, cmd: "brandos verify", title: "Check", body: "Opens every page: brand colours and fonts, failed requests, hover, cut-off text, broken corners, sideways scrolling." },
 ]
 
 function HowItWorks() {
   return (
-    <Section id="how" kicker="Workflow" title="From brand guide to branded app" intro="Six steps. The first four are commands; migration is done page by page by an agent following the ui-migrate skill.">
+    <Section id="how" kicker="Workflow" title="From brand guide to branded app" intro="Make a brand pack once, then reuse it in every app. Migration is done page by page by an agent following the ui-migrate skill; everything else is a command.">
       <ol className="gd-flow">
         {STEPS.map((s, i) => (
           <li key={s.title} className="gd-flow-step">
@@ -307,20 +306,23 @@ function HowItWorks() {
       <div className="bos-grid-2" style={{ marginTop: 32 }}>
         <div className="bos-surface">
           <h3 className="bos-h3">Run it</h3>
-          <Code>{`# in the app's repo, with the guide in brand-source/
-npx brandos extract "brand-source/Brand Guide.pdf"
-npx brandos install --app app/frontend
-npx brandos audit --app app/frontend
-npx brandos verify http://localhost:5173 --app app/frontend`}</Code>
+          <Code>{`# once per brand: make the pack in the studio
+node path/to/brandos/cli/brandos.mjs studio
+
+# in each app's repo
+node path/to/brandos/cli/brandos.mjs detect
+node path/to/brandos/cli/brandos.mjs install --pack ~/Downloads/acme-brand-1.0.0.zip
+node path/to/brandos/cli/brandos.mjs audit app/frontend
+node path/to/brandos/cli/brandos.mjs verify http://localhost:5173 --app app/frontend`}</Code>
         </div>
         <div className="gd-fontflow bos-glass">
           <h3 className="bos-h3">How fonts are chosen</h3>
           <div className="gd-fontflow-grid">
             <div className="gd-node">
-              <Type size={18} /> Guide names a headline font
+              <Type size={18} /> The brand's body font
             </div>
             <div className="gd-node">
-              <FileText size={18} /> Font files in brand-source/
+              <FileText size={18} /> Licensed files added in the studio
             </div>
             <ArrowRight className="gd-arrow" aria-hidden="true" />
             <ArrowRight className="gd-arrow" aria-hidden="true" />
@@ -334,7 +336,7 @@ npx brandos verify http://localhost:5173 --app app/frontend`}</Code>
             </div>
           </div>
           <p className="bos-caption" style={{ marginTop: 12 }}>
-            A family the guide doesn't mention but whose files sit in brand-source becomes the heading font. Serif and slab faces win. Without one, headings use the body font.
+            One family for everything: size and weight make the hierarchy. Licensed font files travel in the pack; until they're added, a free stand-in of the same style shows. A brand can opt in to its display font for headings in the studio.
           </p>
         </div>
       </div>
@@ -348,7 +350,7 @@ const PARTS = [
   ["Glass nav", "Sticky, floats over the page. Content blurs through it."],
   ["Hero", "Display heading, a lead line, one primary and one glass button."],
   ["Featured surface", "Solid, with a soft shadow. The single most important thing."],
-  ["Stat strip", "Big numbers in the heading font, divided by hairlines."],
+  ["Stat strip", "Big numbers, medium weight, divided by hairlines."],
   ["Featured + glass rows", "One solid item beside secondary items in glass."],
   ["Tiles", "Repeating cards. Outlined glass, solid on hover."],
   ["Table", "Ranked or tabular data. The user's own row is tinted."],
@@ -590,12 +592,13 @@ function Foundations({ current }: { current?: Brand }) {
       <h3 className="bos-h2 gd-sub">Type</h3>
       <div className="bos-surface gd-type">
         {[
-          ["bos-display", "Display", "Heading font", "Big ideas, short lines"],
-          ["bos-h1", "H1", "Heading font", "Page and section titles"],
-          ["bos-h2", "H2", "Heading font", "Subsections and card titles"],
-          ["bos-h3", "H3", "Body font, bold", "Items in lists and tiles"],
+          ["bos-display", "Display", "Medium, landing pages only", "Big ideas, short lines"],
+          ["bos-h1", "H1", "Medium", "The title of every page"],
+          ["bos-h2", "H2", "Medium", "Section titles"],
+          ["bos-panel-title", "Panel", "Medium", "Bento panel titles"],
+          ["bos-h3", "H3", "Medium", "Items in lists, tiles and cards"],
           ["bos-lead", "Lead", "Body font", "The sentence under a title that says what the page is for."],
-          ["bos-stat", "Stat", "Heading font, tabular", "1,284"],
+          ["bos-stat", "Stat", "Medium, tabular", "1,284"],
           ["", "Body", "Body font", "Regular text sits at 16px with a 1.6 line height, so long paragraphs stay comfortable to read."],
           ["bos-label", "Label", "Body font, semibold", "Form labels and table headers"],
           ["bos-caption", "Caption", "Body font", "Metadata and timestamps"],
@@ -777,7 +780,7 @@ function Patterns() {
           </div>
         </Specimen>
 
-        <Specimen label="bos-stats" note="Numbers in the heading font, with hairline dividers." className="gd-span-2">
+        <Specimen label="bos-stats" note="Big numbers in medium weight, with hairline dividers." className="gd-span-2">
           <div className="bos-stats" style={{ marginTop: 0 }}>
             <div>
               <div className="bos-stat">32</div>
@@ -1317,7 +1320,7 @@ class ErrorBoundary extends React.Component<{ name: string; children: React.Reac
 
 function ExamplePage() {
   return (
-    <Section id="example" kicker="Putting it together" title="A full page" intro="A home page built only from the patterns above. This is the layout pages are migrated to.">
+    <Section id="example" kicker="Putting it together" title="A full page" intro="An app home built only from the patterns above: the sidebar shell for an app with one main job, the shared title block, and bento panels. This is the layout pages are migrated to.">
       <div className="gd-browser">
         <div className="gd-browser-bar" aria-hidden="true">
           <span />
@@ -1326,133 +1329,7 @@ function ExamplePage() {
         </div>
         <div className="gd-browser-page">
           <div className="gd-browser-glow" aria-hidden="true" />
-          <div className="bos-shell bos-glass">
-            <span className="bos-brand">
-              <span className="bos-charm bos-charm-sm" aria-hidden="true" /> Workspace
-            </span>
-            <nav className="bos-nav" aria-label="Example">
-              <ul className="bos-nav-list">
-                <li>
-                  <a href="#example" aria-current="page">
-                    Home
-                  </a>
-                </li>
-                <li>
-                  <a href="#example">Projects</a>
-                </li>
-                <li>
-                  <a href="#example">Learning</a>
-                </li>
-                <li>
-                  <a href="#example">Team</a>
-                </li>
-              </ul>
-            </nav>
-            <span className="bos-actions">
-              <span className="bos-avatar">AB</span>
-            </span>
-          </div>
-
-          <div className="bos-hero-grid" style={{ paddingTop: 48 }}>
-            <div>
-              <h2 className="bos-display" style={{ fontSize: "clamp(32px, 3vw + 10px, 52px)" }}>
-                Welcome back, Avery. Two steps to go.
-              </h2>
-              <p className="bos-lead" style={{ margin: "16px 0 24px", maxWidth: "34ch" }}>
-                Finish this week's review and one short course, and the next level is yours.
-              </p>
-              <div className="bos-btns">
-                <button className="bos-btn-primary">
-                  Start the review <ArrowRight size={16} />
-                </button>
-                <button className="bos-btn-glass">See what's next</button>
-              </div>
-            </div>
-            <div className="bos-surface bos-surface-lg">
-              <div className="gd-level-top">
-                <span className="bos-charm bos-charm-md" aria-hidden="true">
-                  <Star fill="currentColor" />
-                </span>
-                <div>
-                  <div className="bos-kicker">Level 4</div>
-                  <p className="bos-h2" style={{ margin: 0 }}>
-                    Navigator
-                  </p>
-                </div>
-              </div>
-              <div className="gd-next">
-                <span>
-                  Next: <span className="bos-pill">Pathfinder</span>
-                </span>
-                <strong className="bos-num">72%</strong>
-              </div>
-              <div className="bos-progress bos-progress-primary">
-                <div style={{ width: "72%" }} />
-              </div>
-            </div>
-          </div>
-
-          <div className="bos-stats">
-            <div>
-              <div className="bos-stat">18</div>
-              <small>projects shipped</small>
-            </div>
-            <div>
-              <div className="bos-stat">9</div>
-              <small>courses done</small>
-            </div>
-            <div>
-              <div className="bos-stat">#4</div>
-              <small>on the team board</small>
-            </div>
-          </div>
-
-          <div className="bos-block" style={{ paddingTop: 40 }}>
-            <div className="bos-sec-head">
-              <h3 className="bos-h2">Next up</h3>
-              <a className="bos-text-link" href="#example">
-                See all <ArrowRight size={16} />
-              </a>
-            </div>
-            <div className="bos-feature-grid">
-              <div className="bos-surface bos-feature">
-                <span className="bos-caption">Review · due Friday</span>
-                <h4 className="bos-h2" style={{ fontSize: 24 }}>
-                  Weekly project review
-                </h4>
-                <p className="bos-caption" style={{ fontSize: 15 }}>
-                  Look over three updates from your team and approve or send back.
-                </p>
-                <div className="bos-btns">
-                  <button className="bos-btn-glass">Open review</button>
-                </div>
-              </div>
-              <div className="bos-rows">
-                {["Writing clear briefs", "Planning a sprint", "Sharing what worked"].map((t, i) => (
-                  <a key={t} className="bos-row" href="#example">
-                    <div>
-                      <div className="bos-h3" style={{ fontSize: 16 }}>
-                        {t}
-                      </div>
-                      <div className="bos-meta">
-                        <span className="bos-chip">{i === 1 ? "Course" : "Short read"}</span>
-                        <span className="bos-chip">{8 + i * 4} min</span>
-                      </div>
-                    </div>
-                    <Chev />
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="bos-band" style={{ marginTop: 40, padding: 40 }}>
-            <div>
-              <h3 className="bos-h2">Something worked? Share it.</h3>
-              <p>Every idea you share saves someone else the trial and error.</p>
-            </div>
-            <button className="bos-btn-glass bos-btn-lg">Share an idea</button>
-          </div>
+          <ExampleApp />
         </div>
       </div>
     </Section>
@@ -1462,23 +1339,30 @@ function ExamplePage() {
 /* ------------------------------------------------------------------ rules */
 
 const DOS: [string, string][] = [
-  ["One solid surface per section", "Give the most important thing a white card and a shadow. Everything around it is glass."],
-  ["Glass for secondary", "Rows, the nav, floating controls and secondary buttons. Clickable glass turns solid on hover."],
-  ["Heading font for big type only", "Display, h1, h2 and stats. Lists, tiles and forms use the body font."],
-  ["One gradient band per page", "For the closing call to action, with a glass button on it."],
-  ["Neutrals first", "About 90% of a page is neutral. Brand colour marks the primary action, the active nav item, focus and the person's own status."],
-  ["Hover only on clickable things", "Static cards never move or change colour."],
+  ["One shell, chosen by purpose", "A top bar for apps people explore, a collapsible sidebar for apps with one main job. Never both."],
+  ["One layout system", "Same page width, margins, gaps, padding and corners in every app. Pages differ in content, never in these."],
+  ["Pick the page top by purpose", "Queue, overview, search, assistant, record or welcome. The title block itself is the same everywhere."],
+  ["Bento for homes and dashboards", "Panels of set sizes; spans in a row add up to 12; every panel answers one question."],
+  ["One font family", "Size and weight make the hierarchy: big medium titles, medium names, regular muted detail."],
+  ["One solid surface per section", "The most important thing gets a white card. Everything around it is glass."],
+  ["Neutrals first", "About 90% of a page is neutral. Brand colour marks the primary action, the current page, focus and the person's own status."],
+  ["Hover on everything clickable", "And nothing else. Static cards never move or change colour."],
+  ["Chat boxes at the bottom", "Docked to the bottom of the screen, with an assistant picker so switching never means going home."],
+  ["Show right, wrong and progress clearly", "An icon and words, never colour alone. Always say where people are and how long is left."],
 ]
 const DONTS: [string, string][] = [
-  ["Colours outside the brand", "brandos audit and verify fail on any colour that isn't a brand hue or a neutral."],
-  ["Solid white everywhere", "If every card is solid, nothing stands out. Use glass."],
-  ["Gradient text or extra gradients", "The band is the gradient. Charms carry colour in small doses."],
-  ["Heading font in dense UI", "Tables, menus and form labels stay in the body font."],
+  ["Colours or fonts outside the brand", "brandos audit and verify fail on any colour that isn't a brand hue or a neutral, and any font that isn't the brand's."],
+  ["Pill corners on big boxes", "Pills are for buttons, inputs, chips and the nav. Dialogs, menus and cards use card corners or they turn into ovals."],
+  ["Square corners inside rounded ones", "Anything with a background inside a rounded box takes its corners from it."],
+  ["Bold headings or a second family", "No serif or display font unless the brand opts in."],
+  ["A More menu with one item", "More only appears with more than six main pages."],
+  ["Extra gradients and glows", "One brand band and at most one glow per page. No gradient text."],
+  ["Text cut off or sideways scrolling", "Whole words always show, at every width. verify checks it."],
 ]
 
 function Rules() {
   return (
-    <Section id="rules" kicker="Rules" title="Do and don't" intro="The ui-migrate skill applies these on every page, and the audit checks the colour ones automatically.">
+    <Section id="rules" kicker="Rules" title="Do and don't" intro="The ui-migrate skill applies these on every page, and brandos verify checks the colours, fonts, hover, corners, cut-off text and sideways scrolling automatically.">
       <div className="bos-grid-2">
         <div className="bos-surface">
           <h3 className="bos-h3 gd-rule-head">
@@ -1516,7 +1400,7 @@ function Rules() {
       <div className="bos-band">
         <div>
           <h3 className="bos-h2">Bring your own brand</h3>
-          <p>Drop a brand guide and any licensed font files into brand-source/, then run extract. Everything on this page follows.</p>
+          <p>Open the studio, add your brand guide or design system and your fonts, and download a brand pack. Everything on this page follows.</p>
         </div>
         <a className="bos-btn-glass bos-btn-lg" href="#how">
           Start with step one
