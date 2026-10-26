@@ -319,9 +319,10 @@ export function themeCss(brand, theme, { scope } = {}) {
   out.push(`${lightSel} {`)
   out.push(line("radius", `${radius}rem`))
   if (fonts.sans) out.push(line("font-sans", fonts.sans))
-  if (fonts.display) out.push(line("font-display", fonts.display))
-  // Headings use the body font unless the brand opts in to its display font (typography.headings: "display").
+  // One family by default: headings, and anything an app styles with --font-display (or Tailwind's font-display),
+  // use the body font unless the brand opts in to its display font (typography.headings: "display").
   const displayHeadings = brand.typography?.headings === "display" && fonts.display
+  out.push(line("font-display", displayHeadings ? fonts.display : "var(--font-sans)"))
   out.push(line("font-heading", displayHeadings ? "var(--font-display)" : "var(--font-sans)"))
   out.push(line("display-weight", displayHeadings ? (brand.fonts.display.weight ?? 500) : (brand.typography?.headingWeight ?? 500)))
   if (fonts.mono) out.push(line("font-mono", fonts.mono))

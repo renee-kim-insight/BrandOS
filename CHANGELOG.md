@@ -2,6 +2,14 @@
 
 BrandOS uses semantic versioning: patch (1.0.x) for fixes and rule changes, minor (1.x.0) for new features, major (x.0.0) for breaking changes.
 
+## 1.4.3
+
+No more serif sneaking in.
+
+- `--font-display` now follows the body font unless the brand opts in (`typography.headings: "display"`), so apps that style headings with `var(--font-display)` or Tailwind's `font-display` get the sans too.
+- The palette lock leaves out a display font the brand hasn't opted in to, so `audit` and `verify` flag it if an app still uses it.
+- Installing from a brand pack rebuilds `theme.css` and `palette.json` from the pack's brand.json with the current BrandOS, so packs made before 1.3 pick up the one-family rule without being made again.
+
 ## 1.4.2
 
 - Fix: the counter, timer, meta chips, status pills, score and segmented control keep their own width instead of stretching across a card.
