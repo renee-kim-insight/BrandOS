@@ -1,0 +1,47 @@
+# Runs in Insight-Global-Public/BrandOS only. When the mirror brings in a version tag (v1.5.0), publish a
+# release for it, titled "BrandOS 1.5.0", with that version's section of CHANGELOG.md as the notes.
+# Run it by hand (Actions > Release from tag > Run workflow) to fill in releases for tags that have none.
+name: Release from tag
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    if: github.repository == 'Insight-Global-Public/BrandOS'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Publish releases
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          EVENT: ${{ github.event_name }}
+          REF: ${{ github.ref_name }}
+        run: |
+          git fetch --tags --force origin
+          # One tag when a tag arrives; every version tag when run by hand. Oldest first.
+          if [ "$EVENT" = "push" ]; then tags="$REF"; else tags=$(git tag -l 'v*' --sort=v:refname); fi
+          newest=$(git tag -l 'v*' | sed -E 's/^v\.?//' | sort -V | tail -1)
+          for tag in $tags; do
+            if gh release view "$tag" -R "$REPO" >/dev/null 2>&1; then echo "$tag already has a release"; continue; fi
+            version=$(echo "$tag" | sed -E 's/^v\.?//')
+            # This version's section of CHANGELOG.md, as it was at the tag.
+            git show "$tag:CHANGELOG.md" 2>/dev/null | awk -v v="$version" '
+              $0 == "## " v { found = 1; next }
+              found && /^## / { exit }
+              found { print }' > notes.md
+            [ -s notes.md ] || echo "See CHANGELOG.md for what changed in $version." > notes.md
+            latest=false
+            [ "$version" = "$newest" ] && latest=true
+            gh release create "$tag" -R "$REPO" --verify-tag --title "BrandOS $version" --notes-file notes.md --latest=$latest
+            echo "Published BrandOS $version"
+          done
