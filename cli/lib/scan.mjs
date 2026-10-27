@@ -231,15 +231,17 @@ const layoutRank = (f) => (/layout|shell|header|nav|sidebar|footer|app\.(tsx|jsx
 // Rules that are only advice for a kit (PrimeVue keeps native labels).
 const ADVICE_FOR = { primevue: ["label", "hr"] }
 function analyseFile(file, kit) {
-  // Elements already styled with BrandOS classes (bos-*) are on brand, not hand-built: leave them out.
-  const text = fs
-    .readFileSync(file, "utf8")
-    .replace(/<[a-zA-Z][\w.-]*\b[^>]*\bclass(?:Name)?=[^>]*\bbos-[\w-]+[^>]*>/g, "")
-    .replace(/\bbos-[\w-]+/g, "")
+  const text = fs.readFileSync(file, "utf8")
+  // Elements already styled with BrandOS classes (bos-*) are on brand, not hand-built. Find where those
+  // tags sit in the file and don't count anything found inside them. (Nothing is removed from the text.)
+  const branded = []
+  for (const m of text.matchAll(/<[a-zA-Z][\w.-]*\b[^>]*>/g))
+    if (/\bclass(?:Name)?=[^>]*\bbos-[\w-]/.test(m[0])) branded.push([m.index, m.index + m[0].length])
+  const outsideBranded = (m) => !branded.some(([from, to]) => m.index >= from && m.index < to)
   const counts = {}
   const advice = {}
   for (const r of RULES) {
-    const n = (text.match(r.re) ?? []).length
+    const n = [...text.matchAll(r.re)].filter(outsideBranded).length
     if (n) (r.advice || ADVICE_FOR[kit]?.includes(r.id) ? advice : counts)[r.id] = n
   }
   // Already migrated: imports from the kit reduce what's left to do.

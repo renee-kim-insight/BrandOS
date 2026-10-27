@@ -2,6 +2,11 @@
 
 BrandOS uses semantic versioning: patch (1.0.x) for fixes and rule changes, minor (1.x.0) for new features, major (x.0.0) for breaking changes.
 
+## 1.5.1
+
+- audit finds BrandOS-styled elements by position instead of stripping them out of the text, which also clears a code-scanning alert on that code.
+- The mirror to Insight-Global-Public overwrites its sync branch each time, so it never gets stuck behind a commit made there.
+
 ## 1.5.0
 
 Fixes from review: plain HTML pages, dark mode, logos, the checks, and phones.

@@ -41,5 +41,6 @@ jobs:
           export GIT_SSH_COMMAND="ssh -i ~/.ssh/mirror_key -o IdentitiesOnly=yes"
           git remote add internal git@github.com:Insight-Global-Public/BrandOS.git
           git fetch --tags origin
-          git push internal "refs/remotes/origin/main:refs/heads/sync/main"
+          # sync/main is only ever a copy of this repo's main, so it is overwritten each time.
+          git push --force internal "refs/remotes/origin/main:refs/heads/sync/main"
           git push internal --tags || echo "::warning::Some tags were not copied (the internal repo may protect tags). Create them there from the release page."
