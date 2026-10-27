@@ -3226,6 +3226,36 @@
       "kind": "font",
       "prop": "font-family",
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section#heroes.bos-block.gd-section > div.gd-learn-rules > div.bos-tile > div.bos-label",
+      "text": "Logos keep their shape",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section#heroes.bos-block.gd-section > div.gd-learn-rules > div.bos-tile > p.bos-caption",
+      "text": "32px tall, up to 180px wide. A",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.gd-learn-rules > div.bos-tile > div.bos-segmented > button",
+      "text": "Light",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "light",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
       "selector": "section#heroes.bos-block.gd-section > div.gd-layout-spec > div.gd-layout-row > strong",
       "text": "1680px",
       "detail": "font Manrope"
@@ -14016,6 +14046,36 @@
       "kind": "font",
       "prop": "font-family",
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section#heroes.bos-block.gd-section > div.gd-learn-rules > div.bos-tile > div.bos-label",
+      "text": "Logos keep their shape",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "section#heroes.bos-block.gd-section > div.gd-learn-rules > div.bos-tile > p.bos-caption",
+      "text": "32px tall, up to 180px wide. A",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
+      "selector": "div.gd-learn-rules > div.bos-tile > div.bos-segmented > button",
+      "text": "Light",
+      "detail": "font Manrope"
+    },
+    {
+      "mode": "dark",
+      "page": "/",
+      "kind": "font",
+      "prop": "font-family",
+      "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
       "selector": "section#heroes.bos-block.gd-section > div.gd-layout-spec > div.gd-layout-row > strong",
       "text": "1680px",
       "detail": "font Manrope"
@@ -21599,6 +21659,10 @@
     {
       "page": "/",
       "detail": "console error: Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+    },
+    {
+      "page": "/",
+      "detail": "console error: Failed to load resource: the server responded with a status of 404 (File not found)"
     },
     {
       "page": "/",

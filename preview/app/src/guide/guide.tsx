@@ -1112,6 +1112,52 @@ function Learning() {
   )
 }
 
+function SetupDetails() {
+  const { mode, setMode } = React.useContext(ModeContext)
+  const [choice, setChoice] = React.useState<"light" | "dark" | "system">("system")
+  const pick = (c: "light" | "dark" | "system") => {
+    setChoice(c)
+    if (c === "system") {
+      let dark = false
+      try { dark = window.matchMedia("(prefers-color-scheme: dark)").matches } catch {}
+      setMode(dark ? "dark" : "light")
+    } else setMode(c)
+  }
+  const wide = "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="168" height="32" viewBox="0 0 168 32"><rect width="32" height="32" rx="9" fill="#5b6cff"/><text x="44" y="22" font-family="system-ui,sans-serif" font-size="17" font-weight="700" fill="#5b6cff">Northwind Co.</text></svg>')
+  const mark = "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><rect width="32" height="32" rx="9" fill="#5b6cff"/></svg>')
+  return (
+    <>
+      <h3 className="bos-h2 gd-sub">Logos, light and dark, and phones</h3>
+      <p className="bos-lead gd-intro" style={{ marginBottom: 20 }}>Three things every app gets right without extra work.</p>
+      <div className="gd-learn-rules" style={{ marginTop: 0 }}>
+        <div className="bos-tile">
+          <div className="bos-label">Logos keep their shape</div>
+          <p className="bos-caption" style={{ margin: "6px 0 14px" }}>32px tall, up to 180px wide. A collapsed sidebar shows the square mark.</p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <span className="bos-brand"><img src={wide} alt="Northwind Co." /></span>
+            <span style={{ display: "flex", alignItems: "center", gap: 10 }}><span className="bos-brand"><img src={mark} alt="" style={{ width: 32 }} /></span><span className="bos-caption">collapsed sidebar</span></span>
+          </div>
+          <code className="bos-caption" style={{ display: "block", marginTop: 12 }}>bos-logo-wide · bos-logo-mark</code>
+        </div>
+        <div className="bos-tile">
+          <div className="bos-label">Follows the computer</div>
+          <p className="bos-caption" style={{ margin: "6px 0 14px" }}>Light or dark matches the computer's setting until someone picks one. Try it: this page switches too.</p>
+          <div className="bos-segmented" role="group" aria-label="Theme">
+            {(["light", "dark", "system"] as const).map((c) => (
+              <button key={c} type="button" aria-pressed={choice === c} onClick={() => pick(c)}>{c[0].toUpperCase() + c.slice(1)}</button>
+            ))}
+          </div>
+          <code className="bos-caption" style={{ display: "block", marginTop: 12 }}>brandos-theme.js · now {mode}</code>
+        </div>
+        <div className="bos-tile">
+          <div className="bos-label">Made for phones too</div>
+          <p className="bos-caption" style={{ margin: "6px 0 0" }}>Below 560px: tighter spacing, two stats per row, full-width buttons at the end of each card, and no icons left sitting alone. Every example on this page does it; narrow the window to see.</p>
+        </div>
+      </div>
+    </>
+  )
+}
+
 function Heroes() {
   return (
     <Section
@@ -1221,6 +1267,8 @@ function Heroes() {
           <SidebarShellDemo />
         </div>
       </div>
+
+      <SetupDetails />
 
       <h3 className="bos-h2 gd-sub">The layout system</h3>
       <p className="bos-lead gd-intro" style={{ marginBottom: 20 }}>

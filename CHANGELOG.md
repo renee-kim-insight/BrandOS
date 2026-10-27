@@ -2,6 +2,10 @@
 
 BrandOS uses semantic versioning: patch (1.0.x) for fixes and rule changes, minor (1.x.0) for new features, major (x.0.0) for breaking changes.
 
+## 1.5.1
+
+- Guide: a new "Logos, light and dark, and phones" part under Page tops shows wide logos and the collapsed mark, a Light, Dark and System switch that changes the page, and what changes on phones.
+
 ## 1.5.0
 
 Fixes from review: plain HTML pages, dark mode, logos, the checks, and phones.
