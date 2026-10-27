@@ -47,22 +47,3 @@ jobs:
           git push --force internal "refs/remotes/origin/main:refs/heads/sync/main"
           git push internal --tags || echo "::warning::Some tags were not copied (the internal repo may protect tags). Create them there from the release page."
 
-      # Optional. The internal org doesn't let Actions open pull requests, so this step opens the sync
-      # pull request as you, with a fine-grained token in the secret MIRROR_PR_TOKEN (Insight-Global-Public/
-      # BrandOS only; Pull requests: read and write, Contents: read). Without the secret it's skipped.
-      - name: Open the sync pull request and turn on auto-merge
-        if: steps.key.outputs.present == 'yes'
-        env:
-          GH_TOKEN: ${{ secrets.MIRROR_PR_TOKEN }}
-          REPO: Insight-Global-Public/BrandOS
-        run: |
-          if [ -z "$GH_TOKEN" ]; then echo "No MIRROR_PR_TOKEN; open the pull request by hand: https://github.com/$REPO/compare/main...sync/main"; exit 0; fi
-          if [ -z "$(git rev-list internal/main..origin/main 2>/dev/null || true)" ]; then git fetch internal main 2>/dev/null || true; fi
-          pr=$(gh pr list -R "$REPO" --head sync/main --base main --state open --json number -q '.[0].number')
-          if [ -z "$pr" ]; then
-            gh pr create -R "$REPO" --base main --head sync/main --title "Sync from renee-kim-insight/BrandOS" \
-              --body "Latest changes from renee-kim-insight/BrandOS. Merges itself once the required checks pass." \
-              || { echo "::notice::Nothing new to sync, or the pull request couldn't be opened."; exit 0; }
-            pr=$(gh pr list -R "$REPO" --head sync/main --base main --state open --json number -q '.[0].number')
-          fi
-          gh pr merge "$pr" -R "$REPO" --merge --auto || echo "::notice::Turn on Allow auto-merge in the internal repo's settings."
