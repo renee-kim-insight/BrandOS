@@ -1,11 +1,14 @@
-# Copies every push (branches and tags) from renee-kim-insight/BrandOS to Insight-Global-Public/BrandOS.
+# Copies main and tags from renee-kim-insight/BrandOS to Insight-Global-Public/BrandOS.
+# The internal repo protects main (no direct pushes, a security gate and code scanning must pass), so
+# main is copied to the branch "sync/main" there; sync-pr.yml in that repo then opens a pull request
+# into main, which runs the org's checks and merges itself once they pass (if auto-merge is allowed).
 # Needs one secret on this repo, MIRROR_DEPLOY_KEY: the private half of an SSH key whose public half is a
 # deploy key with write access on Insight-Global-Public/BrandOS. Without the secret it skips quietly.
 name: Mirror to Insight-Global-Public
 
 on:
   push:
-    branches: ["**"]
+    branches: [main]
     tags: ["**"]
   workflow_dispatch:
 
@@ -26,7 +29,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Push branches and tags to the internal repo
+      - name: Push main to sync/main, and the tags
         if: steps.key.outputs.present == 'yes'
         env:
           KEY: ${{ secrets.MIRROR_DEPLOY_KEY }}
@@ -38,5 +41,5 @@ jobs:
           export GIT_SSH_COMMAND="ssh -i ~/.ssh/mirror_key -o IdentitiesOnly=yes"
           git remote add internal git@github.com:Insight-Global-Public/BrandOS.git
           git fetch --tags origin
-          git push --force internal "refs/remotes/origin/*:refs/heads/*" "refs/tags/*:refs/tags/*"
-          git push internal --delete HEAD 2>/dev/null || true
+          git push internal "refs/remotes/origin/main:refs/heads/sync/main"
+          git push internal --tags || echo "::warning::Some tags were not copied (the internal repo may protect tags). Create them there from the release page."
