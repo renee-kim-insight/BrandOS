@@ -1,6 +1,6 @@
 {
   "name": "brandos",
-  "version": "1.4.3",
+  "version": "1.5.0",
   "description": "Turn a brand guide into a themed, accessible component library and apply it to any app.",
   "type": "module",
   "bin": {
@@ -12,6 +12,7 @@
   "dependencies": {
     "culori": "^4.0.2",
     "fflate": "^0.8.3",
-    "pdfjs-dist": "^6.4.299"
+    "pdfjs-dist": "^6.4.299",
+    "playwright-core": "^1.64.1"
   }
 }

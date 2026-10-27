@@ -231,7 +231,11 @@ const layoutRank = (f) => (/layout|shell|header|nav|sidebar|footer|app\.(tsx|jsx
 // Rules that are only advice for a kit (PrimeVue keeps native labels).
 const ADVICE_FOR = { primevue: ["label", "hr"] }
 function analyseFile(file, kit) {
-  const text = fs.readFileSync(file, "utf8")
+  // Elements already styled with BrandOS classes (bos-*) are on brand, not hand-built: leave them out.
+  const text = fs
+    .readFileSync(file, "utf8")
+    .replace(/<[a-zA-Z][\w.-]*\b[^>]*\bclass(?:Name)?=[^>]*\bbos-[\w-]+[^>]*>/g, "")
+    .replace(/\bbos-[\w-]+/g, "")
   const counts = {}
   const advice = {}
   for (const r of RULES) {

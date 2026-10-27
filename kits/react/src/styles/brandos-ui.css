@@ -37,6 +37,17 @@
   --edge: color-mix(in oklab, var(--foreground) 12%, transparent);
   --edge-strong: color-mix(in oklab, var(--foreground) 20%, transparent);
 }
+/* ---------- A light reset, so plain HTML pages behave like the React kit ----------
+ * Zero specificity (:where), so an app's own reset or Tailwind's preflight still wins.
+ */
+:where(*, *::before, *::after) { box-sizing: border-box; }
+:where(html) { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+:where(body) { margin: 0; min-height: 100dvh; overflow-wrap: break-word; background: var(--background); color: var(--foreground); font-family: var(--font-sans); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+:where(img, picture, video, canvas) { display: block; max-width: 100%; height: auto; }
+:where(input, button, textarea, select) { font: inherit; color: inherit; }
+:where(pre, table) { max-width: 100%; overflow-x: auto; }
+:where(h1, h2, h3, h4, h5, h6, p, figure, blockquote) { margin-block-start: 0; }
+
 .bos-container,
 .bos-content {
   width: 100%;
@@ -53,7 +64,7 @@
   padding-bottom: var(--section-gap);
 }
 .bos-page > * { margin-block: 0; min-width: 0; }
-.bos-page > section,
+:where(.bos-page > section:not([class*="bos-"])),
 .bos-stack {
   display: flex;
   flex-direction: column;
@@ -610,7 +621,8 @@
 /* Brand block in the bar: logo, name and (optionally) a one-line subtitle, always the same size. */
 .bos-brand { color: var(--foreground); text-decoration: none; font-weight: 700; transition: opacity 150ms; }
 a.bos-brand:hover { opacity: 0.75; }
-.bos-brand img,
+/* Logos keep their shape: a fixed height, any width up to 180px. A square mark (svg, charm) stays 32px. */
+.bos-brand img { width: auto; height: 32px; max-width: 180px; object-fit: contain; flex: none; }
 .bos-brand svg,
 .bos-brand > .bos-charm { width: 32px; height: 32px; flex: none; }
 .bos-brand small { display: block; font-size: 0.75rem; font-weight: 500; color: var(--muted-foreground); line-height: 1.2; }
@@ -1354,9 +1366,13 @@ button.bos-row:hover {
   white-space: nowrap;
 }
 a.bos-sidebar-brand:hover { opacity: 0.75; }
-.bos-sidebar-brand img,
+.bos-sidebar-brand img { width: auto; height: 32px; max-width: 180px; object-fit: contain; flex: none; }
 .bos-sidebar-brand svg,
 .bos-sidebar-brand .bos-charm { width: 32px; height: 32px; flex: none; }
+/* A wide logo plus a square mark for the collapsed sidebar:
+   <img class="bos-logo-wide" src="logo.svg" alt="Acme"> <img class="bos-logo-mark" src="mark.svg" alt=""> */
+.bos-logo-mark { display: none; }
+.bos-sidebar-brand img.bos-logo-mark { width: 32px; max-width: 32px; }
 .bos-sidebar-brand strong { display: block; font-size: 1rem; font-weight: 700; line-height: 1.2; }
 .bos-sidebar-brand small { display: block; font-size: 0.8125rem; color: var(--muted-foreground); }
 .bos-sidebar-toggle {
@@ -1421,6 +1437,10 @@ a.bos-sidebar-brand:hover { opacity: 0.75; }
 .bos-app[data-collapsed] .bos-sidebar { padding-inline: var(--space-2); }
 .bos-app[data-collapsed] .bos-sidebar-head { flex-direction: column; }
 .bos-app[data-collapsed] .bos-sidebar-brand { padding: 0; }
+.bos-app[data-collapsed] .bos-sidebar-brand:has(.bos-logo-mark) .bos-logo-wide { display: none; }
+.bos-app[data-collapsed] .bos-sidebar-brand .bos-logo-mark { display: block; }
+/* A wide logo with no mark: show its left edge, square. */
+.bos-app[data-collapsed] .bos-sidebar-brand:not(:has(.bos-logo-mark)) img { width: 32px; object-fit: cover; object-position: left center; }
 .bos-app[data-collapsed] :is(.bos-sidebar-brand > span:not([class]), .bos-sidebar-item > span:not([class]), .bos-sidebar-item .bos-count, .bos-sidebar-label) {
   position: absolute;
   width: 1px;
@@ -2451,3 +2471,36 @@ a.bos-media:hover .bos-media-title { text-decoration: underline; text-underline-
 :is(.bos-counter, .bos-timer, .bos-chip-meta, .bos-status, .bos-score, .bos-segmented, .bos-link-pill) { width: fit-content; max-width: 100%; }
 :is(.bos-counter, .bos-timer, .bos-chip-meta, .bos-status, .bos-score, .bos-segmented) { align-self: flex-start; }
 .bos-person .bos-chip-meta { align-self: center; }
+
+/* ==========================================================================
+   Phones (1.5.0): the same design, sized for a small screen.
+   Tighter spacing and padding so content gets the width, two stats per row, full-width actions,
+   and decorative icons dropped where they would sit alone on a line.
+   ========================================================================== */
+@media (max-width: 560px) {
+  :root {
+    --page-top: 24px;
+    --section-gap: 40px;
+    --block-gap: 16px;
+    --bento-gap: 12px;
+    --pad-panel: 18px;
+    --pad-card: 20px;
+    --pad-tile: 18px;
+    --pad-row: 14px 16px;
+    --text-panel: 1.3125rem;
+  }
+  .bos-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: var(--space-6); }
+  .bos-stats > * { padding: var(--space-4); }
+  .bos-inner { padding: 14px 16px; }
+  .bos-panel { gap: var(--space-3); }
+  .bos-hero-overview > :last-child:not(:first-child) { width: 100%; }
+  /* An action at the end of a card or row takes the full width, so every card ends the same way. */
+  :is(.bos-panel, .bos-inner, .bos-surface, .bos-quiz, .bos-result, .bos-tile, .bos-hero-overview, .bos-hero-compact, .bos-hero-split) :is(.bos-btn-primary, .bos-btn-glass):not([aria-label]):not(.bos-composer *):not(.bos-panel-head *) {
+    width: 100%;
+    justify-content: center;
+  }
+  /* Decorative icon badges inside content rows would sit alone on a line: drop them. */
+  :is(.bos-panel, .bos-inner) .bos-icon-badge[aria-hidden="true"]:not(.bos-panel-head *) { display: none; }
+  .bos-quiz-foot > :last-child { margin-left: 0; width: 100%; }
+  .bos-figure-value { font-size: clamp(2.5rem, 12vw, 3.25rem); }
+}

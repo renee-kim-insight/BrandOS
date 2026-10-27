@@ -110,6 +110,8 @@ export async function install(a, PKG) {
     // Styles: entry + Glass style + brand files
     for (const f of ["brandos.css", "brandos-ui.css", "style-glass.css"]) put(path.join(stylesDir, f), fs.readFileSync(path.join(kitSrc, "styles", f), "utf8"), { owned: true })
     for (const f of brandFiles) put(path.join(stylesDir, f), fs.readFileSync(path.join(brandDir, f)), { owned: true })
+    put(path.join(stylesDir, "brandos-theme.js"), fs.readFileSync(path.join(PKG, "kits/shared/brandos-theme.js")), { owned: true })
+    log.todo.push(`Dark mode follows the .dark class. If the app has no theme provider (next-themes or similar) that follows the computer's setting, load ${path.relative(app, path.join(stylesDir, "brandos-theme.js"))} in index.html's <head>.`)
 
     // Wire the stylesheet into the app's CSS entry
     if (d.cssEntry && d.tailwind?.version === 4) {
@@ -188,10 +190,12 @@ export async function install(a, PKG) {
     if (!fs.existsSync(path.join(kitCss, "glass-ui.css"))) throw new Error("kits/css/glass-ui.css is missing from the package.")
     put(path.join(dest, "glass-ui.css"), fs.readFileSync(path.join(kitCss, "glass-ui.css")), { owned: true })
     put(path.join(dest, "brandos-ui.css"), fs.readFileSync(path.join(PKG, "kits/react/src/styles/brandos-ui.css")), { owned: true })
+    put(path.join(dest, "brandos-theme.js"), fs.readFileSync(path.join(PKG, "kits/shared/brandos-theme.js")), { owned: true })
     for (const f of brandFiles) put(path.join(dest, f), fs.readFileSync(path.join(brandDir, f)), { owned: true })
     const markupDir = path.join(kitCss, "markup")
     if (fs.existsSync(markupDir)) for (const f of fs.readdirSync(markupDir)) put(path.join(dest, "markup", f), fs.readFileSync(path.join(markupDir, f)), { owned: true })
     log.todo.push(`Load in this order on every page: ${["fonts.css", "theme.css", "brandos-ui.css", "glass-ui.css"].map((f) => path.relative(app, path.join(dest, f))).join(", ")}`)
+    log.todo.push(`Dark mode that follows the computer's setting: load ${path.relative(app, path.join(dest, "brandos-theme.js"))} in <head>, before the stylesheets. A theme switch calls BrandOSTheme.set("light" | "dark" | "system").`)
     log.todo.push(`Copy component markup from ${path.relative(app, path.join(dest, "markup"))}/. Keep the classes and data attributes exactly; only change text and wiring.`)
     if (d.framework === "angular") log.todo.push(`Angular: add the four CSS files to "styles" in angular.json, in that order.`)
     wireRoot(app, d, brandDir, dry, log)

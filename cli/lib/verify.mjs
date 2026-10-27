@@ -19,7 +19,7 @@ export async function verify(a, PKG) {
 
   const launchOpts = {}
   if (a.chromium) launchOpts.executablePath = a.chromium
-  const browser = await pw.chromium.launch(launchOpts)
+  const browser = await launchBrowser(pw, launchOpts)
   const page = await browser.newPage({ viewport: { width: Number(a.width ?? 1280), height: 900 } })
   const problems = []
   // Loading: failed requests and script errors mean a page isn't working, whatever it looks like.
@@ -179,14 +179,31 @@ function manifestDark(app) {
 }
 
 async function loadPlaywright(app, PKG) {
-  for (const from of [app, process.cwd(), PKG]) {
+  // playwright-core ships with BrandOS; a full playwright install in the app works too.
+  for (const name of ["playwright", "playwright-core"])
+    for (const from of [app, process.cwd(), PKG]) {
+      try {
+        const req = createRequire(path.join(from, "package.json"))
+        const mod = await import(req.resolve(name))
+        return mod.chromium ? mod : mod.default
+      } catch {}
+    }
+  fail("brandos verify needs Playwright. In the brandos folder run: npm install")
+}
+
+/** Use Playwright's own Chromium if it's there, else the Chrome or Edge already on the computer. */
+export async function launchBrowser(pw, opts = {}) {
+  if (opts.executablePath) return pw.chromium.launch(opts)
+  const tries = [{}, { channel: "chrome" }, { channel: "msedge" }]
+  let last
+  for (const t of tries) {
     try {
-      const req = createRequire(path.join(from, "package.json"))
-      const mod = await import(req.resolve("playwright"))
-      return mod.chromium ? mod : mod.default
-    } catch {}
+      return await pw.chromium.launch({ ...opts, ...t })
+    } catch (e) {
+      last = e
+    }
   }
-  fail("brandos verify needs Playwright. In the brandos folder run: npm install playwright && npx playwright install chromium")
+  fail(`brandos verify couldn't find a browser. Install Google Chrome, or run: npx playwright install chromium (in the brandos folder). Or pass --chromium <path to a Chrome or Chromium>.\n${String(last?.message ?? "").split("\n")[0]}`)
 }
 
 function fail(msg) {

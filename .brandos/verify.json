@@ -57,7 +57,7 @@
       "prop": "color",
       "value": "oklch(0.511 0.086 186.4)",
       "selector": "header#top.bos-hero > div.bos-hero-grid > div > span.bos-kicker",
-      "text": "Component guide · BrandOS 1.4",
+      "text": "Component guide · BrandOS 1.5",
       "detail": "#0f766e is not a brand hue (nearest #4ec7ea, 34° away)"
     },
     {
@@ -67,7 +67,7 @@
       "prop": "font-family",
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
       "selector": "header#top.bos-hero > div.bos-hero-grid > div > span.bos-kicker",
-      "text": "Component guide · BrandOS 1.4",
+      "text": "Component guide · BrandOS 1.5",
       "detail": "font Manrope"
     },
     {
@@ -5643,16 +5643,6 @@
     {
       "mode": "light",
       "page": "/",
-      "kind": "colour",
-      "prop": "color",
-      "value": "oklch(0.511 0.086 186.4)",
-      "selector": "div.gd-comp-stage > div.flex.max-w-xl > div.flex.flex-wrap > button.cn-button.group/button",
-      "text": "View run history",
-      "detail": "#0f766e is not a brand hue (nearest #4ec7ea, 34° away)"
-    },
-    {
-      "mode": "light",
-      "page": "/",
       "kind": "font",
       "prop": "font-family",
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
@@ -7329,16 +7319,6 @@
       "selector": "article#c-hover-card.gd-comp > div.gd-comp-stage",
       "text": "",
       "detail": "#bae9e3 is not a brand hue (nearest #4ec7ea, 34° away)"
-    },
-    {
-      "mode": "light",
-      "page": "/",
-      "kind": "colour",
-      "prop": "color",
-      "value": "oklch(0.511 0.086 186.4)",
-      "selector": "button#base-ui-_r_3c_.cn-button.group/button",
-      "text": "@sam.wong",
-      "detail": "#0f766e is not a brand hue (nearest #4ec7ea, 34° away)"
     },
     {
       "mode": "light",
@@ -10837,7 +10817,7 @@
       "prop": "color",
       "value": "oklch(0.62 0.086 186.4)",
       "selector": "header#top.bos-hero > div.bos-hero-grid > div > span.bos-kicker",
-      "text": "Component guide · BrandOS 1.4",
+      "text": "Component guide · BrandOS 1.5",
       "detail": "#3d978e is not a brand hue (nearest #4ec7ea, 34° away)"
     },
     {
@@ -10847,7 +10827,7 @@
       "prop": "font-family",
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
       "selector": "header#top.bos-hero > div.bos-hero-grid > div > span.bos-kicker",
-      "text": "Component guide · BrandOS 1.4",
+      "text": "Component guide · BrandOS 1.5",
       "detail": "font Manrope"
     },
     {
@@ -16453,16 +16433,6 @@
     {
       "mode": "dark",
       "page": "/",
-      "kind": "colour",
-      "prop": "color",
-      "value": "oklch(0.62 0.086 186.4)",
-      "selector": "div.gd-comp-stage > div.flex.max-w-xl > div.flex.flex-wrap > button.cn-button.group/button",
-      "text": "View run history",
-      "detail": "#3d978e is not a brand hue (nearest #4ec7ea, 34° away)"
-    },
-    {
-      "mode": "dark",
-      "page": "/",
       "kind": "font",
       "prop": "font-family",
       "value": "Manrope, ui-sans-serif, system-ui, sans-serif",
@@ -18159,16 +18129,6 @@
       "selector": "article#c-hover-card.gd-comp > div.gd-comp-stage",
       "text": "",
       "detail": "#00463f is not a brand hue (nearest #4ec7ea, 34° away)"
-    },
-    {
-      "mode": "dark",
-      "page": "/",
-      "kind": "colour",
-      "prop": "color",
-      "value": "oklch(0.62 0.086 186.4)",
-      "selector": "button#base-ui-_r_3c_.cn-button.group/button",
-      "text": "@sam.wong",
-      "detail": "#3d978e is not a brand hue (nearest #4ec7ea, 34° away)"
     },
     {
       "mode": "dark",
@@ -21639,10 +21599,6 @@
     {
       "page": "/",
       "detail": "console error: Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
-    },
-    {
-      "page": "/",
-      "detail": "console error: Failed to load resource: the server responded with a status of 404 (File not found)"
     },
     {
       "page": "/",

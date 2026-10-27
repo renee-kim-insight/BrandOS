@@ -213,7 +213,7 @@ function Hero({ current }: { current?: Brand }) {
     <header className="bos-hero" id="top">
       <div className="bos-hero-grid">
         <div>
-          <span className="bos-kicker">Component guide · BrandOS 1.4</span>
+          <span className="bos-kicker">Component guide · BrandOS 1.5</span>
           <h1 className="bos-display" style={{ marginTop: 10 }}>
             One component library. Any brand.
           </h1>

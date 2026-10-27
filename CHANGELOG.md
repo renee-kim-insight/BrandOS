@@ -2,6 +2,18 @@
 
 BrandOS uses semantic versioning: patch (1.0.x) for fixes and rule changes, minor (1.x.0) for new features, major (x.0.0) for breaking changes.
 
+## 1.5.0
+
+Fixes from review: plain HTML pages, dark mode, logos, the checks, and phones.
+
+- **Plain HTML:** `brandos-ui.css` now includes a light reset (box sizing, body margin, images and code that fit their box), so plain pages no longer scroll sideways. It has zero specificity, so an app's own reset still wins.
+- **Heroes:** a hero written as a `<section>` splits into columns like a `<div>` does. Only unclassed sections inside `bos-page` stack.
+- **Dark mode:** new `brandos-theme.js` follows the computer's light or dark setting, remembers a person's choice and offers `BrandOSTheme.set("light" | "dark" | "system")`. Install copies it and says where to load it.
+- **Logos:** wide logos keep their shape (32px tall, up to 180px wide). A collapsible sidebar can show a square mark when collapsed (`bos-logo-wide` and `bos-logo-mark`).
+- **audit:** elements styled with BrandOS classes are no longer counted as hand-built UI.
+- **verify:** Playwright comes with BrandOS (`playwright-core`), and verify uses the Chrome or Edge already on the computer when Playwright's own browser isn't installed.
+- **Phones:** below 560px the spacing and padding tighten, stats sit two to a row, card actions go full width so every card ends the same way, and decorative icons that would sit alone on a line are dropped.
+
 ## 1.4.3
 
 No more serif sneaking in.
