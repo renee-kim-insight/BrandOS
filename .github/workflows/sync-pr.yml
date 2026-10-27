@@ -23,9 +23,13 @@ jobs:
         run: |
           pr=$(gh pr list -R "$REPO" --head sync/main --base main --state open --json number -q '.[0].number')
           if [ -z "$pr" ]; then
-            gh pr create -R "$REPO" --base main --head sync/main \
+            if ! gh pr create -R "$REPO" --base main --head sync/main \
               --title "Sync from renee-kim-insight/BrandOS" \
-              --body "Latest changes from renee-kim-insight/BrandOS. Opened automatically; merges once the required checks pass."
+              --body "Latest changes from renee-kim-insight/BrandOS. Merge once the required checks pass."; then
+              echo "::notice::This repo doesn't let GitHub Actions open pull requests. Open one from sync/main into main by hand: https://github.com/$REPO/compare/main...sync/main"
+              exit 0
+            fi
             pr=$(gh pr list -R "$REPO" --head sync/main --base main --state open --json number -q '.[0].number')
           fi
-          gh pr merge "$pr" -R "$REPO" --merge --auto || echo "::notice::Auto-merge isn't allowed here; merge pull request #$pr by hand."
+          echo "Pull request #$pr is up to date with sync/main."
+          gh pr merge "$pr" -R "$REPO" --merge --auto || echo "::notice::Auto-merge isn't on here; merge pull request #$pr when the checks pass."
