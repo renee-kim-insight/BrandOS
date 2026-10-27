@@ -1,0 +1,42 @@
+# Copies every push (branches and tags) from renee-kim-insight/BrandOS to Insight-Global-Public/BrandOS.
+# Needs one secret on this repo, MIRROR_DEPLOY_KEY: the private half of an SSH key whose public half is a
+# deploy key with write access on Insight-Global-Public/BrandOS. Without the secret it skips quietly.
+name: Mirror to Insight-Global-Public
+
+on:
+  push:
+    branches: ["**"]
+    tags: ["**"]
+  workflow_dispatch:
+
+jobs:
+  mirror:
+    # Only run in the source repo, never in the copy.
+    if: github.repository == 'renee-kim-insight/BrandOS'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for the deploy key
+        id: key
+        env:
+          KEY: ${{ secrets.MIRROR_DEPLOY_KEY }}
+        run: echo "present=$([ -n "$KEY" ] && echo yes || echo no)" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@v4
+        if: steps.key.outputs.present == 'yes'
+        with:
+          fetch-depth: 0
+
+      - name: Push branches and tags to the internal repo
+        if: steps.key.outputs.present == 'yes'
+        env:
+          KEY: ${{ secrets.MIRROR_DEPLOY_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$KEY" > ~/.ssh/mirror_key
+          chmod 600 ~/.ssh/mirror_key
+          ssh-keyscan github.com >> ~/.ssh/known_hosts 2>/dev/null
+          export GIT_SSH_COMMAND="ssh -i ~/.ssh/mirror_key -o IdentitiesOnly=yes"
+          git remote add internal git@github.com:Insight-Global-Public/BrandOS.git
+          git fetch --tags origin
+          git push --force internal "refs/remotes/origin/*:refs/heads/*" "refs/tags/*:refs/tags/*"
+          git push internal --delete HEAD 2>/dev/null || true
