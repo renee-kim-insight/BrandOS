@@ -2,11 +2,6 @@
 
 BrandOS uses semantic versioning: patch (1.0.x) for fixes and rule changes, minor (1.x.0) for new features, major (x.0.0) for breaking changes.
 
-## 1.5.1
-
-- audit finds BrandOS-styled elements by position instead of stripping them out of the text, which also clears a code-scanning alert on that code.
-- The mirror to Insight-Global-Public overwrites its sync branch each time, so it never gets stuck behind a commit made there.
-
 ## 1.5.0
 
 Fixes from review: plain HTML pages, dark mode, logos, the checks, and phones.
@@ -15,9 +10,10 @@ Fixes from review: plain HTML pages, dark mode, logos, the checks, and phones.
 - **Heroes:** a hero written as a `<section>` splits into columns like a `<div>` does. Only unclassed sections inside `bos-page` stack.
 - **Dark mode:** new `brandos-theme.js` follows the computer's light or dark setting, remembers a person's choice and offers `BrandOSTheme.set("light" | "dark" | "system")`. Install copies it and says where to load it.
 - **Logos:** wide logos keep their shape (32px tall, up to 180px wide). A collapsible sidebar can show a square mark when collapsed (`bos-logo-wide` and `bos-logo-mark`).
-- **audit:** elements styled with BrandOS classes are no longer counted as hand-built UI.
+- **audit:** elements styled with BrandOS classes are no longer counted as hand-built UI. It finds them by their position in the file without changing the text, so code scanning has nothing to flag.
 - **verify:** Playwright comes with BrandOS (`playwright-core`), and verify uses the Chrome or Edge already on the computer when Playwright's own browser isn't installed.
 - **Phones:** below 560px the spacing and padding tighten, stats sit two to a row, card actions go full width so every card ends the same way, and decorative icons that would sit alone on a line are dropped.
+- **Mirror:** the mirror to Insight-Global-Public overwrites its sync branch each time, so it never gets stuck behind a commit made there.
 
 ## 1.4.3
 
